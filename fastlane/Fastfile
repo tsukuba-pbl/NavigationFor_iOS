@@ -24,7 +24,11 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    if is_ci?
+      scan(skip_slack: false, slack_only_on_failure)
+    else 
+      scan(skip_slack: true)
+    end
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
