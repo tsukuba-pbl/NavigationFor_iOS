@@ -2,4 +2,4 @@ language: objective-c
 osx_image: xcode8.3
 xcode_workspace: NavigationForiOS.xcodeproj
 xcode_scheme: NavigationForiOS
-script: xcodebuild -workspace NavigationForiOS.xcodeproj/project.xcworkspace/ -scheme NavigationForiOS build test
+script: xctool -workspace NavigationForiOS.xcodeproj/project.xcworkspace/ -scheme NavigationForiOS build test
