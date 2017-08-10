@@ -22,6 +22,13 @@ class NavigationForiOSTests: XCTestCase {
     }
     
     func testExample() {
+        XCTAssertTrue(true)
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testExample2() {
+        XCTAssertTrue(false)
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
