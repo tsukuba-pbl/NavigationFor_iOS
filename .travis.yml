@@ -1,4 +1,4 @@
 language: objective-c
 osx_image: xcode8.3
-xcode_workspace: NavigationForiOS.xcodeproj/project.xcworkspace
+xcode_project: NavigationForiOS.xcodeproj
 xcode_scheme: NavigationForiOS
