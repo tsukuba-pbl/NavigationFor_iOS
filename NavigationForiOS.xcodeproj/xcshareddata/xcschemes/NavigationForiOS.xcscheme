@@ -20,6 +20,34 @@
                ReferencedContainer = "container:NavigationForiOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B14883541F3C4D32007A9E2E"
+               BuildableName = "NavigationForiOSTests.xctest"
+               BlueprintName = "NavigationForiOSTests"
+               ReferencedContainer = "container:NavigationForiOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B148835F1F3C4D32007A9E2E"
+               BuildableName = "NavigationForiOSUITests.xctest"
+               BlueprintName = "NavigationForiOSUITests"
+               ReferencedContainer = "container:NavigationForiOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
