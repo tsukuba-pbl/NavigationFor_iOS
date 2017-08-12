@@ -24,7 +24,11 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    if is_ci?
+      scan(skip_slack: false, slack_only_on_failure: true)
+    else 
+      scan(skip_slack: true)
+    end
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
@@ -52,9 +56,9 @@ platform :ios do
   after_all do |lane|
     # This block is called, only if the executed lane was successful
 
-    slack(
-      message: "Successfully deployed new App Update."
-    )
+    #slack(
+    #  message: "Successfully deployed new App Update."
+    #)
   end
 
   error do |lane, exception|
