@@ -7,11 +7,11 @@
 # All lines starting with a # are ignored when running `fastlane`
 
 # If you want to automatically update fastlane if a new version is available:
-# update_fastlane
+update_fastlane
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "2.37.0"
+fastlane_version "2.53.1"
 
 default_platform :ios
 
@@ -26,9 +26,27 @@ platform :ios do
   lane :test do
     if is_ci?
       scan(skip_slack: false, slack_only_on_failure: true)
+      slather(
+        scheme: "NavigationForiOS",
+        proj: "../NavigationForiOS.xcodeproj",
+        coveralls: true
+      )
     else 
       scan(skip_slack: true)
+      slather(
+        scheme: "NavigationForiOS",
+        proj: "NavigationForiOS.xcodeproj",
+        coveralls: true
+      )
     end
+  end
+
+  lane :hoge do  
+      slather(
+        scheme: "NavigationForiOS",
+        proj: "../NavigationForiOS.xcodeproj",
+        coveralls: true
+      )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
