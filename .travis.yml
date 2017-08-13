@@ -1,4 +1,6 @@
 language: objective-c
 osx_image: xcode8.3
+before_script:
+    - bundle update
 script:
     - fastlane test
