@@ -26,10 +26,11 @@ platform :ios do
   lane :test do
     if is_ci?
       scan(skip_slack: false, slack_only_on_failure: true)
-      slather(
+      xcov(
         scheme: "NavigationForiOS",
         proj: "NavigationForiOS.xcodeproj",
-        coveralls: true
+        output_directory: "xcov_output",
+        coveralls_repo_token: '2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR'
       )
     else 
       scan(skip_slack: true)
