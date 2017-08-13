@@ -31,7 +31,7 @@ platform :ios do
         scheme: "NavigationForiOS",
         project: "NavigationForiOS.xcodeproj",
         output_directory: "fastlane/xcov_output",
-        travis: true
+        coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR"
       )
     else 
       scan(skip_slack: true)
