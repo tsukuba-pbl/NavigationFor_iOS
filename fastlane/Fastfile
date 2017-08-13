@@ -28,7 +28,7 @@ platform :ios do
       scan(skip_slack: false, slack_only_on_failure: true)
       xcov(
         scheme: "NavigationForiOS",
-        proj: "NavigationForiOS.xcodeproj",
+        project: "NavigationForiOS.xcodeproj",
         output_directory: "xcov_output",
         coveralls_repo_token: '2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR'
       )
