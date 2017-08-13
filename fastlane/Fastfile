@@ -26,13 +26,18 @@ platform :ios do
   lane :test do
     if is_ci?
       scan(skip_slack: false, slack_only_on_failure: true)
-      xcov(
+      xcov.report(
         scheme: "NavigationForiOS",
-        output_directory: "xcov_output",
-        coveralls_repo_token: '2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR'
+        project: "NavigationForiOS.xcodeproj",
+        output_directory: "xcov_output"
       )
     else 
       scan(skip_slack: true)
+      xcov(
+        scheme: "NavigationForiOS",
+        project: "NavigationForiOS.xcodeproj",
+        output_directory: "xcov_output"
+      )
     end
   end
 
