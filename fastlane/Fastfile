@@ -30,6 +30,7 @@ platform :ios do
       xcov(
         scheme: "NavigationForiOS",
         project: "NavigationForiOS.xcodeproj",
+        workspace: "NavigationForiOS.xcodeproj/project.xcworkspace",
         output_directory: "fastlane/xcov_output",
         coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR"
       )
