@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>位置情報を取得するためのビーコン電波を観測するために使用します</string>
+	<string>位置情報取得用のビーコン電波を観測するために使用します</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
