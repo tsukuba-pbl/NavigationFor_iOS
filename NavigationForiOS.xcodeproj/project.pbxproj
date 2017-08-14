@@ -15,6 +15,7 @@
 		B148834F1F3C4D32007A9E2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B148834D1F3C4D32007A9E2E /* LaunchScreen.storyboard */; };
 		B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */; };
 		B14883651F3C4D32007A9E2E /* NavigationForiOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883641F3C4D32007A9E2E /* NavigationForiOSUITests.swift */; };
+		C2B26B841F41C18F00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B831F41C18F00E4B785 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		B14883601F3C4D32007A9E2E /* NavigationForiOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationForiOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14883641F3C4D32007A9E2E /* NavigationForiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationForiOSUITests.swift; sourceTree = "<group>"; };
 		B14883661F3C4D32007A9E2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2B26B831F41C18F00E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2B26B841F41C18F00E4B785 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +86,7 @@
 				B14883581F3C4D32007A9E2E /* NavigationForiOSTests */,
 				B14883631F3C4D32007A9E2E /* NavigationForiOSUITests */,
 				B14883401F3C4D32007A9E2E /* Products */,
+				C2B26B821F41C18E00E4B785 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +130,14 @@
 				B14883661F3C4D32007A9E2E /* Info.plist */,
 			);
 			path = NavigationForiOSUITests;
+			sourceTree = "<group>";
+		};
+		C2B26B821F41C18E00E4B785 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2B26B831F41C18F00E4B785 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -520,6 +532,7 @@
 				B148836B1F3C4D32007A9E2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B148836C1F3C4D32007A9E2E /* Build configuration list for PBXNativeTarget "NavigationForiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +541,7 @@
 				B148836E1F3C4D32007A9E2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B148836F1F3C4D32007A9E2E /* Build configuration list for PBXNativeTarget "NavigationForiOSUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +550,7 @@
 				B14883711F3C4D32007A9E2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
