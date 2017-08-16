@@ -41,6 +41,36 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "net.noumenon-th")
     }
     
+    //位置認証のステータスが変更された時に呼ばれる
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        // 認証のステータス
+        var statusStr = "";
+        print("CLAuthorizationStatus: \(statusStr)")
+        
+        // 認証のステータスをチェック
+        switch (status) {
+        case .notDetermined:
+            statusStr = "NotDetermined"
+        case .restricted:
+            statusStr = "Restricted"
+        case .denied:
+            statusStr = "Denied"
+            self.status.text   = "位置情報を許可していません"
+        case .authorized:
+            statusStr = "Authorized"
+            self.status.text   = "位置情報認証OK"
+        default:
+            break;
+        }
+        
+        print(" CLAuthorizationStatus: \(statusStr)")
+        
+        //観測を開始させる
+        trackLocationManager.startMonitoring(for: self.beaconRegion)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
