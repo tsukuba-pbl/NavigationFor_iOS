@@ -18,6 +18,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var accuracy: UILabel!
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var distance: UILabel!
+    @IBOutlet weak var navigation: UILabel!
     
     let fruits = ["リンゴ", "みかん", "ぶどう"]
     var trackLocationManager : CLLocationManager!
@@ -46,6 +47,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //Beacon領域を作成
         self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "net.noumenon-th")
+        
     }
     
     //位置認証のステータスが変更された時に呼ばれる
@@ -200,6 +202,12 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.accuracy.text = "\(maxRssiBeacon.accuracy)"
         self.rssi.text     = "\(maxRssiBeacon.rssi)"
         
+        //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
+        if(maxRssiBeacon.rssi > -80){
+            self.navigation.text = "交差点だから曲がろう"
+        }else{
+            self.navigation.text = "進もう"
+        }
     }
     
     func reset(){
