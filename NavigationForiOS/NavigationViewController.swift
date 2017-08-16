@@ -132,7 +132,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //測定を停止する
         self.trackLocationManager.stopRangingBeacons(in: self.beaconRegion)
         
-        //reset()
+        reset()
         
         //sendLocalNotificationWithMessage("領域から出ました")
         
@@ -154,7 +154,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     //領域内にいるので測定をする
     private func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: NSArray!, inRegion region: CLBeaconRegion!) {
-        //println(beacons)
+        print(beacons)
         
         if(beacons.count == 0) { return }
         //複数あった場合は一番先頭のものを処理する
@@ -170,9 +170,37 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
          accuracy        :   精度
          rssi            :   電波強度
          */
-
+        
+        if (beacon.proximity == CLProximity.unknown) {
+            self.distance.text = "Unknown Proximity"
+            reset()
+            return
+        } else if (beacon.proximity == CLProximity.immediate) {
+            self.distance.text = "Immediate"
+        } else if (beacon.proximity == CLProximity.near) {
+            self.distance.text = "Near"
+        } else if (beacon.proximity == CLProximity.far) {
+            self.distance.text = "Far"
+        }
+        self.status.text   = "領域内です"
+        self.uuid.text     = beacon.proximityUUID.uuidString
+        self.major.text    = "\(beacon.major)"
+        self.minor.text    = "\(beacon.minor)"
+        self.accuracy.text = "\(beacon.accuracy)"
+        self.rssi.text     = "\(beacon.rssi)"
         
     }
+    
+    func reset(){
+        self.status.text   = "none"
+        self.uuid.text     = "none"
+        self.major.text    = "none"
+        self.minor.text    = "none"
+        self.accuracy.text = "none"
+        self.rssi.text     = "none"
+        self.distance.text = "none"
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
