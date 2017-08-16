@@ -11,6 +11,7 @@ import CoreLocation
 
 class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
+    @IBOutlet weak var status: UILabel!
     
     let fruits = ["リンゴ", "みかん", "ぶどう"]
     var trackLocationManager : CLLocationManager!
@@ -42,7 +43,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     //位置認証のステータスが変更された時に呼ばれる
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         // 認証のステータス
         var statusStr = "";
