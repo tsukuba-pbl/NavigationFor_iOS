@@ -33,6 +33,12 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         if(status == CLAuthorizationStatus.notDetermined){
             self.trackLocationManager.requestAlwaysAuthorization();
         }
+        
+        // BeaconのUUIDを設定.
+        let uuid:UUID! = UUID(uuidString: "12345678-1234-1234-1234-123456789ABC")
+        
+        //Beacon領域を作成
+        self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "net.noumenon-th")
     }
     
     override func didReceiveMemoryWarning() {
