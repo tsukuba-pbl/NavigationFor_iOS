@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9XN-7b-jS2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9XN-7b-jS2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -93,10 +93,10 @@
             </objects>
             <point key="canvasLocation" x="3584.8000000000002" y="-96.7016491754123"/>
         </scene>
-        <!--View Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="Z94-Xs-vg2">
             <objects>
-                <viewController storyboardIdentifier="NavigationStoryboard" id="plz-Sp-jBe" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NavigationStoryboard" id="plz-Sp-jBe" customClass="NavigationViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J7e-p1-TIP"/>
                         <viewControllerLayoutGuide type="bottom" id="vMr-Qj-o6b"/>
@@ -173,6 +173,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WZ5-ru-ESl"/>
+        <segue reference="0cr-fc-PLp"/>
     </inferredMetricsTieBreakers>
 </document>
