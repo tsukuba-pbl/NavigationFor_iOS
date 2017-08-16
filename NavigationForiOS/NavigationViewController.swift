@@ -12,6 +12,12 @@ import CoreLocation
 class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var uuid: UILabel!
+    @IBOutlet weak var major: UILabel!
+    @IBOutlet weak var minor: UILabel!
+    @IBOutlet weak var accuracy: UILabel!
+    @IBOutlet weak var rssi: UILabel!
+    @IBOutlet weak var distance: UILabel!
     
     let fruits = ["リンゴ", "みかん", "ぶどう"]
     var trackLocationManager : CLLocationManager!
