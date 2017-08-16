@@ -156,9 +156,18 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     private func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: NSArray!, inRegion region: CLBeaconRegion!) {
         print(beacons)
         
+        //ビーコンが一つも取得できてないとき
         if(beacons.count == 0) { return }
-        //複数あった場合は一番先頭のものを処理する
-        var beacon = beacons[0] as! CLBeacon
+        
+        //複数あった場合は一番RSSI値の大きいビーコンを取得する
+        var maxId = 0
+        for i in (1 ..< beacons.count){
+            if((beacons[maxId] as! CLBeacon).rssi < (beacons[i] as! CLBeacon).rssi){
+                maxId = i
+            }
+        }
+        
+        var maxRssiBeacon = beacons[maxId] as! CLBeacon
         
         
         /*
@@ -170,7 +179,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
          accuracy        :   精度
          rssi            :   電波強度
          */
-        
+        /*
         if (beacon.proximity == CLProximity.unknown) {
             self.distance.text = "Unknown Proximity"
             reset()
@@ -188,6 +197,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.minor.text    = "\(beacon.minor)"
         self.accuracy.text = "\(beacon.accuracy)"
         self.rssi.text     = "\(beacon.rssi)"
+ */
         
     }
     
