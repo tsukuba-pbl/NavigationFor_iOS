@@ -50,7 +50,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="lgx-im-ZIh" kind="show" id="WZ5-ru-ESl"/>
+                                            <segue destination="mCy-2i-rV8" kind="show" id="DOT-aP-u0p"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -91,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RpA-aj-qWp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3584.8000000000002" y="-96.7016491754123"/>
+            <point key="canvasLocation" x="2646" y="908"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Z94-Xs-vg2">
@@ -151,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhO-tS-hXG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4696.8000000000002" y="-97.601199400299862"/>
+            <point key="canvasLocation" x="4394" y="-97"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5qX-Hx-evc">
@@ -173,6 +173,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WZ5-ru-ESl"/>
+        <segue reference="2Nx-rf-kXk"/>
     </inferredMetricsTieBreakers>
 </document>
