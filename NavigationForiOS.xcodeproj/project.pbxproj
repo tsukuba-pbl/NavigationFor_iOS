@@ -18,6 +18,7 @@
 		B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; };
 		B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883841F435BF1007A9E2E /* NavigationViewController.swift */; };
 		B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		B148837F1F43538B007A9E2E /* RouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewController.swift; sourceTree = "<group>"; };
 		B14883821F4353DA007A9E2E /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		B14883841F435BF1007A9E2E /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */,
 				B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,6 +156,7 @@
 		B14883811F4353DA007A9E2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2B26B891F43EC7800E4B785 /* CoreLocation.framework */,
 				B14883821F4353DA007A9E2E /* Eureka.framework */,
 			);
 			name = Frameworks;
