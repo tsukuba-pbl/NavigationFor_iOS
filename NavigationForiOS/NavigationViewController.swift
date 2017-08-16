@@ -72,6 +72,16 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
     }
     
+    //観測の開始に成功すると呼ばれる
+    private func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion!) {
+        
+        print("didStartMonitoringForRegion");
+        
+        //観測開始に成功したら、領域内にいるかどうかの判定をおこなう。→（didDetermineState）へ
+        trackLocationManager.requestState(for: self.beaconRegion);
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
