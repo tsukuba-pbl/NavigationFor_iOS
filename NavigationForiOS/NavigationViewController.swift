@@ -48,6 +48,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //Beacon領域を作成
         self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "net.noumenon-th")
         
+        //表示をリセット
+        reset()
     }
     
     //位置認証のステータスが変更された時に呼ばれる
@@ -218,6 +220,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.accuracy.text = "none"
         self.rssi.text     = "none"
         self.distance.text = "none"
+        self.navigation.text = "none"
     }
     
     
