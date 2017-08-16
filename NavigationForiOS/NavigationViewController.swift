@@ -157,7 +157,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         print(beacons)
         
         //ビーコンが一つも取得できてないとき
-        if(beacons.count == 0) { return }
+        if(beacons.count == 0) {
+            reset()
+            return
+        }
         
         //複数あった場合は一番RSSI値の大きいビーコンを取得する
         var maxId = 0
