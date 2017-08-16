@@ -26,6 +26,13 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //デリゲートを自身に設定
         self.trackLocationManager.delegate = self;
         
+        //セキュリティ認証のステータスを取得
+        let status = CLLocationManager.authorizationStatus()
+        
+        //認証を得ていない場合は、認証ダイアログを表示
+        if(status == CLAuthorizationStatus.notDetermined){
+            self.trackLocationManager.requestAlwaysAuthorization();
+        }
     }
     
     override func didReceiveMemoryWarning() {
