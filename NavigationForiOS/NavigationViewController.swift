@@ -81,6 +81,33 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         trackLocationManager.requestState(for: self.beaconRegion);
     }
     
+    //領域内にいるかどうかを判定する
+    private func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion inRegion: CLRegion!) {
+        
+        switch (state) {
+            
+        case .inside: // すでに領域内にいる場合は（didEnterRegion）は呼ばれない
+            
+            trackLocationManager.startRangingBeacons(in: beaconRegion);
+            // →(didRangeBeacons)で測定をはじめる
+            break;
+            
+        case .outside:
+            
+            // 領域外→領域に入った場合はdidEnterRegionが呼ばれる
+            break;
+            
+        case .unknown:
+            
+            // 不明→領域に入った場合はdidEnterRegionが呼ばれる
+            break;
+            
+        default:
+            
+            break;
+            
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
