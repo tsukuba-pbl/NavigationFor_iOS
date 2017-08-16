@@ -146,6 +146,28 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
     }
     
+    //領域内にいるので測定をする
+    private func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: NSArray!, inRegion region: CLBeaconRegion!) {
+        //println(beacons)
+        
+        if(beacons.count == 0) { return }
+        //複数あった場合は一番先頭のものを処理する
+        var beacon = beacons[0] as! CLBeacon
+        
+        
+        /*
+         beaconから取得できるデータ
+         proximityUUID   :   regionの識別子
+         major           :   識別子１
+         minor           :   識別子２
+         proximity       :   相対距離
+         accuracy        :   精度
+         rssi            :   電波強度
+         */
+
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
