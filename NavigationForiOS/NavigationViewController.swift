@@ -109,6 +109,43 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
     }
     
+    //領域に入った時
+    private func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+        
+        // →(didRangeBeacons)で測定をはじめる
+        self.trackLocationManager.startRangingBeacons(in: self.beaconRegion)
+        self.status.text = "didEnterRegion"
+        
+        //sendLocalNotificationWithMessage("領域に入りました")
+        
+    }
+    
+    //領域から出た時
+    private func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
+        
+        //測定を停止する
+        self.trackLocationManager.stopRangingBeacons(in: self.beaconRegion)
+        
+        //reset()
+        
+        //sendLocalNotificationWithMessage("領域から出ました")
+        
+    }
+    
+    //観測失敗
+    private func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
+        
+        print("monitoringDidFailForRegion \(error)")
+        
+    }
+    
+    //通信失敗
+    private func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        
+        print("didFailWithError \(error)")
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
