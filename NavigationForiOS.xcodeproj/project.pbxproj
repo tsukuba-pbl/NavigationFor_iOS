@@ -17,6 +17,7 @@
 		B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148837F1F43538B007A9E2E /* RouteViewController.swift */; };
 		B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; };
 		B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883841F435BF1007A9E2E /* NavigationViewController.swift */; };
+		B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,20 @@
 			remoteInfo = NavigationForiOS;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B14883881F43D898007A9E2E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B148833F1F3C4D32007A9E2E /* NavigationForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +168,7 @@
 				B148833B1F3C4D32007A9E2E /* Sources */,
 				B148833C1F3C4D32007A9E2E /* Frameworks */,
 				B148833D1F3C4D32007A9E2E /* Resources */,
+				B14883881F43D898007A9E2E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
