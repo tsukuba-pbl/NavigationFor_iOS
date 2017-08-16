@@ -169,7 +169,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 maxId = i
             }
         }
-        
         var maxRssiBeacon = beacons[maxId] as! CLBeacon
         
         
@@ -182,25 +181,24 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
          accuracy        :   精度
          rssi            :   電波強度
          */
-        /*
-        if (beacon.proximity == CLProximity.unknown) {
+        //RSSI最大のビーコンの情報を表示する
+        if (maxRssiBeacon.proximity == CLProximity.unknown) {
             self.distance.text = "Unknown Proximity"
             reset()
             return
-        } else if (beacon.proximity == CLProximity.immediate) {
+        } else if (maxRssiBeacon.proximity == CLProximity.immediate) {
             self.distance.text = "Immediate"
-        } else if (beacon.proximity == CLProximity.near) {
+        } else if (maxRssiBeacon.proximity == CLProximity.near) {
             self.distance.text = "Near"
-        } else if (beacon.proximity == CLProximity.far) {
+        } else if (maxRssiBeacon.proximity == CLProximity.far) {
             self.distance.text = "Far"
         }
         self.status.text   = "領域内です"
-        self.uuid.text     = beacon.proximityUUID.uuidString
-        self.major.text    = "\(beacon.major)"
-        self.minor.text    = "\(beacon.minor)"
-        self.accuracy.text = "\(beacon.accuracy)"
-        self.rssi.text     = "\(beacon.rssi)"
- */
+        self.uuid.text     = maxRssiBeacon.proximityUUID.uuidString
+        self.major.text    = "\(maxRssiBeacon.major)"
+        self.minor.text    = "\(maxRssiBeacon.minor)"
+        self.accuracy.text = "\(maxRssiBeacon.accuracy)"
+        self.rssi.text     = "\(maxRssiBeacon.rssi)"
         
     }
     
