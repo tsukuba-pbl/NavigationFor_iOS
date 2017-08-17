@@ -173,7 +173,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 maxId = i
             }
         }
-        var maxRssiBeacon = beacons[maxId] as! CLBeacon
+        let maxRssiBeacon = beacons[maxId] as! CLBeacon
         
         
         /*
