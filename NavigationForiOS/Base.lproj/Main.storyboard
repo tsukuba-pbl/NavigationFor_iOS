@@ -63,6 +63,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="FFc-O2-hy4"/>
+                    <connections>
+                        <outlet property="tableView" destination="Mwa-C0-znK" id="auj-ml-Ag6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="km7-nC-KED" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -173,6 +176,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2Nx-rf-kXk"/>
+        <segue reference="DOT-aP-u0p"/>
     </inferredMetricsTieBreakers>
 </document>

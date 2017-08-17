@@ -11,8 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class LocationService {
-    
-    
     /// 会場にある各地点の名前を取得
     ///
     /// - Returns: 地点を含む配列
