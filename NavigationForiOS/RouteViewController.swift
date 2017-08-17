@@ -70,6 +70,10 @@ class RouteViewController: FormViewController {
             }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     /// 入力された場所が正しい入力かどうかの判定を行う関数
     ///
     /// - Parameters:
@@ -106,11 +110,6 @@ class RouteViewController: FormViewController {
         
         // アラート表示
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 

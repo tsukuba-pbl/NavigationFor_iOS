@@ -20,12 +20,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.events = response
             self.tableView.reloadData()
         }
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     /// セルの個数を指定するデリゲートメソッド（必須）
@@ -48,10 +46,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.textLabel!.text = self.events[indexPath.row]
         
         return cell
-    }
-    
-    /// セルが選択された時に呼ばれるデリゲートメソッド
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }
 
