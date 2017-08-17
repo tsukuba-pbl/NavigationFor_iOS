@@ -21,6 +21,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var navigation: UILabel!
     
     let fruits = ["リンゴ", "みかん", "ぶどう"]
+    let planUUID = "12345678-1234-1234-1234-123456789ABC"
     var trackLocationManager : CLLocationManager!
     var beaconRegion : CLBeaconRegion!
     
@@ -43,10 +44,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
         
         // BeaconのUUIDを設定.
-        let uuid:UUID! = UUID(uuidString: "12345678-1234-1234-1234-123456789ABC")
+        let uuid:UUID! = UUID(uuidString : planUUID)
         
         //Beacon領域を作成
-        self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "net.noumenon-th")
+        self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "tsukuba.rdprj")
         
         //表示をリセット
         reset()
@@ -205,11 +206,27 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.rssi.text     = "\(maxRssiBeacon.rssi)"
         
         //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
-        if(maxRssiBeacon.rssi > -80){
+        if(isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, uuid: maxRssiBeacon.proximityUUID, threshold: -80)){
             self.navigation.text = "交差点だから曲がろう"
         }else{
             self.navigation.text = "進もう"
         }
+    }
+    
+    //ナビゲーションを行うタイミングを判定する
+    //目的地もしくは交差点にいるかを判定する
+    /// - Parameters:
+    ///   - RSSI: 最大RSSIのビーコンのRSSI
+    ///   - uuid: 最大RSSIのビーコンのuuid
+    ///   - threshold : 閾値（RSSI）
+    /// - Returns: 入力が正しければtrue，正しくなければfalse
+    func isOnNavigationPoint(RSSI : Int, uuid : UUID, threshold : Int) -> Bool {
+        var flag: Bool = false
+        //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
+        if(uuid.uuidString == planUUID && RSSI > threshold){
+            flag = true
+        }
+        return flag
     }
     
     func reset(){
