@@ -11,35 +11,50 @@ import Eureka
 
 class RouteViewController: FormViewController {
     
-    let point: NSArray = ["入り口", "受付", "会場A", "会場B"]
+    var point: [String] = []
     var source: String = ""
     var destination: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.source = self.point[0] as! String
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // API的に対象の地点を取得し，Formの選択データにセット
+        LocationService.getLocations{ responseLocations in
+            self.point = responseLocations
+            
+            if let LocationsRow = self.form.rowBy(tag: "SourceLocations") {
+                LocationsRow.updateCell()
+            }
+            
+            if let LocationsRow = self.form.rowBy(tag: "DestinationLocations") {
+                LocationsRow.updateCell()
+            }
+        }
             
         form
         +++ Section("Source")
-            <<< PushRow<String>(){
+            <<< PushRow<String>("SourceLocations"){
                 $0.title = "現在地"
                 $0.selectorTitle = "現在地の選択"
-                $0.options = self.point as! [String]
+                $0.options = self.point
                 $0.onChange{[unowned self] row in
-                    self.source = row.value ?? self.point[0] as! String
+                    self.source = row.value ?? self.point[0]
                 }
+            }.cellUpdate { cell, row in
+                row.options = self.point
             }
             
                     
         +++ Section("Destination")
-            <<< PushRow<String>(){
+            <<< PushRow<String>("DestinationLocations"){
                 $0.title = "目的地"
                 $0.selectorTitle = "目的地の選択"
-                $0.options = self.point as! [String]
+                $0.options = self.point
                 $0.onChange{[unowned self] row in
-                    self.destination = row.value ?? self.point[0] as! String
+                    self.destination = row.value ?? self.point[0]
                 }
+            }.cellUpdate { cell, row in
+                row.options = self.point
             }
         
             // Button
@@ -52,7 +67,7 @@ class RouteViewController: FormViewController {
                         self.present(next,animated: true, completion: nil)
                     }
                 }
-        }
+            }
     }
     
     /// 入力された場所が正しい入力かどうかの判定を行う関数
@@ -91,8 +106,6 @@ class RouteViewController: FormViewController {
         
         // アラート表示
         self.present(alert, animated: true, completion: nil)
-
-        
     }
     
     override func didReceiveMemoryWarning() {

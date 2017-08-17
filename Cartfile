@@ -1,1 +1,3 @@
 github "xmartlabs/Eureka"
+github "Alamofire/Alamofire"
+github "SwiftyJSON/SwiftyJSON"
