@@ -19,6 +19,7 @@
 		B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883841F435BF1007A9E2E /* NavigationViewController.swift */; };
 		B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
+		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		B14883821F4353DA007A9E2E /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		B14883841F435BF1007A9E2E /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 			children = (
 				B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */,
 				B148835B1F3C4D32007A9E2E /* Info.plist */,
+				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
 			);
 			path = NavigationForiOSTests;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
