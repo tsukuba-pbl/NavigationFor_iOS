@@ -23,18 +23,6 @@ class NavigationViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        XCTAssertTrue(true)
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testExample2() {
-        XCTAssertTrue(true)
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
     func testIsOnNavigationPoint_失敗する場合（UUIDが異なる）(){
         let rssi:Int! = -75
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABD")
