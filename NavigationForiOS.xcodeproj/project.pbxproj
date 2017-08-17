@@ -20,6 +20,13 @@
 		B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
 		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
+		B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */; };
+		B14883931F4560FD007A9E2E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883921F4560FD007A9E2E /* LocationService.swift */; };
+		B14883971F456542007A9E2E /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; };
+		B14883981F456549007A9E2E /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883941F456542007A9E2E /* Alamofire.framework */; };
+		B14883991F456549007A9E2E /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883941F456542007A9E2E /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B148839B1F456554007A9E2E /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B148839F1F4592B5007A9E2E /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148839E1F4592B5007A9E2E /* EventService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +54,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */,
+				B14883991F456549007A9E2E /* Alamofire.framework in Embed Frameworks */,
+				B148839B1F456554007A9E2E /* SwiftyJSON.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +72,8 @@
 		B14883501F3C4D32007A9E2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B14883551F3C4D32007A9E2E /* NavigationForiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationForiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationForiOSTests.swift; sourceTree = "<group>"; };
+		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 		B148835B1F3C4D32007A9E2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B14883601F3C4D32007A9E2E /* NavigationForiOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationForiOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14883641F3C4D32007A9E2E /* NavigationForiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationForiOSUITests.swift; sourceTree = "<group>"; };
@@ -70,8 +81,11 @@
 		B148837F1F43538B007A9E2E /* RouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewController.swift; sourceTree = "<group>"; };
 		B14883821F4353DA007A9E2E /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		B14883841F435BF1007A9E2E /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
-		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
+		B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewControllerTests.swift; sourceTree = "<group>"; };
+		B14883921F4560FD007A9E2E /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		B14883941F456542007A9E2E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		B14883951F456542007A9E2E /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		B148839E1F4592B5007A9E2E /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +94,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */,
+				B14883971F456542007A9E2E /* SwiftyJSON.framework in Frameworks */,
 				B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */,
+				B14883981F456549007A9E2E /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,14 +141,14 @@
 		B14883411F3C4D32007A9E2E /* NavigationForiOS */ = {
 			isa = PBXGroup;
 			children = (
+				B14883911F455CE0007A9E2E /* services */,
+				B14883901F455CB3007A9E2E /* models */,
+				B148838E1F455C22007A9E2E /* controllers */,
 				B14883421F3C4D32007A9E2E /* AppDelegate.swift */,
-				B14883441F3C4D32007A9E2E /* HomeViewController.swift */,
 				B14883481F3C4D32007A9E2E /* Main.storyboard */,
 				B148834B1F3C4D32007A9E2E /* Assets.xcassets */,
 				B148834D1F3C4D32007A9E2E /* LaunchScreen.storyboard */,
 				B14883501F3C4D32007A9E2E /* Info.plist */,
-				B148837F1F43538B007A9E2E /* RouteViewController.swift */,
-				B14883841F435BF1007A9E2E /* NavigationViewController.swift */,
 			);
 			path = NavigationForiOS;
 			sourceTree = "<group>";
@@ -140,9 +156,12 @@
 		B14883581F3C4D32007A9E2E /* NavigationForiOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */,
-				B148835B1F3C4D32007A9E2E /* Info.plist */,
+				B148839D1F458CAA007A9E2E /* models */,
+				B148839C1F458CA3007A9E2E /* services */,
 				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
+				B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */,
+				B148838F1F455C42007A9E2E /* controllers */,
+				B148835B1F3C4D32007A9E2E /* Info.plist */,
 			);
 			path = NavigationForiOSTests;
 			sourceTree = "<group>";
@@ -160,9 +179,59 @@
 			isa = PBXGroup;
 			children = (
 				C2B26B891F43EC7800E4B785 /* CoreLocation.framework */,
+				B14883941F456542007A9E2E /* Alamofire.framework */,
+				B14883951F456542007A9E2E /* SwiftyJSON.framework */,
 				B14883821F4353DA007A9E2E /* Eureka.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B148838E1F455C22007A9E2E /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B14883841F435BF1007A9E2E /* NavigationViewController.swift */,
+				B148837F1F43538B007A9E2E /* RouteViewController.swift */,
+				B14883441F3C4D32007A9E2E /* HomeViewController.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		B148838F1F455C42007A9E2E /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		B14883901F455CB3007A9E2E /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
+		B14883911F455CE0007A9E2E /* services */ = {
+			isa = PBXGroup;
+			children = (
+				B14883921F4560FD007A9E2E /* LocationService.swift */,
+				B148839E1F4592B5007A9E2E /* EventService.swift */,
+			);
+			name = services;
+			sourceTree = "<group>";
+		};
+		B148839C1F458CA3007A9E2E /* services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = services;
+			sourceTree = "<group>";
+		};
+		B148839D1F458CAA007A9E2E /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,8 +372,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
 				B14883431F3C4D32007A9E2E /* AppDelegate.swift in Sources */,
+				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,
 				B14883451F3C4D32007A9E2E /* HomeViewController.swift in Sources */,
 				B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */,
 			);
@@ -315,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */,
+				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
