@@ -35,28 +35,28 @@ class NavigationViewControllerTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
-    func TestIsOnNavigationPoint_失敗する場合（UUIDが異なる）(){
+    func testIsOnNavigationPoint_失敗する場合（UUIDが異なる）(){
         let rssi:Int! = -75
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABD")
         let threshold:Int! = -80
         XCTAssertFalse(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }
     
-    func TestIsOnNavigationPoint_失敗する場合（閾値よりもRSSIの値が小さい）(){
+    func testIsOnNavigationPoint_失敗する場合（閾値よりもRSSIの値が小さい）(){
         let rssi:Int! = -75
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABD")
         let threshold:Int! = -70
         XCTAssertFalse(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }
     
-    func TestIsOnNavigationPoint_成功する場合1(){
+    func testIsOnNavigationPoint_成功する場合1(){
         let rssi:Int! = -75
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABC")
         let threshold:Int! = -80
         XCTAssertTrue(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }
     
-    func TestIsOnNavigationPoint_成功する場合2(){
+    func testIsOnNavigationPoint_成功する場合2(){
         let rssi:Int! = -70
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABC")
         let threshold:Int! = -75
