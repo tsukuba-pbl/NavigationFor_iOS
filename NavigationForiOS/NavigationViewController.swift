@@ -211,7 +211,13 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
         if(isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, uuid: maxRssiBeacon.proximityUUID, threshold: -80)){
-            self.navigation.text = "交差点だから曲がろう"
+            //self.navigation.text = "交差点だから曲がろう"
+            let navigationText = navigationDic[maxRssiBeacon.minor.intValue]
+            if(navigationText != nil){
+                self.navigation.text = navigationText
+            }else{
+                self.navigation.text = "ルート上から外れている可能性があります"
+            }
         }else{
             self.navigation.text = "進もう"
         }
