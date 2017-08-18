@@ -20,7 +20,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
-    let fruits = ["リンゴ", "みかん", "ぶどう"]
     let planUUID = "12345678-1234-1234-1234-123456789ABC"
     var trackLocationManager : CLLocationManager!
     var beaconRegion : CLBeaconRegion!
