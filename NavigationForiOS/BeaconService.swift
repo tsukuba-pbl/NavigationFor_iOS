@@ -18,8 +18,10 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var beaconRegionArray = [CLBeaconRegion]()
     
     let UUIDList = [
-        "e2c56db5-dffb-48d2-b060-d0f5a71096e0"
+        "12345678-1234-1234-1234-123456789ABC"
     ]
+    
+    let nc = NotificationCenter.default
     
     override init() {
         
@@ -216,8 +218,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                 myIds.add(myBeaconId)
                 myUuids.add(beaconUUID.uuidString)
                 
-                // 通知してみる
-                //NotificationCenter.defaultCenter.postNotificationName("beaconReceive", object: self, userInfo: ["MajorID":majorID,"MinorID":minorID,"Proximity:":proximity,"rssi": rssi])
+                
             }
         }
     }
