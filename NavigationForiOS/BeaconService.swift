@@ -9,15 +9,13 @@
 import Foundation
 import CoreLocation
 
-class Beacon: NSObject, CLLocationManagerDelegate {
+class BeaconService: NSObject, CLLocationManagerDelegate {
     
     var myLocationManager:CLLocationManager!
     var myBeaconRegion:CLBeaconRegion!
     var myIds: NSMutableArray!
     var myUuids: NSMutableArray!
     var beaconRegionArray = [CLBeaconRegion]()
-    
-    static let shard = Beacon()
     
     let UUIDList = [
         "e2c56db5-dffb-48d2-b060-d0f5a71096e0"
