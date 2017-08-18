@@ -50,6 +50,8 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+  </array>
+  <key>NSMotionUsageDescription</key>
+  <string>to count your steps</string>
 </dict>
 </plist>
