@@ -40,16 +40,15 @@ class NavigationViewController: UIViewController {
         }
     }
     
+    //歩数計のON/OFF
     @IBAction func pedoMeterSwitch(_ sender: Any) {
         pedoswitch = !pedoswitch
         
         if(pedoswitch) {
-            stepLabel.text = "aaa"
             pedoMeter()
             print("歩数計ON")
         }
         else {
-            stepLabel.text = "bbb"
             self.pedometer.stopUpdates()
             print("歩数計OFF")
         }
