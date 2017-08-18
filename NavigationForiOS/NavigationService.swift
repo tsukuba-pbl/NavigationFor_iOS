@@ -14,7 +14,7 @@ class NavigationService {
     /// ナビゲーション情報を取得
     ///
     /// - Returns: minor値とナビゲーションを対応させたDictionary
-    static func getNavigations() -> Dictionary<Int,String>{
+    static func getNavigations(responseNavigations: @escaping (Dictionary<Int,String>) -> Void){
         var navDic = [Int: String]() //minorとナビゲーション内容を対応させたDictionary
         
         //JSONを取得
@@ -23,12 +23,16 @@ class NavigationService {
             case .success(let value):
                 let navJson = JSON(value)
                 navJson["navigations"].forEach{(_, data) in
-                    print("\(data["navigation"]) : \(data["minor"])")
+                    //Dictionaryにペアとして追加（key:minor val:navigation）
+                    let minor = data["minor"].int!
+                    let navigation = data["navigation"].string!
+                    navDic[minor] = navigation
+                    print(navDic[minor]!)
                 }
             case .failure(let error):
                 print(error)
             }
+            responseNavigations(navDic)
         }
-        return navDic
     }
 }

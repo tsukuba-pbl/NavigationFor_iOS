@@ -55,7 +55,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         reset()
         
         //ナビゲーションデータの取得
-        navigationDic = NavigationService.getNavigations()
+        NavigationService.getNavigations{response in
+            self.navigationDic = response
+            print(self.navigationDic.count)
+        }
     }
     
     //位置認証のステータスが変更された時に呼ばれる
