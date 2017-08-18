@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import CoreMotion
 
 class NavigationViewController: UIViewController {
     
-    let fruits = ["リンゴ", "みかん", "ぶどう"]
+    let pedometer = CMPedometer()
+    var pedoswitch = true
+    
+    @IBOutlet weak var stepLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,5 +24,34 @@ class NavigationViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //歩数計測関数
+    func pedoMeter() {
+        self.pedometer.startUpdates(from: NSDate() as Date) {
+            (data: CMPedometerData?, error) -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
+                if(error == nil) {
+                    //歩数
+                    let steps = data!.numberOfSteps
+                    self.stepLabel.text = steps.stringValue
+                }
+            })
+        }
+    }
+    
+    @IBAction func pedoMeterSwitch(_ sender: Any) {
+        pedoswitch = !pedoswitch
+        
+        if(pedoswitch) {
+            stepLabel.text = "aaa"
+            pedoMeter()
+            print("歩数計ON")
+        }
+        else {
+            stepLabel.text = "bbb"
+            self.pedometer.stopUpdates()
+            print("歩数計OFF")
+        }
     }
 }

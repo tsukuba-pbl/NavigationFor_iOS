@@ -96,10 +96,10 @@
             </objects>
             <point key="canvasLocation" x="2646" y="908"/>
         </scene>
-        <!--View Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="Z94-Xs-vg2">
             <objects>
-                <viewController storyboardIdentifier="NavigationStoryboard" id="plz-Sp-jBe" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NavigationStoryboard" id="plz-Sp-jBe" customClass="NavigationViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J7e-p1-TIP"/>
                         <viewControllerLayoutGuide type="bottom" id="vMr-Qj-o6b"/>
@@ -166,10 +166,16 @@
                                 <rect key="frame" x="142" y="513" width="90" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="START / END"/>
+                                <connections>
+                                    <action selector="pedoMeterSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="TMH-oI-Yye"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="stepLabel" destination="jmb-LY-sdK" id="yN9-z4-wbS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhO-tS-hXG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
