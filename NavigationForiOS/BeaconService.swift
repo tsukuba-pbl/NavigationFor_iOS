@@ -9,41 +9,240 @@
 import Foundation
 import CoreLocation
 
-class BeaconService : NSObject, CLLocationManagerDelegate{
-    var trackLocationManager : CLLocationManager!
-    var beaconRegion : CLBeaconRegion!
-    var status:String!
-    var uuid:String!
-    var major:String!
-    var minor:String!
-    var accuracy:String!
-    var rssi:String!
-    var distance:String!
-    var navigation:String!
+class Beacon: NSObject, CLLocationManagerDelegate {
     
-    init(planUUID : String){
+    var myLocationManager:CLLocationManager!
+    var myBeaconRegion:CLBeaconRegion!
+    var myIds: NSMutableArray!
+    var myUuids: NSMutableArray!
+    var beaconRegionArray = [CLBeaconRegion]()
+    
+    static let shard = Beacon()
+    
+    let UUIDList = [
+        "e2c56db5-dffb-48d2-b060-d0f5a71096e0"
+    ]
+    
+    override init() {
+        
         super.init()
         
-        // ロケーションマネージャーを作成する
-        self.trackLocationManager = CLLocationManager();
+        print("init")
         
-        //デリゲートを自身に設定
-        self.trackLocationManager.delegate = self;
+        // ロケーションマネージャの作成.
+        myLocationManager = CLLocationManager()
         
-        //セキュリティ認証のステータスを取得
+        // デリゲートを自身に設定.
+        myLocationManager.delegate = self
+        
+        // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
         
-        //認証を得ていない場合は、認証ダイアログを表示
-        if(status == CLAuthorizationStatus.notDetermined){
-            self.trackLocationManager.requestAlwaysAuthorization();
+        // 取得精度の設定.
+        myLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // 取得頻度の設定.(1mごとに位置情報取得)
+        myLocationManager.distanceFilter = 1
+        
+        
+        // まだ認証が得られていない場合は、認証ダイアログを表示
+        if status == CLAuthorizationStatus.notDetermined {
+            print("didChangeAuthorizationStatus:\(status)");
+            // まだ承認が得られていない場合は、認証ダイアログを表示
+            myLocationManager.requestWhenInUseAuthorization()
         }
         
-        // BeaconのUUIDを設定.
-        let uuid:UUID! = UUID(uuidString : planUUID)
+        for i in 0 ..< UUIDList.count {
+            
+            // BeaconのUUIDを設定.
+            let uuid:NSUUID! = NSUUID(uuidString:UUIDList[i].lowercased())
+            
+            // BeaconのIfentifierを設定.
+            let identifierStr:String = "identifier" + i.description
+            
+            // リージョンを作成.
+            myBeaconRegion = CLBeaconRegion(proximityUUID: uuid as UUID,  identifier: identifierStr)
+            // majorId=0,minorId=0のビーコンのみ受信
+            //myBeaconRegion = CLBeaconRegion(proximityUUID: uuid, major: CLBeaconMajorValue(0), minor: CLBeaconMinorValue(0), identifier: identifierStr)
+            
+            // ディスプレイがOffでもイベントが通知されるように設定(trueにするとディスプレイがOnの時だけ反応).
+            myBeaconRegion.notifyEntryStateOnDisplay = false
+            
+            // 入域通知の設定.
+            myBeaconRegion.notifyOnEntry = true
+            
+            // 退域通知の設定.
+            myBeaconRegion.notifyOnExit = true
+            
+            beaconRegionArray.append(myBeaconRegion)
+            
+            myLocationManager.startMonitoring(for: myBeaconRegion)
+        }
         
-        //Beacon領域を作成
-        self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "tsukuba.rdprj")
+        // 配列をリセット
+        myIds = NSMutableArray()
+        myUuids = NSMutableArray()
     }
     
+    /*
+     (Delegate) 認証のステータスがかわったら呼び出される.
+     */
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        print("didChangeAuthorizationStatus");
+        
+        // 認証のステータスをログで表示
+        var statusStr = "";
+        switch (status) {
+        case .notDetermined:
+            statusStr = "NotDetermined"
+            break
+        case .restricted:
+            statusStr = "Restricted"
+            break
+        case .denied:
+            statusStr = "Denied"
+            break
+        case .authorizedAlways:
+            statusStr = "AuthorizedAlways"
+        case .authorizedWhenInUse:
+            statusStr = "AuthorizedWhenInUse"
+            for region in beaconRegionArray {
+                manager.startMonitoring(for: region)
+                manager.startRangingBeacons(in: region)
+            }
+        }
+        print(" CLAuthorizationStatus: \(statusStr)")
+        
+    }
+    
+    /*
+     STEP2(Delegate): LocationManagerがモニタリングを開始したというイベントを受け取る.
+     */
+    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+        
+        print("didStartMonitoringForRegion");
+        
+        // STEP3: この時点でビーコンがすでにRegion内に入っている可能性があるので、その問い合わせを行う
+        // (Delegate didDetermineStateが呼ばれる: STEP4)
+        manager.requestState(for: region);
+    }
+    
+    /*
+     STEP4(Delegate): 現在リージョン内にいるかどうかの通知を受け取る.
+     */
+    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+        
+        print("locationManager: didDetermineState \(state)")
+        
+        switch (state) {
+            
+        case .inside: // リージョン内にいる
+            print("CLRegionStateInside:");
+            
+            // STEP5: すでに入っている場合は、そのままRangingをスタートさせる
+            // (Delegate didRangeBeacons: STEP6)
+            manager.startRangingBeacons(in: region as! CLBeaconRegion)
+            break;
+            
+        case .outside:
+            print("CLRegionStateOutside:")
+            // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
+            break;
+            
+        case .unknown:
+            print("CLRegionStateUnknown:")
+        // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
+        default:
+            
+            break;
+            
+        }
+    }
+    
+    /*
+     STEP6(Delegate): ビーコンがリージョン内に入り、その中のビーコンをNSArrayで渡される.
+     */
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion)
+    {
+        
+        // 配列をリセット
+        myIds = NSMutableArray()
+        myUuids = NSMutableArray()
+        
+        // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
+        // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
+        if(beacons.count > 0){
+            
+            // STEP7: 発見したBeaconの数だけLoopをまわす
+            for i in 0 ..< beacons.count {
+                
+                let beacon = beacons[i]
+                
+                let beaconUUID = beacon.proximityUUID;
+                let minorID = beacon.minor;
+                let majorID = beacon.major;
+                let rssi = beacon.rssi;
+                
+                print("UUID: \(beaconUUID.uuidString)");
+                print("minorID: \(minorID)");
+                print("majorID: \(majorID)");
+                print("RSSI: \(rssi)");
+                
+                var proximity = ""
+                
+                switch (beacon.proximity) {
+                    
+                case CLProximity.unknown :
+                    print("Proximity: Unknown");
+                    proximity = "Unknown"
+                    break
+                    
+                case CLProximity.far:
+                    print("Proximity: Far");
+                    proximity = "Far"
+                    break
+                    
+                case CLProximity.near:
+                    print("Proximity: Near");
+                    proximity = "Near"
+                    break
+                    
+                case CLProximity.immediate:
+                    print("Proximity: Immediate");
+                    proximity = "Immediate"
+                    break
+                }
+                
+                let myBeaconId = "MajorId: \(majorID) MinorId: \(minorID)  UUID:\(beaconUUID) Proximity:\(proximity)"
+                myIds.add(myBeaconId)
+                myUuids.add(beaconUUID.uuidString)
+                
+                // 通知してみる
+                //NotificationCenter.defaultCenter.postNotificationName("beaconReceive", object: self, userInfo: ["MajorID":majorID,"MinorID":minorID,"Proximity:":proximity,"rssi": rssi])
+            }
+        }
+    }
+    
+    /*
+     (Delegate) リージョン内に入ったというイベントを受け取る.
+     */
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("didEnterRegion");
+        
+        // Rangingを始める
+        manager.startRangingBeacons(in: region as! CLBeaconRegion)
+        
+    }
+    
+    /*
+     (Delegate) リージョンから出たというイベントを受け取る.
+     */
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        NSLog("didExitRegion");
+        
+        // Rangingを停止する
+        manager.stopRangingBeacons(in: region as! CLBeaconRegion)
+    }
     
 }
