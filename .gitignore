@@ -57,5 +57,5 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
-
+fastlane/xcov_output
 # End of https://www.gitignore.io/api/swift
