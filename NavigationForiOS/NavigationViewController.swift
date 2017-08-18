@@ -113,10 +113,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             // 不明→領域に入った場合はdidEnterRegionが呼ばれる
             break;
             
-        default:
-            
-            break;
-            
         }
     }
     
