@@ -18,8 +18,6 @@
 		B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; };
 		B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883841F435BF1007A9E2E /* NavigationViewController.swift */; };
 		B14883871F43D898007A9E2E /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883821F4353DA007A9E2E /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
-		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
 		B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */; };
 		B14883931F4560FD007A9E2E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883921F4560FD007A9E2E /* LocationService.swift */; };
 		B14883971F456542007A9E2E /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; };
@@ -27,6 +25,9 @@
 		B14883991F456549007A9E2E /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883941F456542007A9E2E /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B148839B1F456554007A9E2E /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B148839F1F4592B5007A9E2E /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148839E1F4592B5007A9E2E /* EventService.swift */; };
+		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
+		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
+		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,8 +73,6 @@
 		B14883501F3C4D32007A9E2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B14883551F3C4D32007A9E2E /* NavigationForiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationForiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationForiOSTests.swift; sourceTree = "<group>"; };
-		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 		B148835B1F3C4D32007A9E2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B14883601F3C4D32007A9E2E /* NavigationForiOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationForiOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14883641F3C4D32007A9E2E /* NavigationForiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationForiOSUITests.swift; sourceTree = "<group>"; };
@@ -86,6 +85,9 @@
 		B14883941F456542007A9E2E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		B14883951F456542007A9E2E /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		B148839E1F4592B5007A9E2E /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
+		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			children = (
 				B14883921F4560FD007A9E2E /* LocationService.swift */,
 				B148839E1F4592B5007A9E2E /* EventService.swift */,
+				C2B26B8F1F47005200E4B785 /* NavigationService.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,
 				B14883451F3C4D32007A9E2E /* HomeViewController.swift in Sources */,
 				B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */,
+				C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
