@@ -25,6 +25,7 @@
 		B14883991F456549007A9E2E /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883941F456542007A9E2E /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B148839B1F456554007A9E2E /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B148839F1F4592B5007A9E2E /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148839E1F4592B5007A9E2E /* EventService.swift */; };
+		EBD097441F47226F005F7244 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD097431F47226F005F7244 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		B14883941F456542007A9E2E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		B14883951F456542007A9E2E /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		B148839E1F4592B5007A9E2E /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		EBD097431F47226F005F7244 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBD097441F47226F005F7244 /* CoreMotion.framework in Frameworks */,
 				B14883971F456542007A9E2E /* SwiftyJSON.framework in Frameworks */,
 				B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */,
 				B14883981F456549007A9E2E /* Alamofire.framework in Frameworks */,
@@ -172,6 +175,7 @@
 		B14883811F4353DA007A9E2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBD097431F47226F005F7244 /* CoreMotion.framework */,
 				B14883941F456542007A9E2E /* Alamofire.framework */,
 				B14883951F456542007A9E2E /* SwiftyJSON.framework */,
 				B14883821F4353DA007A9E2E /* Eureka.framework */,
