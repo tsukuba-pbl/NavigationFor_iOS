@@ -17,6 +17,18 @@ class NavigationService {
     static func getNavigations() -> Dictionary<Int,String>{
         var navDic = [Int: String]() //minorとナビゲーション内容を対応させたDictionary
         
+        //JSONを取得
+        Alamofire.request("https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/7f5b9c8b632a825bf2584c26869c57826351f005/navigationsList.json").responseJSON{ response in
+            switch response.result {
+            case .success(let value):
+                let navJson = JSON(value)
+                navJson["navigations"].forEach{(_, data) in
+                    print("\(data["navigation"]) : \(data["minor"])")
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
         return navDic
     }
 }

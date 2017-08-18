@@ -25,6 +25,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     var trackLocationManager : CLLocationManager!
     var beaconRegion : CLBeaconRegion!
     
+    var navigationDic = [Int: String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,6 +53,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //表示をリセット
         reset()
+        
+        //ナビゲーションデータの取得
+        navigationDic = NavigationService.getNavigations()
     }
     
     //位置認証のステータスが変更された時に呼ばれる
