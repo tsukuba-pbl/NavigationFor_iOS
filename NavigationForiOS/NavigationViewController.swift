@@ -22,6 +22,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     let planUUID = "12345678-1234-1234-1234-123456789ABC"
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
