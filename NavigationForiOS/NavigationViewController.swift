@@ -20,7 +20,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var beaconservice : BeaconService!
     
-    let planUUID = "12345678-1234-1234-1234-123456789ABC"
+    var planUUID : String!
     
     
     override func viewDidLoad() {
@@ -28,6 +28,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //BeaconService
         beaconservice = BeaconService()
+        planUUID = beaconservice.getUsingUUID()
         
         //表示をリセット
         reset()
@@ -94,7 +95,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
         return flag
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
