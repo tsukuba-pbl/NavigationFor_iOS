@@ -24,8 +24,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         super.init()
         
-        print("init")
-        
         // ロケーションマネージャの作成.
         myLocationManager = CLLocationManager()
         
@@ -43,7 +41,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // まだ認証が得られていない場合は、認証ダイアログを表示
         if(status != CLAuthorizationStatus.authorizedAlways) {
-            print("CLAuthorizedStatus: \(status)");
+            //print("CLAuthorizedStatus: \(status)");
             
             // まだ承認が得られていない場合は、認証ダイアログを表示.
             myLocationManager.requestAlwaysAuthorization()
@@ -81,7 +79,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        print("didChangeAuthorizationStatus");
+        //print("didChangeAuthorizationStatus");
         
         // 認証のステータスをログで表示
         var statusStr = "";
@@ -97,7 +95,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
         }
-        print(" CLAuthorizationStatus: \(statusStr)")
+        //print(" CLAuthorizationStatus: \(statusStr)")
         
         for region in beaconRegionArray {
             manager.startMonitoring(for: region)
@@ -109,7 +107,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
         
-        print("didStartMonitoringForRegion");
+        //print("didStartMonitoringForRegion");
         
         // STEP3: この時点でビーコンがすでにRegion内に入っている可能性があるので、その問い合わせを行う
         // (Delegate didDetermineStateが呼ばれる: STEP4)
@@ -121,30 +119,14 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
         
-        print("locationManager: didDetermineState \(state)")
+        //print("locationManager: didDetermineState \(state)")
         
-        switch (state) {
-            
-        case .inside: // リージョン内にいる
-            print("CLRegionStateInside:");
+        if(state == .inside){
+            //print("CLRegionStateInside:");
             
             // STEP5: すでに入っている場合は、そのままRangingをスタートさせる
             // (Delegate didRangeBeacons: STEP6)
             manager.startRangingBeacons(in: region as! CLBeaconRegion)
-            break;
-            
-        case .outside:
-            print("CLRegionStateOutside:")
-            // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
-            break;
-            
-        case .unknown:
-            print("CLRegionStateUnknown:")
-        // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
-        default:
-            
-            break;
-            
         }
     }
     
