@@ -22,7 +22,7 @@ class NavigationViewControllerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+    /*
     func testIsOnNavigationPoint_失敗する場合（UUIDが異なる）(){
         let rssi:Int! = -75
         let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABD")
@@ -57,5 +57,6 @@ class NavigationViewControllerTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+ */
     
 }

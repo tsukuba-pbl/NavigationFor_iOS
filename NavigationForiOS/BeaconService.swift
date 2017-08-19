@@ -19,9 +19,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     let UUIDList = [
         "12345678-1234-1234-1234-123456789ABC"
-    ]
-    
-    let nc = NotificationCenter.default
+        ]
     
     override init() {
         
@@ -44,26 +42,24 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         // 取得頻度の設定.(1mごとに位置情報取得)
         myLocationManager.distanceFilter = 1
         
-        
         // まだ認証が得られていない場合は、認証ダイアログを表示
-        if status == CLAuthorizationStatus.notDetermined {
-            print("didChangeAuthorizationStatus:\(status)");
-            // まだ承認が得られていない場合は、認証ダイアログを表示
-            myLocationManager.requestWhenInUseAuthorization()
+        if(status != CLAuthorizationStatus.authorizedAlways) {
+            print("CLAuthorizedStatus: \(status)");
+            
+            // まだ承認が得られていない場合は、認証ダイアログを表示.
+            myLocationManager.requestAlwaysAuthorization()
         }
         
         for i in 0 ..< UUIDList.count {
             
             // BeaconのUUIDを設定.
-            let uuid:NSUUID! = NSUUID(uuidString:UUIDList[i].lowercased())
+            let uuid:NSUUID! = NSUUID(uuidString: "\(UUIDList[i].lowercased())")
             
             // BeaconのIfentifierを設定.
-            let identifierStr:String = "identifier" + i.description
+            let identifierStr:String = "akabeacon" + i.description
             
             // リージョンを作成.
-            myBeaconRegion = CLBeaconRegion(proximityUUID: uuid as UUID,  identifier: identifierStr)
-            // majorId=0,minorId=0のビーコンのみ受信
-            //myBeaconRegion = CLBeaconRegion(proximityUUID: uuid, major: CLBeaconMajorValue(0), minor: CLBeaconMinorValue(0), identifier: identifierStr)
+            myBeaconRegion = CLBeaconRegion(proximityUUID: uuid as UUID, major: CLBeaconMajorValue(1), minor: CLBeaconMinorValue(1), identifier: identifierStr)
             
             // ディスプレイがOffでもイベントが通知されるように設定(trueにするとディスプレイがOnの時だけ反応).
             myBeaconRegion.notifyEntryStateOnDisplay = false
@@ -87,7 +83,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) 認証のステータスがかわったら呼び出される.
      */
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         print("didChangeAuthorizationStatus");
         
@@ -96,30 +92,26 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         switch (status) {
         case .notDetermined:
             statusStr = "NotDetermined"
-            break
         case .restricted:
             statusStr = "Restricted"
-            break
         case .denied:
             statusStr = "Denied"
-            break
         case .authorizedAlways:
             statusStr = "AuthorizedAlways"
         case .authorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
-            for region in beaconRegionArray {
-                manager.startMonitoring(for: region)
-                manager.startRangingBeacons(in: region)
-            }
         }
         print(" CLAuthorizationStatus: \(statusStr)")
         
+        for region in beaconRegionArray {
+            manager.startMonitoring(for: region)
+        }
     }
     
     /*
      STEP2(Delegate): LocationManagerがモニタリングを開始したというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+    func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
         
         print("didStartMonitoringForRegion");
         
@@ -131,7 +123,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      STEP4(Delegate): 現在リージョン内にいるかどうかの通知を受け取る.
      */
-    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+    func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
         
         print("locationManager: didDetermineState \(state)")
         
@@ -163,8 +155,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      STEP6(Delegate): ビーコンがリージョン内に入り、その中のビーコンをNSArrayで渡される.
      */
-    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion)
-    {
+    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
         
         // 配列をリセット
         myIds = NSMutableArray()
@@ -177,7 +168,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             // STEP7: 発見したBeaconの数だけLoopをまわす
             for i in 0 ..< beacons.count {
                 
-                let beacon = beacons[i]
+                var beacon = beacons[i] as! CLBeacon
                 
                 let beaconUUID = beacon.proximityUUID;
                 let minorID = beacon.minor;
@@ -217,8 +208,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                 let myBeaconId = "MajorId: \(majorID) MinorId: \(minorID)  UUID:\(beaconUUID) Proximity:\(proximity)"
                 myIds.add(myBeaconId)
                 myUuids.add(beaconUUID.uuidString)
-                
-                
             }
         }
     }
@@ -226,7 +215,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) リージョン内に入ったというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
         print("didEnterRegion");
         
         // Rangingを始める
@@ -237,7 +226,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) リージョンから出たというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
         NSLog("didExitRegion");
         
         // Rangingを停止する
