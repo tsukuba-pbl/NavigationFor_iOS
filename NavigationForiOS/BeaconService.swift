@@ -189,4 +189,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    //使用しているビーコンのUUIDを返す関数
+    func getUsingUUID() -> (String){
+        return UUIDList[0]
+    }
+    
 }
