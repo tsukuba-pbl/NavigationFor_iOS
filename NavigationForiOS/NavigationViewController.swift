@@ -20,15 +20,13 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var beaconservice : BeaconService!
     
-    var planUUID : String!
-    
+    let planUUID = "12345678-1234-1234-1234-123456789ABC"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //BeaconService
         beaconservice = BeaconService()
-        planUUID = beaconservice.getUsingUUID()
         
         //表示をリセット
         reset()
