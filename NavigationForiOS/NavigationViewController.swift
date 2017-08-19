@@ -11,13 +11,9 @@ import CoreLocation
 
 class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
-    @IBOutlet weak var status: UILabel!
     @IBOutlet weak var uuid: UILabel!
-    @IBOutlet weak var major: UILabel!
     @IBOutlet weak var minor: UILabel!
-    @IBOutlet weak var accuracy: UILabel!
     @IBOutlet weak var rssi: UILabel!
-    @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
     var navigationDic = [Int: String]()
@@ -50,13 +46,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     
     func reset(){
-        self.status.text   = "none"
         self.uuid.text     = "none"
-        self.major.text    = "none"
         self.minor.text    = "none"
-        self.accuracy.text = "none"
         self.rssi.text     = "none"
-        self.distance.text = "none"
         self.navigation.text = "none"
     }
     
