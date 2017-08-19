@@ -27,10 +27,10 @@ class NavigationService {
                     let minor = data["minor"].int!
                     let navigation = data["navigation"].string!
                     navDic[minor] = navigation
-                    print(navDic[minor]!)
+                    NSLog("\(minor):\(navDic[minor]!)")
                 }
             case .failure(let error):
-                print(error)
+                NSLog(error as! String)
             }
             responseNavigations(navDic)
         }
