@@ -14,6 +14,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var myLocationManager:CLLocationManager!
     var myBeaconRegion:CLBeaconRegion!
     var beaconRegionArray = [CLBeaconRegion]()
+    var maxRssiBeacon:CLBeacon! //最大RSSIのビーコン
     
     let UUIDList = [
         "12345678-1234-1234-1234-123456789ABC"
@@ -163,8 +164,10 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                     maxId = i
                 }
             }
-            let maxRssiBeacon = beacons[maxId] as! CLBeacon
+            maxRssiBeacon = beacons[maxId] as! CLBeacon
             
+        }else{
+            maxRssiBeacon = nil
         }
     }
     
@@ -187,6 +190,19 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // Rangingを停止する
         manager.stopRangingBeacons(in: region as! CLBeaconRegion)
+    }
+    
+    //最大RSSIのビーコンの情報を返す関数
+    //flag : 存在するとき true 存在しないとき false
+    //minor : minor id
+    //rssi : RSSI
+    //uuid : uuid
+    func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int, uuid : String){
+        if(maxRssiBeacon != nil){
+            return (true, maxRssiBeacon.minor.intValue, maxRssiBeacon.rssi, maxRssiBeacon.proximityUUID.uuidString)
+        }else{
+            return (false, -1, -100, "")
+        }
     }
     
 }
