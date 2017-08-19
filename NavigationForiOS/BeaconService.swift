@@ -13,8 +13,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     var myLocationManager:CLLocationManager!
     var myBeaconRegion:CLBeaconRegion!
-    var myIds: NSMutableArray!
-    var myUuids: NSMutableArray!
     var beaconRegionArray = [CLBeaconRegion]()
     
     let UUIDList = [
@@ -75,9 +73,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             myLocationManager.startMonitoring(for: myBeaconRegion)
         }
         
-        // 配列をリセット
-        myIds = NSMutableArray()
-        myUuids = NSMutableArray()
     }
     
     /*
@@ -157,58 +152,19 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
         
-        // 配列をリセット
-        myIds = NSMutableArray()
-        myUuids = NSMutableArray()
-        
         // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
         // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
         if(beacons.count > 0){
             
-            // STEP7: 発見したBeaconの数だけLoopをまわす
-            for i in 0 ..< beacons.count {
-                
-                var beacon = beacons[i] as! CLBeacon
-                
-                let beaconUUID = beacon.proximityUUID;
-                let minorID = beacon.minor;
-                let majorID = beacon.major;
-                let rssi = beacon.rssi;
-                
-                print("UUID: \(beaconUUID.uuidString)");
-                print("minorID: \(minorID)");
-                print("majorID: \(majorID)");
-                print("RSSI: \(rssi)");
-                
-                var proximity = ""
-                
-                switch (beacon.proximity) {
-                    
-                case CLProximity.unknown :
-                    print("Proximity: Unknown");
-                    proximity = "Unknown"
-                    break
-                    
-                case CLProximity.far:
-                    print("Proximity: Far");
-                    proximity = "Far"
-                    break
-                    
-                case CLProximity.near:
-                    print("Proximity: Near");
-                    proximity = "Near"
-                    break
-                    
-                case CLProximity.immediate:
-                    print("Proximity: Immediate");
-                    proximity = "Immediate"
-                    break
+            //複数あった場合は一番RSSI値の大きいビーコンを取得する
+            var maxId = 0
+            for i in (1 ..< beacons.count){
+                if((beacons[maxId] as! CLBeacon).rssi < (beacons[i] as! CLBeacon).rssi){
+                    maxId = i
                 }
-                
-                let myBeaconId = "MajorId: \(majorID) MinorId: \(minorID)  UUID:\(beaconUUID) Proximity:\(proximity)"
-                myIds.add(myBeaconId)
-                myUuids.add(beaconUUID.uuidString)
             }
+            let maxRssiBeacon = beacons[maxId] as! CLBeacon
+            
         }
     }
     
