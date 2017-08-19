@@ -21,6 +21,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         ]
     
     override init() {
+        NSLog("Init BeaconService")
         
         super.init()
         
@@ -41,7 +42,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // まだ認証が得られていない場合は、認証ダイアログを表示
         if(status != CLAuthorizationStatus.authorizedAlways) {
-            //print("CLAuthorizedStatus: \(status)");
+            NSLog("CLAuthorizedStatus: \(status)")
             
             // まだ承認が得られていない場合は、認証ダイアログを表示.
             myLocationManager.requestAlwaysAuthorization()
@@ -79,7 +80,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        //print("didChangeAuthorizationStatus");
+        NSLog("didChangeAuthorizationStatus");
         
         // 認証のステータスをログで表示
         var statusStr = "";
@@ -95,7 +96,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
         }
-        //print(" CLAuthorizationStatus: \(statusStr)")
+        NSLog(" CLAuthorizationStatus: \(statusStr)")
         
         for region in beaconRegionArray {
             manager.startMonitoring(for: region)
@@ -107,7 +108,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
         
-        //print("didStartMonitoringForRegion");
+        NSLog("didStartMonitoringForRegion");
         
         // STEP3: この時点でビーコンがすでにRegion内に入っている可能性があるので、その問い合わせを行う
         // (Delegate didDetermineStateが呼ばれる: STEP4)
@@ -119,10 +120,10 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
         
-        //print("locationManager: didDetermineState \(state)")
+        NSLog("locationManager: didDetermineState \(state)")
         
         if(state == .inside){
-            //print("CLRegionStateInside:");
+            NSLog("CLRegionStateInside:");
             
             // STEP5: すでに入っている場合は、そのままRangingをスタートさせる
             // (Delegate didRangeBeacons: STEP6)
@@ -137,6 +138,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
         // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
+        NSLog("\(beacons.count) detected!")
         if(beacons.count > 0){
             
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
@@ -147,7 +149,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                 }
             }
             maxRssiBeacon = beacons[maxId] as! CLBeacon
-            
+            NSLog("Max RSSI Beacon's minor id : \(maxRssiBeacon.minor)")
         }else{
             maxRssiBeacon = nil
         }
@@ -157,7 +159,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      (Delegate) リージョン内に入ったというイベントを受け取る.
      */
     func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
-        print("didEnterRegion");
+        NSLog("didEnterRegion");
         
         // Rangingを始める
         manager.startRangingBeacons(in: region as! CLBeaconRegion)
