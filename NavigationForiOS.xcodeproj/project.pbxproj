@@ -164,7 +164,6 @@
 			children = (
 				B148839D1F458CAA007A9E2E /* models */,
 				B148839C1F458CA3007A9E2E /* services */,
-				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
 				B14883591F3C4D32007A9E2E /* NavigationForiOSTests.swift */,
 				B148838F1F455C42007A9E2E /* controllers */,
 				B148835B1F3C4D32007A9E2E /* Info.plist */,
@@ -205,6 +204,7 @@
 		B148838F1F455C42007A9E2E /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
 				B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */,
 			);
 			name = controllers;
