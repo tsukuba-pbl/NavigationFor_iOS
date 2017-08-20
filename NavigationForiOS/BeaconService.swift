@@ -78,7 +78,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) 認証のステータスがかわったら呼び出される.
      */
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         NSLog("didChangeAuthorizationStatus");
         
@@ -106,7 +106,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      STEP2(Delegate): LocationManagerがモニタリングを開始したというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
+    private func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
         
         NSLog("didStartMonitoringForRegion");
         
@@ -118,7 +118,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      STEP4(Delegate): 現在リージョン内にいるかどうかの通知を受け取る.
      */
-    func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
+    private func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
         
         NSLog("locationManager: didDetermineState \(state)")
         
@@ -134,7 +134,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      STEP6(Delegate): ビーコンがリージョン内に入り、その中のビーコンをNSArrayで渡される.
      */
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
+    private func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
         
         // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
         // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
@@ -158,7 +158,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) リージョン内に入ったというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+    private func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
         NSLog("didEnterRegion");
         
         // Rangingを始める
@@ -169,7 +169,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     /*
      (Delegate) リージョンから出たというイベントを受け取る.
      */
-    func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
+    private func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
         NSLog("didExitRegion");
         
         // Rangingを停止する
