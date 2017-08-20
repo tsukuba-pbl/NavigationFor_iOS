@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class NavigationViewController: UIViewController, CLLocationManagerDelegate{
+class NavigationViewController: UIViewController{
     
     @IBOutlet weak var uuid: UILabel!
     @IBOutlet weak var minor: UILabel!
