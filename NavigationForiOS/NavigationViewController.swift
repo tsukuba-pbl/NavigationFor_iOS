@@ -20,13 +20,13 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var beaconservice : BeaconService!
     
-    let planUUID = "12345678-1234-1234-1234-123456789ABC"
+    var planUUID : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //BeaconService
-        beaconservice = BeaconService()
+        //Beaconの初期設定
+        initBeaconService()
         
         //表示をリセット
         reset()
@@ -43,6 +43,13 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
     }
     
+    //Beaconの初期設定
+    func initBeaconService(){
+        //BeaconServiceのインスタンス生成
+        beaconservice = BeaconService()
+        //使用するUUIDを発行
+        planUUID = beaconservice.getUsingUUID()
+    }
     
     func reset(){
         self.uuid.text     = "none"
