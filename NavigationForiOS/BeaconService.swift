@@ -17,7 +17,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var maxRssiBeacon:CLBeacon! //最大RSSIのビーコン
     
     let UUIDList = [
-        "12345678-1234-1234-1234-123456789ABC"
+        "12345678-1234-1234-1234-123456789ABC",
+        "B9407F30-F5F8-466E-AFF9-25556B57FE6D"
         ]
     
     override init() {
