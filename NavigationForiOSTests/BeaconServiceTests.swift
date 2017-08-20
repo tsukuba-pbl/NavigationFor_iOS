@@ -23,8 +23,9 @@ class BeaconServiceTests: XCTestCase {
     }
     
     func testGetUsingUUID() {
-        let uuid = beaconservice.getUsingUUID()
-        XCTAssertEqual(uuid, "12345678-1234-1234-1234-123456789ABC")
+        let uuidlist = beaconservice.getUsingUUIDs()
+        let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
+        XCTAssertTrue(retval)
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
