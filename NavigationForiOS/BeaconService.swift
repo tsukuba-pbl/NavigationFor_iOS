@@ -64,7 +64,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             // 退域通知の設定.
             myBeaconRegion.notifyOnExit = true
             
-            beaconRegionArray.append(myBeaconRegion)
+            beaconRegions.append(myBeaconRegion)
             
             myLocationManager.startMonitoring(for: myBeaconRegion)
         }
@@ -172,8 +172,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     }
     
     //使用しているビーコンのUUIDを返す関数
-    func getUsingUUID() -> (String){
-        return UUIDList[0]
+    func getUsingUUID() -> (Array<String>){
+        return UUIDList
     }
     
 }
