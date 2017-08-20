@@ -20,7 +20,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var beaconservice : BeaconService!
     
-    var planUUID : String!
+    var uuidList : Array<String> = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //BeaconServiceのインスタンス生成
         beaconservice = BeaconService()
         //使用するUUIDを発行
-        planUUID = beaconservice.getUsingUUID()
+        uuidList = beaconservice.getUsingUUIDs()
     }
     
     func reset(){
@@ -95,7 +96,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     func isOnNavigationPoint(RSSI : Int, uuid : UUID, threshold : Int) -> Bool {
         var flag: Bool = false
         //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(uuid.uuidString == planUUID && RSSI > threshold){
+        if(uuidList.contains(uuid.uuidString) == true && RSSI > threshold){
             flag = true
         }
         return flag
