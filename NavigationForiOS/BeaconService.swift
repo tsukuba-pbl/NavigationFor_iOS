@@ -13,7 +13,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     var myLocationManager:CLLocationManager!
     var myBeaconRegion:CLBeaconRegion!
-    var beaconRegionArray = [CLBeaconRegion]()
+    var beaconRegions = [CLBeaconRegion]()
     var maxRssiBeacon:CLBeacon! //最大RSSIのビーコン
     
     let UUIDList = [
@@ -21,8 +21,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         ]
     
     override init() {
-        NSLog("Init BeaconService")
-        
         super.init()
         
         // ロケーションマネージャの作成.
@@ -42,8 +40,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // まだ認証が得られていない場合は、認証ダイアログを表示
         if(status != CLAuthorizationStatus.authorizedAlways) {
-            NSLog("CLAuthorizedStatus: \(status)")
-            
             // まだ承認が得られていない場合は、認証ダイアログを表示.
             myLocationManager.requestAlwaysAuthorization()
         }
@@ -80,8 +76,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        NSLog("didChangeAuthorizationStatus");
-        
         // 認証のステータスをログで表示
         var statusStr = "";
         switch (status) {
@@ -96,9 +90,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
         }
-        NSLog(" CLAuthorizationStatus: \(statusStr)")
-        
-        for region in beaconRegionArray {
+     
+        for region in beaconRegions {
             manager.startMonitoring(for: region)
         }
     }
@@ -107,9 +100,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      STEP2(Delegate): LocationManagerがモニタリングを開始したというイベントを受け取る.
      */
     private func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion) {
-        
-        NSLog("didStartMonitoringForRegion");
-        
+
         // STEP3: この時点でビーコンがすでにRegion内に入っている可能性があるので、その問い合わせを行う
         // (Delegate didDetermineStateが呼ばれる: STEP4)
         manager.requestState(for: region);
@@ -120,11 +111,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     private func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
         
-        NSLog("locationManager: didDetermineState \(state)")
-        
         if(state == .inside){
-            NSLog("CLRegionStateInside:");
-            
+          
             // STEP5: すでに入っている場合は、そのままRangingをスタートさせる
             // (Delegate didRangeBeacons: STEP6)
             manager.startRangingBeacons(in: region as! CLBeaconRegion)
@@ -138,7 +126,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
         // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
-        NSLog("\(beacons.count) detected!")
         if(beacons.count > 0){
             
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
@@ -149,7 +136,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                 }
             }
             maxRssiBeacon = beacons[maxId] as! CLBeacon
-            NSLog("Max RSSI Beacon's minor id : \(maxRssiBeacon.minor)")
         }else{
             maxRssiBeacon = nil
         }
@@ -159,8 +145,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      (Delegate) リージョン内に入ったというイベントを受け取る.
      */
     private func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
-        NSLog("didEnterRegion");
-        
         // Rangingを始める
         manager.startRangingBeacons(in: region as! CLBeaconRegion)
         
@@ -170,8 +154,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      (Delegate) リージョンから出たというイベントを受け取る.
      */
     private func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!) {
-        NSLog("didExitRegion");
-        
         // Rangingを停止する
         manager.stopRangingBeacons(in: region as! CLBeaconRegion)
     }
