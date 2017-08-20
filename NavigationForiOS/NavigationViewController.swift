@@ -65,8 +65,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         let retval = beaconservice.getMaxRssiBeacon()
         if(retval.flag == true){
             self.uuid.text = retval.uuid
-            self.minor.text = "\(retval.minor)"
-            self.rssi.text = "\(retval.rssi)"
+            self.minor.text = "minor id : \(retval.minor)"
+            self.rssi.text = "RSSI : \(retval.rssi)dB"
             
             //ナビゲーションの更新
             //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
