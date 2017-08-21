@@ -3,12 +3,15 @@ develop: [![Build Status](https://travis-ci.org/tsukuba-pbl/NavigationFor_iOS.sv
 
 # 研究開発プロジェクト2017 ナビゲーションアプリ用リポジトリ
 
-## 実行
+## 環境構築
 
-## テスト
-現状ユニットテストのみ，UIテストはとりあえず後回しで行う．優先度と重要度を考えると，最低限ユニットテストでいいと考えた．
+### Carthageのインストール
+We use Carthage to manage library.so, please install Carhage.
 
-### テストのセットアップ
+```
+brew install carthage
+```
+### fastlaneのインストール
 We use fastlane. if you don't install fastlane, please install fastlane in following command.
 
 ```
@@ -18,6 +21,11 @@ or
 ```
 brew cask install fastlane
 ```
+
+## 実行
+
+## テスト
+現状ユニットテストのみ，UIテストはとりあえず後回しで行う．優先度と重要度を考えると，最低限ユニットテストでいいと考えた．
 
 ### テストの実行
 Please execute following command to test UnitTest.
