@@ -29,7 +29,7 @@ class NavigationService {
                     navDic[minor] = navigation
                 }
             case .failure(let error):
-                NSLog(error as! String)
+                SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
             }
             responseNavigations(navDic)
         }

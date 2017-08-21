@@ -15,14 +15,19 @@ class LocationService {
     ///
     /// - Returns: 地点を含む配列
     static func getLocations(responseLocations: @escaping ([String]) -> Void){
-        Alamofire.request("https://gist.githubusercontent.com/ferretdayo/052e93d7c3067832e39f5ebe8cbfb004/raw/15ca9bb2263604b6027ed4b2bff36b7a1673be12/location.json")
+        Alamofire.request("https://gist.githubusercontent.com/ferretdayo/052e93d7c3067832e39f5ebe8cbfb004/raw/ee81892056eed628852ea6a92144232f5719d0f4/location.json")
         .responseJSON { response in
             var locations: [String] = []
-            if let json = response.result.value {
-                let locationJson = JSON(json)
+            switch response.result {
+            case .success(let response):
+                let locationJson = JSON(response)
                 locationJson["locations"].forEach{(_, data) in
                     locations.append(data.string!)
                 }
+                break
+            case .failure(let error):
+                SlackService.postError(error: error.localizedDescription, tag: "Location Service")
+                break
             }
             responseLocations(locations)
         }
