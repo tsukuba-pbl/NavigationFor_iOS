@@ -37,7 +37,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
-        print("CLAuthorizedStatus: \(status.rawValue)");
         
         // まだ認証が得られていない場合は、認証ダイアログを表示
         if(status == .notDetermined) {
@@ -83,28 +82,17 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        print("didChangeAuthorizationStatus");
-        
         // 認証のステータスをログで表示
         switch (status) {
-        case .notDetermined:
-            print("未認証の状態")
-            break
-        case .restricted:
-            print("制限された状態")
-            break
-        case .denied:
-            print("許可しない")
-            break
         case .authorizedAlways:
-            print("常に許可")
             // 許可がある場合はiBeacon検出を開始.
             startMyMonitoring()
             break
         case .authorizedWhenInUse:
-            print("このAppの使用中のみ許可")
             // 許可がある場合はiBeacon検出を開始.
             startMyMonitoring()
+            break
+        default:
             break
         }
     }
@@ -113,8 +101,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      [iBeacon 手順2]  startMyMonitoring()内のでstartMonitoringForRegionが正常に開始されると呼び出される。
      */
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        
-        print("[iBeacon 手順2] didStartMonitoringForRegion");
         
         // [iBeacon 手順3] この時点でビーコンがすでにRegion内に入っている可能性があるので、その問い合わせを行う
         // [iBeacon 手順4] がDelegateで呼び出される.
@@ -126,29 +112,17 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
         
-        print("[iBeacon 手順4] locationManager: didDetermineState \(state)")
-        
         switch (state) {
             
         case .inside: // リージョン内にiBeaconが存在いる
-            print("iBeaconが存在!");
             
             // [iBeacon 手順5] すでに入っている場合は、そのままiBeaconのRangingをスタートさせる。
             // [iBeacon 手順6] がDelegateで呼び出される.
             // iBeaconがなくなったら、Rangingを停止する
             manager.startRangingBeacons(in: region as! CLBeaconRegion)
-            break;
-            
-        case .outside:
-            print("iBeaconが圏外!")
-            // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
-            break;
-            
-        case .unknown:
-            print("iBeaconが圏外もしくは不明な状態!")
-            // 外にいる、またはUknownの場合はdidEnterRegionが適切な範囲内に入った時に呼ばれるため処理なし。
-            break;
-            
+            break
+        default:
+            break
         }
     }
     
@@ -166,7 +140,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             var maxId = 0
             for i in (1 ..< beacons.count){
                 if(UUIDList.contains(beacons[i].proximityUUID.uuidString)){
-                    print("\(beacons[i].proximityUUID) : \(beacons[i].minor) : \(beacons[i].rssi)")
                     if(beacons[maxId].rssi < beacons[i].rssi){
                         maxId = i
                     }
@@ -183,7 +156,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      [iBeacon イベント] iBeaconを検出した際に呼ばれる.
      */
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("didEnterRegion: iBeaconが圏内に発見されました。");
         
         // Rangingを始める (Ranginghあ1秒ごとに呼ばれるので、検出中のiBeaconがなくなったら止める)
         manager.startRangingBeacons(in: region as! CLBeaconRegion)
@@ -193,7 +165,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      [iBeacon イベント] iBeaconを喪失した際に呼ばれる. 喪失後 30秒ぐらいあとに呼び出される.
      */
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("didExitRegion: iBeaconが圏外に喪失されました。");
         
         // 検出中のiBeaconが存在しないのなら、iBeaconのモニタリングを終了する.
         manager.stopRangingBeacons(in: region as! CLBeaconRegion)
