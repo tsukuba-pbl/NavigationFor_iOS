@@ -22,7 +22,6 @@ class NavigationViewController: UIViewController{
     
     var uuidList : Array<String> = []
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
