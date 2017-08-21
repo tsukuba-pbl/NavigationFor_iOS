@@ -40,14 +40,14 @@ class NavigationViewControllerTests: XCTestCase {
     
     func testIsOnNavigationPoint_成功する場合1(){
         let rssi:Int! = -75
-        let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABC")
+        let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789abc")
         let threshold:Int! = -80
         XCTAssertTrue(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }
     
     func testIsOnNavigationPoint_成功する場合2(){
         let rssi:Int! = -70
-        let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789ABC")
+        let uuid:UUID! = UUID(uuidString : "12345678-1234-1234-1234-123456789abc")
         let threshold:Int! = -75
         XCTAssertTrue(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }

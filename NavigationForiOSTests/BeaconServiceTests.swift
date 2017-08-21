@@ -24,7 +24,7 @@ class BeaconServiceTests: XCTestCase {
     
     func testGetUsingUUID_成功するとき（黒いビーコンの識別子）() {
         let uuidlist = beaconservice.getUsingUUIDs()
-        let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
+        let retval = uuidlist.contains("12345678-1234-1234-1234-123456789abc")
         XCTAssertTrue(retval)
     }
     

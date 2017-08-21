@@ -95,7 +95,7 @@ class NavigationViewController: UIViewController{
     func isOnNavigationPoint(RSSI : Int, uuid : UUID, threshold : Int) -> Bool {
         var flag: Bool = false
         //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(uuidList.contains(uuid.uuidString) == true && RSSI > threshold){
+        if(uuidList.contains(uuid.uuidString.lowercased()) == true && RSSI > threshold){
             flag = true
         }
         return flag
