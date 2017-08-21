@@ -18,11 +18,16 @@ class EventService {
         Alamofire.request("https://gist.githubusercontent.com/ferretdayo/b5743089f2d5f5468cca58ed9cf96b81/raw/2a6b2ca3937a61ab5b3a01ee30ecddb28103e41b/eventList.json")
         .responseJSON { response in
             var events: [String] = []
-            if let json = response.result.value {
-                let eventJson = JSON(json)
+            switch response.result {
+            case .success(let response):
+                let eventJson = JSON(response)
                 eventJson["events"].forEach{(_, data) in
                     events.append(data.string!)
                 }
+                break
+            case .failure(let error):
+                SlackService.postError(error: error.localizedDescription, tag: "Event Service")
+                break
             }
             responseEvents(events)
         }
