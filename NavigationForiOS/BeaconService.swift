@@ -17,8 +17,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var maxRssiBeacon:CLBeacon! //最大RSSIのビーコン
     
     let UUIDList = [
-        "12345678-1234-1234-1234-123456789abc",
-        "B9407F30-F5F8-466E-AFF9-25556B57FE6D"
+        "12345678-1234-1234-1234-123456789ABC"
         ]
     
     override init() {
@@ -166,11 +165,14 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
             for i in (1 ..< beacons.count){
-                if((beacons[maxId] as! CLBeacon).rssi < (beacons[i] as! CLBeacon).rssi){
-                    maxId = i
+                if(UUIDList.contains(beacons[i].proximityUUID.uuidString)){
+                    print("\(beacons[i].proximityUUID) : \(beacons[i].minor) : \(beacons[i].rssi)")
+                    if(beacons[maxId].rssi < beacons[i].rssi){
+                        maxId = i
+                    }
                 }
             }
-            maxRssiBeacon = beacons[maxId] as! CLBeacon
+            maxRssiBeacon = beacons[maxId]
         }else{
             maxRssiBeacon = nil
         }
