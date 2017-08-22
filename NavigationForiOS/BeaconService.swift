@@ -140,7 +140,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             var maxId = 0
             for i in (1 ..< beacons.count){
                 let b : CLBeacon! = beacons[i]
-                if(UUIDList.contains(b.proximityUUID.uuidString)){
+                //使用しているUUIDのビーコン　かつ　0dBでない（ちゃんと受信できている）ビーコンであるかを判定s
+                if(UUIDList.contains(b.proximityUUID.uuidString) && b.rssi != 0){
                     if(beacons[maxId].rssi < b.rssi){
                         maxId = i
                     }
