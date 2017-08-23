@@ -31,6 +31,7 @@
 		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
 		C2B26B921F471E3100E4B785 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconService.swift */; };
 		C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */; };
+		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
 		C2B26B911F471E3100E4B785 /* BeaconService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
 		C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconServiceTests.swift; sourceTree = "<group>"; };
+		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */,
 				C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */,
 				B14883971F456542007A9E2E /* SwiftyJSON.framework in Frameworks */,
 				B14883831F4353DA007A9E2E /* Eureka.framework in Frameworks */,
@@ -185,6 +188,7 @@
 		B14883811F4353DA007A9E2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */,
 				C2B26B891F43EC7800E4B785 /* CoreLocation.framework */,
 				B14883941F456542007A9E2E /* Alamofire.framework */,
 				B14883951F456542007A9E2E /* SwiftyJSON.framework */,
