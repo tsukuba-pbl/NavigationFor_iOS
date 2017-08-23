@@ -74,6 +74,7 @@ class NavigationViewController: UIViewController{
                 if(NavigationService.isGoal(minor_id: retval.minor)){
                     //到着した
                     self.navigation.text = "Goal"
+                    goalAlert()
                 }else{
                     //到着してない　途中のとき
                     let navigationText = navigationDic[retval.minor]
@@ -105,6 +106,23 @@ class NavigationViewController: UIViewController{
             flag = true
         }
         return flag
+    }
+    
+    //ゴール時にアラートを表示する
+    func goalAlert(){
+        //① コントローラーの実装
+        let alertController = UIAlertController(title: "Navigation",message: "目的地に到着しました", preferredStyle: UIAlertControllerStyle.alert)
+        
+        //②-1 OKボタンの実装
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            //②-2 OKがクリックされた時の処理
+            print("Hello")
+        }
+        //③-1 ボタンに追加
+        alertController.addAction(okAction)
+        
+        //④ アラートの表示
+        present(alertController,animated: true,completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
