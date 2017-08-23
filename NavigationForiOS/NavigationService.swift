@@ -53,5 +53,10 @@ class NavigationService {
     static func isGoal(minor_id : Int) -> Bool{
         return (minor_id == navigations.goal_minor_id)
     }
+    
+    //入力したminorが、ルート上に存在するかを判定する
+    static func isAvailableBeacon(minor_id : Int) -> Bool{
+        return navigations.isAbailableId(id: minor_id)
+    }
 
 }
