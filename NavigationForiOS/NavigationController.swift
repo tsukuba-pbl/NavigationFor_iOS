@@ -21,6 +21,7 @@ class NavigationController{
         //ナビゲーションデータの読み込み
         NavigationService.getNavigationData{response in
             self.navigations = response
+            self.beaconservice.startBeaconReceiver(navigations: self.navigations!)
         }
     }
     

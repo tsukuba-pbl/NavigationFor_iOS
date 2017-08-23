@@ -59,4 +59,9 @@ class NavigationEntity{
         let retval = routes.filter({ $0.minor_id == id}).first
         return (retval?.navigation_text)!
     }
+    
+    //使用するビーコンのUUIDリストを返す
+    func getUUIDList() -> Array<String>{
+        return UUIDList
+    }
 }
