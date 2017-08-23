@@ -21,7 +21,7 @@ class NavigationService {
     /// - Returns: minor値とナビゲーションを対応させたDictionary
     static func getNavigationData(responseNavigations: @escaping (Dictionary<Int,String>) -> Void){
         var navDic = [Int: String]() //minorとナビゲーション内容を対応させたDictionary
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/8349150af8d3171a3a6ae31f9d078a19c4a59f6f/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/466b1a69f49b2df30240a3f122dc003a8b20ddd0/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -31,9 +31,12 @@ class NavigationService {
                 navJson["routes"].forEach{(_, data) in
                     //Dictionaryにペアとして追加（key:minor val:navigation）
                     let minor = data["minor"].int!
+                    let threshold = data["threshold"].int!
                     let navigation = data["navigation"].string!
+                    let type = data["type"].int!
                     navDic[minor] = navigation
-                    navigations_1.addPoint(minor_id: minor, threshold: -80, navigation_text: navigation, type: 1)
+                    //ナビゲーション情報を順番に格納
+                    navigations_1.addPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
                 }
                 navigations = navDic
                 //スタートとゴールのidを設定
