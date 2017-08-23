@@ -11,14 +11,16 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    /// ナビゲーション情報を取得
+    
+    /// ナビゲーション情報をサーバからJSON形式で取得
     ///
     /// - Returns: minor値とナビゲーションを対応させたDictionary
-    static func getNavigations(responseNavigations: @escaping (Dictionary<Int,String>) -> Void){
+    static func getNavigationJSON(responseNavigations: @escaping (Dictionary<Int,String>) -> Void){
         var navDic = [Int: String]() //minorとナビゲーション内容を対応させたDictionary
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/7f5b9c8b632a825bf2584c26869c57826351f005/navigationsList.json"
         
         //JSONを取得
-        Alamofire.request("https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/7f5b9c8b632a825bf2584c26869c57826351f005/navigationsList.json").responseJSON{ response in
+        Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
@@ -27,6 +29,7 @@ class NavigationService {
                     let minor = data["minor"].int!
                     let navigation = data["navigation"].string!
                     navDic[minor] = navigation
+                    print("\(minor):\(navigation)")
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")

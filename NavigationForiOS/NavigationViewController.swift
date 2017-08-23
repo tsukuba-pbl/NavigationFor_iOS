@@ -32,7 +32,7 @@ class NavigationViewController: UIViewController{
         reset()
         
         //ナビゲーションデータの取得
-        NavigationService.getNavigations{response in
+        NavigationService.getNavigationJSON{response in
             self.navigationDic = response
         }
         
