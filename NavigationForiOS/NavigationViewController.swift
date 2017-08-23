@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import CoreMotion
 
 class NavigationViewController: UIViewController{
     
@@ -16,11 +17,17 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
+    @IBOutlet weak var stepLabel: UILabel!
+    
     var navigationDic = [Int: String]()
     
     var beaconservice : BeaconService!
     
     var uuidList : Array<String> = []
+    
+    //歩数計測用変数
+    let pedometer = CMPedometer()
+    var pedoswitch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +106,34 @@ class NavigationViewController: UIViewController{
             flag = true
         }
         return flag
+    }
+    
+    //歩数計測関数
+    func pedoMeter() {
+        self.pedometer.startUpdates(from: NSDate() as Date) {
+            (data: CMPedometerData?, error) -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
+                if(error == nil) {
+                    //歩数
+                    let steps = data!.numberOfSteps
+                    self.stepLabel.text = steps.stringValue
+                }
+            })
+        }
+    }
+    
+    //歩数計測のON/OFF切り替えボタン
+    @IBAction func pedoMeterSwitch(_ sender: Any) {
+        pedoswitch = !pedoswitch
+        
+        if(pedoswitch) {
+            pedoMeter()
+            print("歩数計ON")
+        }
+        else {
+            self.pedometer.stopUpdates()
+            print("歩数計OFF")
+        }
     }
     
     override func didReceiveMemoryWarning() {
