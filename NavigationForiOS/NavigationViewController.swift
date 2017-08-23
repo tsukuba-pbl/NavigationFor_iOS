@@ -70,16 +70,22 @@ class NavigationViewController: UIViewController{
             //ナビゲーションの更新
             //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
             if(isOnNavigationPoint(RSSI: retval.rssi, uuid: UUID(uuidString : retval.uuid)!, threshold: -80)){
-                let navigationText = navigationDic[retval.minor]
-                if(navigationText != nil){
-                    self.navigation.text = navigationText
+                //ゴールに到着したかを判定
+                if(NavigationService.isGoal(minor_id: retval.minor)){
+                    //到着した
+                    self.navigation.text = "Goal"
                 }else{
-                    self.navigation.text = "ルート上から外れている可能性があります"
+                    //到着してない　途中のとき
+                    let navigationText = navigationDic[retval.minor]
+                    if(navigationText != nil){
+                        self.navigation.text = navigationText
+                    }else{
+                        self.navigation.text = "ルート上から外れている可能性があります"
+                    }
                 }
             }else{
                 self.navigation.text = "進もう"
             }
-
         }else{
             reset()
         }
