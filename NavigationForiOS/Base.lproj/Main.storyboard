@@ -74,7 +74,7 @@
         <!--Route-->
         <scene sceneID="PtV-vF-ZQY">
             <objects>
-                <viewController storyboardIdentifier="routes" id="lgx-im-ZIh" customClass="RouteViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lgx-im-ZIh" customClass="RouteViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="l4h-Sc-IH2"/>
                         <viewControllerLayoutGuide type="bottom" id="AKw-xr-liT"/>
@@ -193,7 +193,7 @@
         <!--Navigation Controller-->
         <scene sceneID="5qX-Hx-evc">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mCy-2i-rV8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="routes" automaticallyAdjustsScrollViewInsets="NO" id="mCy-2i-rV8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5mZ-03-raX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
