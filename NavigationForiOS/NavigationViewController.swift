@@ -132,6 +132,7 @@ class NavigationViewController: UIViewController{
         }
         else {
             self.pedometer.stopUpdates()
+            self.stepLabel.text = "0"
             print("歩数計OFF")
         }
     }
