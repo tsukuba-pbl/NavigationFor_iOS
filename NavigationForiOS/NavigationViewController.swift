@@ -32,7 +32,7 @@ class NavigationViewController: UIViewController{
         reset()
         
         //ナビゲーションデータの取得
-        NavigationService.getNavigationJSON{response in
+        NavigationService.getNavigationData{response in
             self.navigationDic = response
         }
         
@@ -111,20 +111,20 @@ class NavigationViewController: UIViewController{
     //ゴール時にアラートを表示する
     func goalAlert(){
         //① コントローラーの実装
-        let alertController = UIAlertController(title: "Navigation",message: "目的地に到着しました", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Navigation", message: "目的地に到着しました",  preferredStyle: UIAlertControllerStyle.alert)
         
         //②-1 OKボタンの実装
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
             //②-2 OKがクリックされた時の処理
             //Route画面へ移動
             let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
-            self.present(next,animated: true, completion: nil)
+            self.present(next, animated: true, completion: nil)
         }
         //③-1 ボタンに追加
         alertController.addAction(okAction)
         
         //④ アラートの表示
-        present(alertController,animated: true,completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
