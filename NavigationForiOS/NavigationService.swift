@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    static let navigations = NavigationEntity()
+    static let navigations = NavigationEntity() //ナビゲーション情報
     
     /// ナビゲーション情報をサーバからJSON形式で取得
     ///
@@ -55,7 +55,7 @@ class NavigationService {
     
     //入力したminorが、ルート上に存在するかを判定する
     static func isAvailableBeacon(minor_id : Int) -> Bool{
-        return navigations.isAbailableBeaconId(id: minor_id)
+        return navigations.isAvailableBeaconId(id: minor_id)
     }
     
     //入力したminorに該当するナビゲーション情報を返す
