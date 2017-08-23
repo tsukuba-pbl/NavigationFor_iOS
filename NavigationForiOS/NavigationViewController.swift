@@ -117,7 +117,7 @@ class NavigationViewController: UIViewController{
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
             //②-2 OKがクリックされた時の処理
             //Route画面へ移動
-            let next = self.storyboard!.instantiateViewController(withIdentifier: "NavigationStoryboard")
+            let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
             self.present(next,animated: true, completion: nil)
         }
         //③-1 ボタンに追加
