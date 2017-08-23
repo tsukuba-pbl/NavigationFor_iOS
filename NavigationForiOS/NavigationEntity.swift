@@ -18,13 +18,13 @@ struct NavigationPoint{
 
 class NavigationEntity{
     var routes = [NavigationPoint]() //ルート情報
-    var bAvailable = false //ルート情報が有効かどうか
+    var isAvailable = false //ルート情報が有効かどうか
     var start_minor_id : Int!
     var goal_minor_id : Int!
     
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
-    func addPoint(minor_id : Int, threshold : Int, navigation_text : String, type: Int){
+    func addNavigationPoint(minor_id : Int, threshold : Int, navigation_text : String, type: Int){
         routes.append(NavigationPoint(minor_id: minor_id, threshold: threshold, navigation_text: navigation_text, type: type))
     }
     
@@ -33,7 +33,7 @@ class NavigationEntity{
         if(routes.first?.minor_id == start_id && routes.last?.minor_id == goal_id){
             start_minor_id = start_id
             goal_minor_id = goal_id
-            bAvailable = true
+            isAvailable = true
             return true
         }else{
             return false
@@ -41,7 +41,7 @@ class NavigationEntity{
     }
     
     //ルート上に存在するビーコンかを判定する
-    func isAbailableId(id : Int) -> Bool{
+    func isAbailableBeaconId(id : Int) -> Bool{
         let retval = routes.filter({ $0.minor_id == id}).first
         if(retval != nil){
             return true
