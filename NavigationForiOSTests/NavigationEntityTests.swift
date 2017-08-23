@@ -15,6 +15,10 @@ class NavigationEntityTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        navigations.addNavigationPoint(minor_id: 1, threshold: -80, navigation_text: "Start", type: 1)
+        navigations.addNavigationPoint(minor_id: 2, threshold: -74, navigation_text: "turn right", type: 0)
+        navigations.addNavigationPoint(minor_id: 3, threshold: -65, navigation_text: "turn left", type: 0)
+        navigations.addNavigationPoint(minor_id: 4, threshold: -70, navigation_text: "Goal", type: 2)
     }
     
     override func tearDown() {
@@ -34,6 +38,51 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertFalse(retval)
     }
     
+    func testCheckRoutes_（成功するとき）(){
+        let retval = navigations.checkRoutes(start_id: 1, goal_id: 4)
+        XCTAssertTrue(retval)
+    }
+    
+    func testCheckRoutes_（失敗するとき1）(){
+        let retval = navigations.checkRoutes(start_id: 1, goal_id: 3)
+        XCTAssertFalse(retval)
+    }
+    
+    func testCheckRoutes_（失敗するとき2）(){
+        let retval = navigations.checkRoutes(start_id: 2, goal_id: 4)
+        XCTAssertFalse(retval)
+    }
+    
+    func testIsAvailableBeaconId_（成功するとき1）(){
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 1)
+        XCTAssertTrue(retval)
+        let retval2 = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 2)
+        XCTAssertTrue(retval2)
+    }
+    
+    func testIsAvailableBeaconId_（失敗するとき1_UUIDが違う）(){
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABD", id: 1)
+        XCTAssertFalse(retval)
+    }
+    
+    func testIsAvailableBeaconId_（失敗するとき1_minorが違う）(){
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 6)
+        XCTAssertFalse(retval)
+    }
+    
+    func testGetNavigationText_（成功するとき）(){
+        let retval1 = navigations.getNavigationText(id: 1)
+        XCTAssertEqual(retval1, "Start")
+        let retval2 = navigations.getNavigationText(id: 2)
+        XCTAssertEqual(retval2, "turn right")
+    }
+    
+    func testGetNavigationText_（失敗するとき）(){
+        let retval1 = navigations.getNavigationText(id: 3)
+        XCTAssertNotEqual(retval1, "turn right")
+        let retval2 = navigations.getNavigationText(id: 4)
+        XCTAssertNotEqual(retval2, "Start")
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
