@@ -32,7 +32,6 @@ class NavigationService {
                     let minor = data["minor"].int!
                     let navigation = data["navigation"].string!
                     navDic[minor] = navigation
-                    print("\(minor):\(navigation)")
                 }
                 navigations = navDic
                 //スタートとゴールのidを設定
@@ -47,7 +46,6 @@ class NavigationService {
     
     //入力したminorが、ゴールのidと同じかを判定する
     static func isGoal(minor_id : Int) -> Bool{
-        print(goal_minor_id)
         return (minor_id == goal_minor_id)
     }
 
