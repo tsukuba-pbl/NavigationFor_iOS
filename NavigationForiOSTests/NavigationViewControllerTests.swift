@@ -16,13 +16,15 @@ class NavigationViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        navigationViewController.initBeaconService()
+        //navigationViewController.initBeaconService()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
+    /*
     
     func testIsOnNavigationPoint_失敗する場合（UUIDが異なる）(){
         let rssi:Int! = -75
@@ -51,6 +53,8 @@ class NavigationViewControllerTests: XCTestCase {
         let threshold:Int! = -75
         XCTAssertTrue(self.navigationViewController.isOnNavigationPoint(RSSI: rssi, uuid: uuid, threshold: threshold))
     }
+ 
+    */
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

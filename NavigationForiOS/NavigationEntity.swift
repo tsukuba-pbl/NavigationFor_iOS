@@ -22,6 +22,10 @@ class NavigationEntity{
     var start_minor_id : Int!
     var goal_minor_id : Int!
     
+    let UUIDList = [
+        "12345678-1234-1234-1234-123456789ABC"
+    ]
+    
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
     func addNavigationPoint(minor_id : Int, threshold : Int, navigation_text : String, type: Int){
@@ -41,9 +45,9 @@ class NavigationEntity{
     }
     
     //ルート上に存在するビーコンかを判定する
-    func isAvailableBeaconId(id : Int) -> Bool{
+    func isAvailableBeaconId(uuid : String, id : Int) -> Bool{
         let retval = routes.filter({ $0.minor_id == id}).first
-        if(retval != nil){
+        if(retval != nil && UUIDList.contains(uuid)){
             return true
         }else{
             return false
