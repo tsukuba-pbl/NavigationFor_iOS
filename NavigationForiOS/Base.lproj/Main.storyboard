@@ -74,7 +74,7 @@
         <!--Route-->
         <scene sceneID="PtV-vF-ZQY">
             <objects>
-                <viewController id="lgx-im-ZIh" customClass="RouteViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="routes" id="lgx-im-ZIh" customClass="RouteViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="l4h-Sc-IH2"/>
                         <viewControllerLayoutGuide type="bottom" id="AKw-xr-liT"/>

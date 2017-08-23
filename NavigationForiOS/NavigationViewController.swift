@@ -116,7 +116,9 @@ class NavigationViewController: UIViewController{
         //②-1 OKボタンの実装
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
             //②-2 OKがクリックされた時の処理
-            print("Hello")
+            //Route画面へ移動
+            let next = self.storyboard!.instantiateViewController(withIdentifier: "NavigationStoryboard")
+            self.present(next,animated: true, completion: nil)
         }
         //③-1 ボタンに追加
         alertController.addAction(okAction)
