@@ -57,6 +57,8 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+  </array>
+  <key>NSMotionUsageDescription</key>
+  <string>歩数取得のために利用します</string>
 </dict>
 </plist>
