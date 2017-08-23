@@ -16,13 +16,13 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
-    var navigationservice : NavigationService!
+    var navigationcontroller : NavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationservice = NavigationService()
-
+        navigationcontroller = NavigationController()
+        
         //表示をリセット
         reset()
         
@@ -42,7 +42,7 @@ class NavigationViewController: UIViewController{
     
     //ナビゲーションの更新
     func updateNavigation(){
-        let retval = navigationservice.updateNavigation()
+        let retval = navigationcontroller.updateNavigation()
         let mode = retval.mode
         if(mode == -1){
             reset()

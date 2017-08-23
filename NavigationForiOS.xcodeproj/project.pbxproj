@@ -27,6 +27,7 @@
 		B148839F1F4592B5007A9E2E /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148839E1F4592B5007A9E2E /* EventService.swift */; };
 		B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883A01F4B023E007A9E2E /* SlackService.swift */; };
 		C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B261F4D6557001098DE /* NavigationEntity.swift */; };
+		C2052B291F4DC535001098DE /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B281F4DC535001098DE /* NavigationController.swift */; };
 		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
 		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
 		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
@@ -91,6 +92,7 @@
 		B148839E1F4592B5007A9E2E /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		B14883A01F4B023E007A9E2E /* SlackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlackService.swift; sourceTree = "<group>"; };
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
+		C2052B281F4DC535001098DE /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				B14883841F435BF1007A9E2E /* NavigationViewController.swift */,
 				B148837F1F43538B007A9E2E /* RouteViewController.swift */,
 				B14883441F3C4D32007A9E2E /* HomeViewController.swift */,
+				C2052B281F4DC535001098DE /* NavigationController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2052B291F4DC535001098DE /* NavigationController.swift in Sources */,
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
