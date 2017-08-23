@@ -40,4 +40,13 @@ class NavigationEntity{
         }
     }
     
+    //ルート上に存在するビーコンかを判定する
+    func isAbailableId(id : Int) -> Bool{
+        let retval = routes.filter({ $0.minor_id == id}).first
+        if(retval != nil){
+            return true
+        }else{
+            return false
+        }
+    }
 }
