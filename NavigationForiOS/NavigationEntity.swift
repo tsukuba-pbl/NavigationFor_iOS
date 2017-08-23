@@ -41,7 +41,7 @@ class NavigationEntity{
     }
     
     //ルート上に存在するビーコンかを判定する
-    func isAbailableBeaconId(id : Int) -> Bool{
+    func isAvailableBeaconId(id : Int) -> Bool{
         let retval = routes.filter({ $0.minor_id == id}).first
         if(retval != nil){
             return true
