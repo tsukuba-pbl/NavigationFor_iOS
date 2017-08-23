@@ -18,6 +18,9 @@ struct NavigationPoint{
 
 class NavigationEntity{
     var routes = [NavigationPoint]() //ルート情報
+    var bAvailable = false //ルート情報が有効かどうか
+    var start_minor_id : Int!
+    var goal_minor_id : Int!
     
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
@@ -26,8 +29,15 @@ class NavigationEntity{
     }
     
     //スタートとゴールが正しいか確認し、セットする
-    func checkRoutes(start_id : Int, goal_id : Int){
-        
+    func checkRoutes(start_id : Int, goal_id : Int) -> Bool{
+        if(routes.first?.minor_id == start_id && routes.last?.minor_id == goal_id){
+            start_minor_id = start_id
+            goal_minor_id = goal_id
+            bAvailable = true
+            return true
+        }else{
+            return false
+        }
     }
     
 }

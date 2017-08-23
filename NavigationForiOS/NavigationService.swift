@@ -11,8 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    static var start_minor_id : Int!
-    static var goal_minor_id : Int!
     static var navigations = [Int: String]()
     static let navigations_1 = NavigationEntity()
     
@@ -40,8 +38,12 @@ class NavigationService {
                 }
                 navigations = navDic
                 //スタートとゴールのidを設定
-                start_minor_id = navJson["start"].int!
-                goal_minor_id = navJson["goal"].int!
+                let start_minor_id = navJson["start"].int!
+                let goal_minor_id = navJson["goal"].int!
+                let retval = navigations_1.checkRoutes(start_id: start_minor_id, goal_id: goal_minor_id)
+                if(retval == false){
+                    SlackService.postError(error: "有効でないルート情報", tag: "Nagivation Service")
+                }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
             }
@@ -51,7 +53,7 @@ class NavigationService {
     
     //入力したminorが、ゴールのidと同じかを判定する
     static func isGoal(minor_id : Int) -> Bool{
-        return (minor_id == goal_minor_id)
+        return (minor_id == navigations_1.goal_minor_id)
     }
 
 }
