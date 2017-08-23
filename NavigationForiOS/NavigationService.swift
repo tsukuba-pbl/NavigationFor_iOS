@@ -14,6 +14,7 @@ class NavigationService {
     static var start_minor_id : Int!
     static var goal_minor_id : Int!
     static var navigations = [Int: String]()
+    static let navigations_1 = NavigationEntity()
     
     /// ナビゲーション情報をサーバからJSON形式で取得
     ///
@@ -32,6 +33,7 @@ class NavigationService {
                     let minor = data["minor"].int!
                     let navigation = data["navigation"].string!
                     navDic[minor] = navigation
+                    navigations_1.addPoint(minor_id: minor, threshold: -80, navigation_text: navigation, type: 1)
                 }
                 navigations = navDic
                 //スタートとゴールのidを設定
