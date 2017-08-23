@@ -16,8 +16,6 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
-    var navigationDic = [Int: String]()
-    
     var beaconservice : BeaconService!
     
     var uuidList : Array<String> = []
@@ -31,9 +29,9 @@ class NavigationViewController: UIViewController{
         //表示をリセット
         reset()
         
-        //ナビゲーションデータの取得
+        //ナビゲーションデータの読み込み
         NavigationService.getNavigationData{response in
-            self.navigationDic = response
+
         }
         
         // 初回
@@ -77,9 +75,9 @@ class NavigationViewController: UIViewController{
                     goalAlert()
                 }else{
                     //到着してない　途中のとき
-                    let navigationText = navigationDic[retval.minor]
-                    if(navigationText != nil){
-                        self.navigation.text = navigationText
+                    //ルート上のビーコンか判定
+                    if(NavigationService.isAvailableBeacon(minor_id: retval.minor)){
+                        self.navigation.text = NavigationService.getNavigationText(minor_id: retval.minor)
                     }else{
                         self.navigation.text = "ルート上から外れている可能性があります"
                     }

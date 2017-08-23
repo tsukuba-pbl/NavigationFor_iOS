@@ -58,5 +58,10 @@ class NavigationService {
     static func isAvailableBeacon(minor_id : Int) -> Bool{
         return navigations.isAbailableId(id: minor_id)
     }
+    
+    //入力したminorに該当するナビゲーション情報を返す
+    static func getNavigationText(minor_id : Int) -> String{
+        return navigations.getNavigationText(id: minor_id)
+    }
 
 }

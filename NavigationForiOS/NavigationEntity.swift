@@ -49,4 +49,10 @@ class NavigationEntity{
             return false
         }
     }
+    
+    //指定したminorのナビゲーション内容を返す
+    func getNavigationText(id : Int) -> String{
+        let retval = routes.filter({ $0.minor_id == id}).first
+        return (retval?.navigation_text)!
+    }
 }
