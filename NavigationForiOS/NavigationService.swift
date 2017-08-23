@@ -11,7 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    static var navigations = [Int: String]()
     static let navigations_1 = NavigationEntity()
     
     /// ナビゲーション情報をサーバからJSON形式で取得
@@ -36,7 +35,6 @@ class NavigationService {
                     //ナビゲーション情報を順番に格納
                     navigations_1.addPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
                 }
-                navigations = navDic
                 //スタートとゴールのidを設定
                 let start_minor_id = navJson["start"].int!
                 let goal_minor_id = navJson["goal"].int!
