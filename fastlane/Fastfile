@@ -28,7 +28,7 @@ platform :ios do
       scan(clean: true, skip_slack: false, slack_only_on_failure: true)
       xcov(
         scheme: "NavigationForiOS",
-        project: "NavigationForiOS.xcodeproj",
+        workspace: "NavigationForiOS.xcworkspace",
         output_directory: "fastlane/xcov_output",
         coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR",
         coveralls_service_job_id: "1",
@@ -36,6 +36,12 @@ platform :ios do
       )
     else 
       scan(clean: true, skip_slack: true)
+      #xcov(
+      #  scheme: "NavigationForiOS",
+      #  workspace: "NavigationForiOS.xcworkspace",
+      #  output_directory: "fastlane/xcov_output",
+      #  coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR"
+      #)
     end
   end
 
