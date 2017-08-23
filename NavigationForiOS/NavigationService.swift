@@ -64,6 +64,8 @@ class NavigationService {
             }else{
                 navigation_text = "進もう"
             }
+        }else{
+            mode = -1
         }
         return (mode, minor_id, uuid, rssi, navigation_text)
     }

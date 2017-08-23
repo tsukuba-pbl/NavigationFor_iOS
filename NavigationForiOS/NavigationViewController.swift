@@ -43,13 +43,17 @@ class NavigationViewController: UIViewController{
     //ナビゲーションの更新
     func updateNavigation(){
         let retval = navigationservice.updateNavigation()
-        self.uuid.text = retval.uuid
-        self.minor.text = "minor id : \(retval.minor_id)"
-        self.rssi.text = "RSSI : \(retval.rssi)dB"
-        self.navigation.text = retval.navigation_text
         let mode = retval.mode
-        if(mode == 2){
-            goalAlert()
+        if(mode == -1){
+            reset()
+        }else{
+            self.uuid.text = retval.uuid
+            self.minor.text = "minor id : \(retval.minor_id)"
+            self.rssi.text = "RSSI : \(retval.rssi)dB"
+            self.navigation.text = retval.navigation_text
+            if(mode == 2){
+                goalAlert()
+            }
         }
     }
     
