@@ -26,14 +26,13 @@ class NavigationService {
             case .success(let value):
                 let navJson = JSON(value)
                 navJson["routes"].forEach{(_, data) in
-                    //Dictionaryにペアとして追加（key:minor val:navigation）
                     let minor = data["minor"].int!
                     let threshold = data["threshold"].int!
                     let navigation = data["navigation"].string!
                     let type = data["type"].int!
                     navDic[minor] = navigation
                     //ナビゲーション情報を順番に格納
-                    navigations.addPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
+                    navigations.addNavigationPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
                 }
                 //スタートとゴールのidを設定
                 let start_minor_id = navJson["start"].int!
@@ -56,7 +55,7 @@ class NavigationService {
     
     //入力したminorが、ルート上に存在するかを判定する
     static func isAvailableBeacon(minor_id : Int) -> Bool{
-        return navigations.isAbailableId(id: minor_id)
+        return navigations.isAbailableBeaconId(id: minor_id)
     }
     
     //入力したminorに該当するナビゲーション情報を返す
