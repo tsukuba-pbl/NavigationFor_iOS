@@ -15,13 +15,20 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var myBeaconRegion:CLBeaconRegion!
     var beaconRegions = [CLBeaconRegion]()
     var maxRssiBeacon:CLBeacon! //最大RSSIのビーコン
-    
-    let UUIDList = [
-        "12345678-1234-1234-1234-123456789ABC"
-        ]
+    var navigations:NavigationEntity!
+    var UUIDList : Array<String> = Array()
     
     override init() {
         super.init()
+        
+    }
+    
+    //ナビゲーションデータをセットする
+    func startBeaconReceiver(navigations : NavigationEntity){
+        self.navigations = navigations
+        
+        //使用するUUIDのリストを取得
+        UUIDList = navigations.getUUIDList()
         
         // ロケーションマネージャの作成.
         myLocationManager = CLLocationManager()
@@ -140,7 +147,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             var maxId = 0
             for i in (1 ..< beacons.count){
                 //使用しているUUIDのビーコン　かつ　0dBでない（ちゃんと受信できている）ビーコンであるかを判定する
-                if(UUIDList.contains(beacons[i].proximityUUID.uuidString) && beacons[i].rssi != 0){
+                if(navigations.isAvailableBeaconId(uuid: beacons[i].proximityUUID.uuidString, id: beacons[i].minor.intValue) && beacons[i].rssi != 0){
                     if(beacons[maxId].rssi < beacons[i].rssi){
                         maxId = i
                     }
@@ -183,11 +190,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         }else{
             return (false, -1, -100, "")
         }
-    }
-    
-    //使用しているビーコンのUUIDを返す関数
-    func getUsingUUIDs() -> (Array<String>){
-        return UUIDList
     }
     
 }
