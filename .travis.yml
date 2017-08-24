@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode8.3
-before_install:
+before_script:
     - gem install fastlane
 script:
     - fastlane test
