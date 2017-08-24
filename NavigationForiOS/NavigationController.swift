@@ -48,8 +48,9 @@ class NavigationController{
         navigation_text = ""
         if(retval.flag == true){
             //ナビゲーションの更新
-            //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
-            if(isOnNavigationPoint(RSSI: retval.rssi, threshold: -80)){
+            //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
+            let threshold = navigations?.getBeaconThreshold(id: minor_id)
+            if(isOnNavigationPoint(RSSI: retval.rssi, threshold: threshold!)){
                 //ゴールに到着したかを判定
                 if(isGoal(minor_id: retval.minor)){
                     //到着した
