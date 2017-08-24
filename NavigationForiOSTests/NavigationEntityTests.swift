@@ -84,6 +84,22 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertNotEqual(retval2, "Start")
     }
     
+    func testGetBeaconThreshold_成功するとき(){
+        let retval1 = navigations.getBeaconThreshold(id : 1)
+        XCTAssertEqual(retval1, -80)
+        let retval2 = navigations.getBeaconThreshold(id : 2)
+        XCTAssertEqual(retval2, -74)
+        let retval3 = navigations.getBeaconThreshold(id : 3)
+        XCTAssertEqual(retval3, -65)
+        let retval4 = navigations.getBeaconThreshold(id : 4)
+        XCTAssertEqual(retval4, -70)
+    }
+    
+    func testGetBeaconThreshold_失敗するとき(){
+        let retval1 = navigations.getBeaconThreshold(id : 1)
+        XCTAssertNotEqual(retval1, -74)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
