@@ -36,6 +36,7 @@
 		C2B26B921F471E3100E4B785 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconService.swift */; };
 		C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
+		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		C2B26B911F471E3100E4B785 /* BeaconService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
 		C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconServiceTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 				C2B26B8F1F47005200E4B785 /* NavigationService.swift */,
 				C2B26B911F471E3100E4B785 /* BeaconService.swift */,
 				B14883A01F4B023E007A9E2E /* SlackService.swift */,
+				EB80B5FD1F4EA91A00349958 /* PedometerService.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				C2052B291F4DC535001098DE /* NavigationController.swift in Sources */,
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
+				EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */,
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
 				B14883431F3C4D32007A9E2E /* AppDelegate.swift in Sources */,
 				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,

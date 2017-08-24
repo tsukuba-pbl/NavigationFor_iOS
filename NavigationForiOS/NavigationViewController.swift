@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import CoreMotion
 
 class NavigationViewController: UIViewController{
     
@@ -19,20 +18,21 @@ class NavigationViewController: UIViewController{
     
     @IBOutlet weak var stepLabel: UILabel!
     
+    var pedoswitch = false
+    
     var navigationDic = [Int: String]()
     
     var beaconservice : BeaconService!
-    
+    var pedometerservice : PedometerService!
+
     var uuidList : Array<String> = []
     var navigationcontroller : NavigationController!
     
-    //歩数計測用変数
-    let pedometer = CMPedometer()
-    var pedoswitch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pedometerservice = PedometerService()
         navigationcontroller = NavigationController()
         
         //表示をリセット
@@ -67,6 +67,9 @@ class NavigationViewController: UIViewController{
                 goalAlert()
             }
         }
+        //歩数取得
+        let steps = pedometerservice.get_steps()
+        self.stepLabel.text = "\(steps)"
     }
     
     //ゴール時にアラートを表示する
@@ -87,33 +90,17 @@ class NavigationViewController: UIViewController{
         //④ アラートの表示
         present(alertController, animated: true, completion: nil)
     }
-    
-    //歩数計測関数
-    func pedoMeter() {
-        self.pedometer.startUpdates(from: NSDate() as Date) {
-            (data: CMPedometerData?, error) -> Void in
-            DispatchQueue.main.async(execute: { () -> Void in
-                if(error == nil) {
-                    //歩数
-                    let steps = data!.numberOfSteps
-                    self.stepLabel.text = steps.stringValue
-                }
-            })
-        }
-    }
-    
+
     //歩数計測のON/OFF切り替えボタン
     @IBAction func pedoMeterSwitch(_ sender: Any) {
         pedoswitch = !pedoswitch
         
         if(pedoswitch) {
-            pedoMeter()
-            print("歩数計ON")
+            pedometerservice.start_pedometer()
         }
         else {
-            self.pedometer.stopUpdates()
+            pedometerservice.stop_pedometer()
             self.stepLabel.text = "0"
-            print("歩数計OFF")
         }
     }
     
