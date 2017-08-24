@@ -28,14 +28,17 @@ class PedometerService {
         }
     }
     
+    //歩数を取得する
     func get_steps() -> Int {
         return self.steps
     }
     
+    //歩数計を開始する
     func start_pedometer() {
         pedoMeter()
     }
     
+    //歩数計を終了する
     func stop_pedometer() {
         pedometer.stopUpdates()
         self.steps = 0

@@ -100,7 +100,6 @@ class NavigationViewController: UIViewController{
         }
         else {
             pedometerservice.stop_pedometer()
-            self.stepLabel.text = "0"
         }
     }
     
