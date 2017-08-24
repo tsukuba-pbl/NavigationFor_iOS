@@ -11,27 +11,39 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    /// ナビゲーション情報を取得
+        
+    /// ナビゲーション情報をサーバからJSON形式で取得
     ///
-    /// - Returns: minor値とナビゲーションを対応させたDictionary
-    static func getNavigations(responseNavigations: @escaping (Dictionary<Int,String>) -> Void){
-        var navDic = [Int: String]() //minorとナビゲーション内容を対応させたDictionary
+    /// - Returns: NavigationEntity
+    static func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
+        let navigation_entity = NavigationEntity()
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/466b1a69f49b2df30240a3f122dc003a8b20ddd0/navigationsList.json"
         
         //JSONを取得
-        Alamofire.request("https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/7f5b9c8b632a825bf2584c26869c57826351f005/navigationsList.json").responseJSON{ response in
+        Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
-                navJson["navigations"].forEach{(_, data) in
-                    //Dictionaryにペアとして追加（key:minor val:navigation）
+                navJson["routes"].forEach{(_, data) in
                     let minor = data["minor"].int!
+                    let threshold = data["threshold"].int!
                     let navigation = data["navigation"].string!
-                    navDic[minor] = navigation
+                    let type = data["type"].int!
+                    //ナビゲーション情報を順番に格納
+                    navigation_entity.addNavigationPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
+                }
+                //スタートとゴールのidを設定
+                let start_minor_id = navJson["start"].int!
+                let goal_minor_id = navJson["goal"].int!
+                let retval = navigation_entity.checkRoutes(start_id: start_minor_id, goal_id: goal_minor_id)
+                if(retval == false){
+                    SlackService.postError(error: "有効でないルート情報", tag: "Nagivation Service")
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
             }
-            responseNavigations(navDic)
+            responseNavigations(navigation_entity)
         }
     }
+    
 }
