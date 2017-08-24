@@ -22,19 +22,6 @@ class BeaconServiceTests: XCTestCase {
         super.tearDown()
     }
     
-    func testGetUsingUUID_成功するとき（黒いビーコンの識別子）() {
-        let uuidlist = beaconservice.getUsingUUIDs()
-        let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
-        XCTAssertTrue(retval)
-    }
-
-    func testGetUsingUUID_（失敗するとき）() {
-        let uuidlist = beaconservice.getUsingUUIDs()
-        let retval = uuidlist.contains("B9407F30-F5F8-466E-AFF9-25556B57FE6B")
-        XCTAssertFalse(retval)
-    }
-    
-    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

@@ -16,39 +16,21 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
-    var navigationDic = [Int: String]()
-    
-    var beaconservice : BeaconService!
-    
-    var uuidList : Array<String> = []
+    var navigationcontroller : NavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Beaconの初期設定
-        initBeaconService()
+        navigationcontroller = NavigationController()
         
         //表示をリセット
         reset()
-        
-        //ナビゲーションデータの取得
-        NavigationService.getNavigations{response in
-            self.navigationDic = response
-        }
         
         // 初回
         updateNavigation()
         
         // 1秒ごとにビーコンの情報を取得する
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
-    }
-    
-    //Beaconの初期設定
-    func initBeaconService(){
-        //BeaconServiceのインスタンス生成
-        beaconservice = BeaconService()
-        //使用するUUIDを発行
-        uuidList = beaconservice.getUsingUUIDs()
     }
     
     func reset(){
@@ -60,45 +42,38 @@ class NavigationViewController: UIViewController{
     
     //ナビゲーションの更新
     func updateNavigation(){
-        //現在の最大RSSIのビーコン情報を取得
-        let retval = beaconservice.getMaxRssiBeacon()
-        if(retval.flag == true){
-            self.uuid.text = retval.uuid
-            self.minor.text = "minor id : \(retval.minor)"
-            self.rssi.text = "RSSI : \(retval.rssi)dB"
-            
-            //ナビゲーションの更新
-            //RSSI最大のビーコンのRSSIの値が-80dB以下のとき、案内が表示されるようにする
-            if(isOnNavigationPoint(RSSI: retval.rssi, uuid: UUID(uuidString : retval.uuid)!, threshold: -80)){
-                let navigationText = navigationDic[retval.minor]
-                if(navigationText != nil){
-                    self.navigation.text = navigationText
-                }else{
-                    self.navigation.text = "ルート上から外れている可能性があります"
-                }
-            }else{
-                self.navigation.text = "進もう"
-            }
-
-        }else{
+        let retval = navigationcontroller.updateNavigation()
+        let mode = retval.mode
+        if(mode == -1){
             reset()
+        }else{
+            self.uuid.text = retval.uuid
+            self.minor.text = "minor id : \(retval.minor_id)"
+            self.rssi.text = "RSSI : \(retval.rssi)dB"
+            self.navigation.text = retval.navigation_text
+            if(mode == 2){
+                goalAlert()
+            }
         }
     }
-
-    //ナビゲーションを行うタイミングを判定する
-    //目的地もしくは交差点にいるかを判定する
-    /// - Parameters:
-    ///   - RSSI: 最大RSSIのビーコンのRSSI
-    ///   - uuid: 最大RSSIのビーコンのuuid
-    ///   - threshold : 閾値（RSSI）
-    /// - Returns: 入力が正しければtrue，正しくなければfalse
-    func isOnNavigationPoint(RSSI : Int, uuid : UUID, threshold : Int) -> Bool {
-        var flag: Bool = false
-        //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(uuidList.contains(uuid.uuidString) == true && RSSI > threshold){
-            flag = true
+    
+    //ゴール時にアラートを表示する
+    func goalAlert(){
+        //① コントローラーの実装
+        let alertController = UIAlertController(title: "Navigation", message: "目的地に到着しました",  preferredStyle: UIAlertControllerStyle.alert)
+        
+        //②-1 OKボタンの実装
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            //②-2 OKがクリックされた時の処理
+            //Route画面へ移動
+            let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
+            self.present(next, animated: true, completion: nil)
         }
-        return flag
+        //③-1 ボタンに追加
+        alertController.addAction(okAction)
+        
+        //④ アラートの表示
+        present(alertController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
