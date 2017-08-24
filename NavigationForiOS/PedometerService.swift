@@ -38,5 +38,6 @@ class PedometerService {
     
     func stop_pedometer() {
         pedometer.stopUpdates()
+        self.steps = 0
     }
 }
