@@ -1,5 +1,5 @@
 language: objective-c
 osx_image: xcode8.3
 script:
-    - fastlane action xcov
     - fastlane test
+    - fastlane action xcov
