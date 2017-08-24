@@ -18,10 +18,10 @@ class NavigationController{
         //BeaconServiceのインスタンス生成
         beaconservice = BeaconService()
         
-        getNavigation()
+        initNavigation()
     }
     
-    func getNavigation(){
+    func initNavigation(){
         //ナビゲーションデータの読み込み
         NavigationService.getNavigationData{response in
             self.navigations = response
