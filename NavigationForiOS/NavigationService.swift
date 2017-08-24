@@ -14,7 +14,7 @@ class NavigationService {
         
     /// ナビゲーション情報をサーバからJSON形式で取得
     ///
-    /// - Returns: minor値とナビゲーションを対応させたDictionary
+    /// - Returns: NavigationEntity
     static func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
         let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/466b1a69f49b2df30240a3f122dc003a8b20ddd0/navigationsList.json"
