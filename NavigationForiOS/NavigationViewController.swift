@@ -16,11 +16,23 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
     
+    @IBOutlet weak var stepLabel: UILabel!
+    
+    var pedoswitch = false
+    
+    var navigationDic = [Int: String]()
+    
+    var beaconservice : BeaconService!
+    var pedometerservice : PedometerService!
+
+    var uuidList : Array<String> = []
     var navigationcontroller : NavigationController!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pedometerservice = PedometerService()
         navigationcontroller = NavigationController()
         
         //表示をリセット
@@ -55,6 +67,9 @@ class NavigationViewController: UIViewController{
                 goalAlert()
             }
         }
+        //歩数取得
+        let steps = pedometerservice.get_steps()
+        self.stepLabel.text = "\(steps)"
     }
     
     //ゴール時にアラートを表示する
@@ -74,6 +89,18 @@ class NavigationViewController: UIViewController{
         
         //④ アラートの表示
         present(alertController, animated: true, completion: nil)
+    }
+
+    //歩数計測のON/OFF切り替えボタン
+    @IBAction func pedoMeterSwitch(_ sender: Any) {
+        pedoswitch = !pedoswitch
+        
+        if(pedoswitch) {
+            pedometerservice.start_pedometer()
+        }
+        else {
+            pedometerservice.stop_pedometer()
+        }
     }
     
     override func didReceiveMemoryWarning() {
