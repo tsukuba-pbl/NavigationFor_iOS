@@ -139,21 +139,20 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
-        // 範囲内で検知されたビーコンはこのbeaconsにCLBeaconオブジェクトとして格納される
-        // rangingが開始されると１秒毎に呼ばれるため、beaconがある場合のみ処理をするようにすること.
-        if(beacons.count > 0){
-            
+        //使用しているビーコンだけにフィルタリングする
+        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, id: Int($0.minor))})
+        if(availableBeacons.count > 0){
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
-            for i in (1 ..< beacons.count){
+            for i in (1 ..< availableBeacons.count){
                 //使用しているUUIDのビーコン　かつ　0dBでない（ちゃんと受信できている）ビーコンであるかを判定する
-                if(navigations.isAvailableBeaconId(uuid: beacons[i].proximityUUID.uuidString, id: beacons[i].minor.intValue) && beacons[i].rssi != 0){
-                    if(beacons[maxId].rssi < beacons[i].rssi){
+                if(navigations.isAvailableBeaconId(uuid: availableBeacons[i].proximityUUID.uuidString, id: availableBeacons[i].minor.intValue) && availableBeacons[i].rssi != 0){
+                    if(availableBeacons[maxId].rssi < availableBeacons[i].rssi){
                         maxId = i
                     }
                 }
             }
-            maxRssiBeacon = beacons[maxId]
+            maxRssiBeacon = availableBeacons[maxId]
         }else{
             maxRssiBeacon = nil
         }
@@ -178,14 +177,13 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         manager.stopRangingBeacons(in: region as! CLBeaconRegion)
     }
     
-    
     //最大RSSIのビーコンの情報を返す関数
     //flag : 存在するとき true 存在しないとき false
     //minor : minor id
     //rssi : RSSI
     //uuid : uuid
     func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int, uuid : String){
-        if(maxRssiBeacon != nil){
+        if(maxRssiBeacon != nil && navigations.isAvailableBeaconId(uuid: maxRssiBeacon.proximityUUID.uuidString, id: Int(maxRssiBeacon.minor))){
             return (true, maxRssiBeacon.minor.intValue, maxRssiBeacon.rssi, maxRssiBeacon.proximityUUID.uuidString)
         }else{
             return (false, -1, -100, "")
