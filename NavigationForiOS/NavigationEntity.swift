@@ -60,6 +60,12 @@ class NavigationEntity{
         return (retval?.navigation_text)!
     }
     
+    //指定したminorの閾値を返す
+    func getBeaconThreshold(id : Int) -> Int{
+        let retval = routes.filter({ $0.minor_id == id}).first
+        return (retval?.threshold)!
+    }
+    
     //使用するビーコンのUUIDリストを返す
     func getUUIDList() -> Array<String>{
         return UUIDList
