@@ -4,6 +4,5 @@ before_script:
     - gem install fastlane
     - gem install xcov
     - gem install danger-xcov
-    - gem install danger
 script:
     - fastlane test
