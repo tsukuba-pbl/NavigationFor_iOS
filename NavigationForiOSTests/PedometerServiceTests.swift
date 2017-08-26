@@ -27,4 +27,10 @@ class PedometerServiceTests: XCTestCase {
         XCTAssertEqual(self.pedometerservice.get_steps(), 0)
     }
     
+    func testIsStopPedometer_歩数計を止めたら歩数が0になっていること() {
+        self.pedometerservice.steps = 30
+        self.pedometerservice.stop_pedometer()
+        XCTAssertEqual(self.pedometerservice.steps, 0)
+    }
+    
 }
