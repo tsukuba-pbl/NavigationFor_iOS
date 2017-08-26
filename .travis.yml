@@ -2,9 +2,9 @@ language: objective-c
 osx_image: xcode8.3
 before_script:
     - gem install fastlane
-    - gem uninstall match
-    - gem install match
     - gem install xcov
+    - gem install danger-xcov
+    - gem install danger
 script:
     - fastlane test
     - fastlane action xcov
