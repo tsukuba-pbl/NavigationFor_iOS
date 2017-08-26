@@ -33,7 +33,11 @@ platform :ios do
 #        coveralls_service_job_id: "1",
 #        coveralls_service_name: "travis-ci"
       )
-      danger
+      danger(
+        dangerfile: "Dangerfile",
+        github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+        verbose: true
+      )
     else 
       scan(clean: true, skip_slack: true)
       #xcov(
