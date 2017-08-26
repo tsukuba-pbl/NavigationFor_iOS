@@ -17,7 +17,6 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
     carthage(platform: "iOS") 
     
   end
@@ -30,8 +29,6 @@ platform :ios do
         scheme: "NavigationForiOS",
         output_directory: "fastlane/xcov_output",
         coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR"
-#        coveralls_service_job_id: "1",
-#        coveralls_service_name: "travis-ci"
       )
       danger(
         dangerfile: "Dangerfile",
@@ -40,11 +37,6 @@ platform :ios do
       )
     else 
       scan(clean: true, skip_slack: true)
-      #xcov(
-      #  scheme: "NavigationForiOS",
-      #  output_directory: "fastlane/xcov_output",
-      #  coveralls_repo_token: "2AV5A1mw6WXClkhX7qYVNPJnzdkHs4yoR"
-      #)
     end
   end
 
