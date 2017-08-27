@@ -35,6 +35,9 @@ class NavigationViewController: UIViewController{
         navigationService?.getNavigationData{response in
             self.navigations = response
             self.navigationService?.initNavigation(navigations: self.navigations!)
+            self.updateNavigation()
+            // 1秒ごとにビーコンの情報を取得する
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
         }
         
         //表示をリセット
@@ -42,9 +45,9 @@ class NavigationViewController: UIViewController{
         
         // 初回
         //updateNavigation()
-        
-        // 1秒ごとにビーコンの情報を取得する
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+//        
+//        // 1秒ごとにビーコンの情報を取得する
+//        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
     }
     
     func reset(){
