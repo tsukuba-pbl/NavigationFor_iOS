@@ -23,6 +23,10 @@ extension SwinjectStoryboard {
             PedometerService()
         }
         
+        container.register(EventService.self) { _ in
+            EventService()
+        }
+        
         container.register(NavigationService.self) { r in
             NavigationService(beaconService: r.resolve(BeaconService.self)!)
         }
@@ -31,5 +35,11 @@ extension SwinjectStoryboard {
             vc.navigationService = r.resolve(NavigationService.self)!
             vc.pedometerService = r.resolve(PedometerService.self)!
         }
+        
+        
+        container.storyboardInitCompleted(HomeViewController.self) { (r, vc) in
+            vc.eventService = r.resolve(EventService.self)!
+        }
+
     }
 }

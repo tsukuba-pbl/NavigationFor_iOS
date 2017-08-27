@@ -33,6 +33,7 @@
 		B160F4A11F528A5100169231 /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B160F4991F5286AF00169231 /* Swinject.framework */; };
 		B160F4A21F528A5100169231 /* Swinject.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B160F4991F5286AF00169231 /* Swinject.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B160F4A41F528A6B00169231 /* SwinjectStoryboard.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B160F4A71F53496700169231 /* HomeViewControllerTests.swift */; };
 		C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B261F4D6557001098DE /* NavigationEntity.swift */; };
 		C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */; };
 		C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */; };
@@ -106,6 +107,7 @@
 		B160F4991F5286AF00169231 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
 		B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwinjectStoryboard.framework; path = Carthage/Build/iOS/SwinjectStoryboard.framework; sourceTree = "<group>"; };
 		B160F49D1F5286BA00169231 /* SwinjectStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwinjectStoryboard.swift; sourceTree = "<group>"; };
+		B160F4A71F53496700169231 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
 		C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntityTests.swift; sourceTree = "<group>"; };
 		C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationServiceTests.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			children = (
 				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
 				B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */,
+				B160F4A71F53496700169231 /* HomeViewControllerTests.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 				C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */,
+				B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */,
 				C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */,
 				C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */,
 			);
