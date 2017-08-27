@@ -11,7 +11,7 @@ import XCTest
 
 class NavigationViewControllerTests: XCTestCase {
     
-    let navigationViewController = NavigationViewController()
+    //let navigationViewController = NavigationViewController()
     
     override func setUp() {
         super.setUp()
