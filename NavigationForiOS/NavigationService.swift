@@ -56,7 +56,7 @@ class NavigationService {
     }
     
     //ナビゲーションの更新
-    // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
+    // mode : (1)通常 (2)ゴールに到着 (-1)異常終了 (3)ルートから外れている
     func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, uuid : String, rssi : Int, navigation_text : String){
         var minor_id : Int!
         var uuid : String!
@@ -89,6 +89,8 @@ class NavigationService {
                         navigation_text = navigations.getNavigationText(minor_id: retval.minor)
                     }else{
                         navigation_text = "ルート上から外れている可能性があります"
+                        mode = 3
+                        
                     }
                 }
             }else{
