@@ -56,7 +56,7 @@ class NavigationService {
     }
     
     //ナビゲーションの更新
-    // mode : (1)通常 (2)ゴールに到着 (-1)異常終了 (3)ルートから外れている
+    // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
     func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, uuid : String, rssi : Int, navigation_text : String){
         var minor_id : Int!
         var uuid : String!
@@ -83,15 +83,8 @@ class NavigationService {
                     navigation_text = "Goal"
                     mode = 2
                 }else{
-                    //到着してない　途中のとき
-                    //ルート上のビーコンか判定
-                    if(navigations.isAvailableBeaconId(uuid: uuid, minor_id: minor_id)){
-                        navigation_text = navigations.getNavigationText(minor_id: retval.minor)
-                    }else{
-                        navigation_text = "ルート上から外れている可能性があります"
-                        mode = 3
-                        
-                    }
+                    //到達してない
+                    navigation_text = navigations.getNavigationText(minor_id: retval.minor)
                 }
             }else{
                 navigation_text = "進もう"
