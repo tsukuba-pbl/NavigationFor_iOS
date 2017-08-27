@@ -9,14 +9,15 @@
 import XCTest
 @testable import NavigationForiOS
 
-class NavigationControllerTests: XCTestCase {
+class NavigationServiceTests: XCTestCase {
     
-    let navigationController = NavigationController()
+    let navigationService = NavigationService(beaconService: BeaconService())
     
     override func setUp() {
         super.setUp()
+        let navigations = NavigationEntity()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        navigationController.initNavigation()
+        navigationService.initNavigation(navigations: navigations)
     }
     
     override func tearDown() {
@@ -27,19 +28,19 @@ class NavigationControllerTests: XCTestCase {
      func testIsOnNavigationPoint_失敗する場合（閾値よりもRSSIの値が小さい）(){
         let rssi:Int! = -75
         let threshold:Int! = -70
-        XCTAssertFalse(self.navigationController.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
+        XCTAssertFalse(self.navigationService.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
      }
      
      func testIsOnNavigationPoint_成功する場合1(){
         let rssi:Int! = -75
         let threshold:Int! = -80
-        XCTAssertTrue(self.navigationController.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
+        XCTAssertTrue(self.navigationService.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
      }
      
      func testIsOnNavigationPoint_成功する場合2(){
         let rssi:Int! = -70
         let threshold:Int! = -75
-        XCTAssertTrue(self.navigationController.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
+        XCTAssertTrue(self.navigationService.isOnNavigationPoint(RSSI: rssi, threshold: threshold))
      }
     
     func testPerformanceExample() {
