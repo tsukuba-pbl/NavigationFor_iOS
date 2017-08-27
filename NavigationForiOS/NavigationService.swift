@@ -83,13 +83,8 @@ class NavigationService {
                     navigation_text = "Goal"
                     mode = 2
                 }else{
-                    //到着してない　途中のとき
-                    //ルート上のビーコンか判定
-                    if(navigations.isAvailableBeaconId(uuid: uuid, minor_id: minor_id)){
-                        navigation_text = navigations.getNavigationText(minor_id: retval.minor)
-                    }else{
-                        navigation_text = "ルート上から外れている可能性があります"
-                    }
+                    //到達してない
+                    navigation_text = navigations.getNavigationText(minor_id: retval.minor)
                 }
             }else{
                 navigation_text = "進もう"
