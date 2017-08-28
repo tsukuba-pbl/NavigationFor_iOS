@@ -44,6 +44,7 @@
 		C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
+		EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconServiceTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
+		EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +274,7 @@
 			children = (
 				C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */,
 				C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */,
+				EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			files = (
 				C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */,
 				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
+				EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 				C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */,
 				B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */,
