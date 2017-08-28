@@ -140,7 +140,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
         //使用しているビーコンだけにフィルタリングする
-        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
+        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor)) && $0.rssi != 0})
         if(availableBeacons.count > 0){
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
