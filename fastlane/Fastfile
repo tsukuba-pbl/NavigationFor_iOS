@@ -17,17 +17,26 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-    
+    carthage(platform: "iOS") 
     
   end
 
   desc "Runs all the tests"
   lane :test do
     if is_ci?
-      scan(skip_slack: false, slack_only_on_failure: true)
+      scan(clean: true, skip_slack: false, slack_only_on_failure: true)
+      xcov(
+        scheme: "NavigationForiOS",
+        output_directory: "fastlane/xcov_output",
+        coveralls_repo_token: ENV["COVERALLS_TOKEN"]
+      )
+      danger(
+        dangerfile: "Dangerfile",
+        github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+        verbose: true
+      )
     else 
-      scan(skip_slack: true)
+      scan(clean: true, skip_slack: true)
     end
   end
 
