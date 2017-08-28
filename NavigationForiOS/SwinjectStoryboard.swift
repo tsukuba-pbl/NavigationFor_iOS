@@ -31,12 +31,13 @@ extension SwinjectStoryboard {
             NavigationService(beaconService: r.resolve(BeaconService.self)!)
         }
         
+        // NavigationViewControllerのDIの設定
         container.storyboardInitCompleted(NavigationViewController.self) { (r, vc) in
             vc.navigationService = r.resolve(NavigationService.self)!
             vc.pedometerService = r.resolve(PedometerService.self)!
         }
         
-        
+        // HomeViewControllerのDIの設定
         container.storyboardInitCompleted(HomeViewController.self) { (r, vc) in
             vc.eventService = r.resolve(EventService.self)!
         }
