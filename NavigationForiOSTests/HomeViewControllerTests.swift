@@ -25,16 +25,16 @@ class HomeViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testViewDidLoad() {
+    func testViewDidLoad_eventsにちゃんと代入されているかのテスト() {
         //テスト用にNavigationServiceのモックを作成
         class MocEventService : EventService{
-            //getMaxRssiBeaconが指定した値を返すようにオーバーライド
+            //getEventsが指定した値を返すようにオーバーライド
             public override func getEvents(responseEvents: @escaping ([String]) -> Void) {
                 return responseEvents(["enPiT", "アクセシビリティ研究会"])
             }
         }
         
-        //NavigationServiceのBeaconServiceをモックに差し替え
+        //NavigationServiceのEventServiceをモックに差し替え
         let eventService = MocEventService()
         self.homeViewController?.eventService = eventService
         self.homeViewController?.viewDidLoad()
