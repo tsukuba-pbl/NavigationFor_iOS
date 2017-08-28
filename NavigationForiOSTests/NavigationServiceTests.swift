@@ -31,9 +31,8 @@ class NavigationServiceTests: XCTestCase {
         super.tearDown()
     }
     
-    //最大RSSIのビーコンが閾値よりも大きい場合(ゴールのビーコンではない)
     //成功時は、mode = 1 minor uuid rssiはそのビーコンの値 navigation_textは、設定した案内情報がリターンされる
-    func testUpdateNavigations1(){
+    func testUpdateNavigations_最大RSSIのビーコンが閾値よりも大きい場合（ゴールのビーコンではない）(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
@@ -52,9 +51,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 1)
     }
     
-    //最大RSSIのビーコンが閾値よりも小さい場合(ゴールのビーコンではない)
     //成功時は、mode = 1 minor uuid rssiはそのビーコンの値 navigation_textは、「進もう」がリターンされる
-    func testUpdateNavigations2(){
+    func testUpdateNavigations_最大RSSIのビーコンが閾値よりも小さい場合（ゴールのビーコンではない）(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
@@ -73,9 +71,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 1)
     }
     
-    //最大RSSIのビーコンが閾値よりも小さい場合(ゴールのビーコンのとき)
     //成功時は、mode = 1 minor uuid rssiはそのビーコンの値 navigation_textは、「進もう」がリターンされる
-    func testUpdateNavigations3(){
+    func testUpdateNavigations_最大RSSIのビーコンが閾値よりも小さい場合（ゴールのビーコンのとき）(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
@@ -94,9 +91,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 1)
     }
     
-    //最大RSSIのビーコンが閾値よりも大きい場合(ゴールのビーコンのとき)
     //成功時は、mode = 2 minor uuid rssiはそのビーコンの値 navigation_textは、「Goal」がリターンされる
-    func testUpdateNavigations4(){
+    func testUpdateNavigations_最大RSSIのビーコンが閾値よりも大きい場合（ゴールのビーコンのとき）(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
@@ -115,9 +111,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 2)
     }
     
-    //最大RSSIのビーコンが存在しない場合
     //成功時は、mode = 3
-    func testUpdateNavigations5(){
+    func testUpdateNavigations_最大RSSIのビーコンが存在しない場合(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド

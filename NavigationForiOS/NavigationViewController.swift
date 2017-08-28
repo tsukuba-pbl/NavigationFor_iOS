@@ -42,12 +42,6 @@ class NavigationViewController: UIViewController{
         
         //表示をリセット
         reset()
-        
-        // 初回
-        //updateNavigation()
-//        
-//        // 1秒ごとにビーコンの情報を取得する
-//        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
     }
     
     func reset(){
@@ -110,7 +104,6 @@ class NavigationViewController: UIViewController{
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     
