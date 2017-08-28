@@ -14,9 +14,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var events: [String] = []
     
+    // DI
+    var eventService: EventService?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        EventService.getEvents{ response in
+        eventService?.getEvents{ response in
             self.events = response
             self.tableView.reloadData()
         }

@@ -45,8 +45,8 @@ class NavigationEntity{
     }
     
     //ルート上に存在するビーコンかを判定する
-    func isAvailableBeaconId(uuid : String, id : Int) -> Bool{
-        let retval = routes.filter({ $0.minor_id == id}).first
+    func isAvailableBeaconId(uuid : String, minor_id : Int) -> Bool{
+        let retval = routes.filter({ $0.minor_id == minor_id}).first
         if(retval != nil && UUIDList.contains(uuid)){
             return true
         }else{
@@ -55,14 +55,14 @@ class NavigationEntity{
     }
     
     //指定したminorのナビゲーション内容を返す
-    func getNavigationText(id : Int) -> String{
-        let retval = routes.filter({ $0.minor_id == id}).first
+    func getNavigationText(minor_id : Int) -> String{
+        let retval = routes.filter({ $0.minor_id == minor_id}).first
         return (retval?.navigation_text)!
     }
     
     //指定したminorの閾値を返す
-    func getBeaconThreshold(id : Int) -> Int{
-        let retval = routes.filter({ $0.minor_id == id}).first
+    func getBeaconThreshold(minor_id : Int) -> Int{
+        let retval = routes.filter({ $0.minor_id == minor_id}).first
         return (retval?.threshold)!
     }
     

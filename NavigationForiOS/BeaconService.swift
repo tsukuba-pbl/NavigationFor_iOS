@@ -140,13 +140,13 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
         //使用しているビーコンだけにフィルタリングする
-        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, id: Int($0.minor))})
+        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
         if(availableBeacons.count > 0){
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
             for i in (1 ..< availableBeacons.count){
                 //使用しているUUIDのビーコン　かつ　0dBでない（ちゃんと受信できている）ビーコンであるかを判定する
-                if(navigations.isAvailableBeaconId(uuid: availableBeacons[i].proximityUUID.uuidString, id: availableBeacons[i].minor.intValue) && availableBeacons[i].rssi != 0){
+                if(navigations.isAvailableBeaconId(uuid: availableBeacons[i].proximityUUID.uuidString, minor_id: availableBeacons[i].minor.intValue) && availableBeacons[i].rssi != 0){
                     if(availableBeacons[maxId].rssi < availableBeacons[i].rssi){
                         maxId = i
                     }
@@ -183,7 +183,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     //rssi : RSSI
     //uuid : uuid
     func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int, uuid : String){
-        if(maxRssiBeacon != nil && navigations.isAvailableBeaconId(uuid: maxRssiBeacon.proximityUUID.uuidString, id: Int(maxRssiBeacon.minor))){
+        if(maxRssiBeacon != nil && navigations.isAvailableBeaconId(uuid: maxRssiBeacon.proximityUUID.uuidString, minor_id: Int(maxRssiBeacon.minor))){
             return (true, maxRssiBeacon.minor.intValue, maxRssiBeacon.rssi, maxRssiBeacon.proximityUUID.uuidString)
         }else{
             return (false, -1, -100, "")
