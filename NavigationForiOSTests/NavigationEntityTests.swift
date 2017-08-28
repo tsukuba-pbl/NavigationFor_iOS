@@ -54,49 +54,49 @@ class NavigationEntityTests: XCTestCase {
     }
     
     func testIsAvailableBeaconId_（成功するとき1）(){
-        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 1)
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 1)
         XCTAssertTrue(retval)
-        let retval2 = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 2)
+        let retval2 = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 2)
         XCTAssertTrue(retval2)
     }
     
     func testIsAvailableBeaconId_（失敗するとき1_UUIDが違う）(){
-        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABD", id: 1)
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABD", minor_id: 1)
         XCTAssertFalse(retval)
     }
     
     func testIsAvailableBeaconId_（失敗するとき1_minorが違う）(){
-        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", id: 6)
+        let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 6)
         XCTAssertFalse(retval)
     }
     
     func testGetNavigationText_（成功するとき）(){
-        let retval1 = navigations.getNavigationText(id: 1)
+        let retval1 = navigations.getNavigationText(minor_id: 1)
         XCTAssertEqual(retval1, "Start")
-        let retval2 = navigations.getNavigationText(id: 2)
+        let retval2 = navigations.getNavigationText(minor_id: 2)
         XCTAssertEqual(retval2, "turn right")
     }
     
     func testGetNavigationText_（失敗するとき）(){
-        let retval1 = navigations.getNavigationText(id: 3)
+        let retval1 = navigations.getNavigationText(minor_id: 3)
         XCTAssertNotEqual(retval1, "turn right")
-        let retval2 = navigations.getNavigationText(id: 4)
+        let retval2 = navigations.getNavigationText(minor_id: 4)
         XCTAssertNotEqual(retval2, "Start")
     }
     
     func testGetBeaconThreshold_成功するとき(){
-        let retval1 = navigations.getBeaconThreshold(id : 1)
+        let retval1 = navigations.getBeaconThreshold(minor_id : 1)
         XCTAssertEqual(retval1, -80)
-        let retval2 = navigations.getBeaconThreshold(id : 2)
+        let retval2 = navigations.getBeaconThreshold(minor_id : 2)
         XCTAssertEqual(retval2, -74)
-        let retval3 = navigations.getBeaconThreshold(id : 3)
+        let retval3 = navigations.getBeaconThreshold(minor_id : 3)
         XCTAssertEqual(retval3, -65)
-        let retval4 = navigations.getBeaconThreshold(id : 4)
+        let retval4 = navigations.getBeaconThreshold(minor_id : 4)
         XCTAssertEqual(retval4, -70)
     }
     
     func testGetBeaconThreshold_失敗するとき(){
-        let retval1 = navigations.getBeaconThreshold(id : 1)
+        let retval1 = navigations.getBeaconThreshold(minor_id : 1)
         XCTAssertNotEqual(retval1, -74)
     }
     

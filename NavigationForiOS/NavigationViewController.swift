@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Swinject
 
 class NavigationViewController: UIViewController{
     
@@ -17,32 +18,30 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var navigation: UILabel!
     
     @IBOutlet weak var stepLabel: UILabel!
-    
+
     var pedoswitch = false
     
     var navigationDic = [Int: String]()
     
-    var beaconservice : BeaconService!
-    var pedometerservice : PedometerService!
+    // DI
+    var pedometerService : PedometerService?
+    var navigationService: NavigationService?
+    
+    var navigations : NavigationEntity? //ナビゲーション情報
 
-    var uuidList : Array<String> = []
-    var navigationcontroller : NavigationController!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pedometerservice = PedometerService()
-        navigationcontroller = NavigationController()
+        navigationService?.getNavigationData{response in
+            self.navigations = response
+            self.navigationService?.initNavigation(navigations: self.navigations!)
+            self.updateNavigation()
+            // 1秒ごとにビーコンの情報を取得する
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+        }
         
         //表示をリセット
         reset()
-        
-        // 初回
-        updateNavigation()
-        
-        // 1秒ごとにビーコンの情報を取得する
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
     }
     
     func reset(){
@@ -54,22 +53,22 @@ class NavigationViewController: UIViewController{
     
     //ナビゲーションの更新
     func updateNavigation(){
-        let retval = navigationcontroller.updateNavigation()
-        let mode = retval.mode
+        let retval = navigationService?.updateNavigation(navigations: self.navigations!)
+        let mode = retval?.mode
         if(mode == -1){
             reset()
         }else{
-            self.uuid.text = retval.uuid
-            self.minor.text = "minor id : \(retval.minor_id)"
-            self.rssi.text = "RSSI : \(retval.rssi)dB"
-            self.navigation.text = retval.navigation_text
+            self.uuid.text = retval?.uuid
+            self.minor.text = "minor id : \(retval?.minor_id ?? 0)"
+            self.rssi.text = "RSSI : \(retval?.rssi ?? 0)dB"
+            self.navigation.text = retval?.navigation_text
             if(mode == 2){
                 goalAlert()
             }
         }
         //歩数取得
-        let steps = pedometerservice.get_steps()
-        self.stepLabel.text = "\(steps)"
+        let steps = pedometerService?.get_steps()
+        self.stepLabel.text = "\(steps ?? 0)"
     }
     
     //ゴール時にアラートを表示する
@@ -96,16 +95,15 @@ class NavigationViewController: UIViewController{
         pedoswitch = !pedoswitch
         
         if(pedoswitch) {
-            pedometerservice.start_pedometer()
+            pedometerService?.start_pedometer()
         }
         else {
-            pedometerservice.stop_pedometer()
+            pedometerService?.stop_pedometer()
         }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     
