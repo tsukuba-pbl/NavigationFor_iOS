@@ -171,15 +171,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         oldbeaconsRssiList = beaconsRssiList
             
         //平滑化済みの中から、一番RSSI値の大きいビーコンを取得する
-        var maxKey = 1
-        for i in beaconsRssiList{
-            let key = i.key
-            let rssi = i.value
-            if(beaconsRssiList[maxKey]! < rssi){
-                maxKey = key
-            }
-        }
-        maxRssiBeaconMinorId = maxKey
+        let sortedBeaconRssiList = beaconsRssiList.sorted(by: {$0.1 > $1.1 })
+        maxRssiBeaconMinorId = sortedBeaconRssiList.first?.key
     }
     
     /*
