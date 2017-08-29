@@ -20,6 +20,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     //使用するビーコンのRSSI一覧
     var beaconsRssiList = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
+    var oldbeaconsRssiList = Dictionary<Int, Int>()
     
     override init() {
         super.init()
@@ -32,6 +33,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         //使用するビーコンのminor idのリストを取得するして、電波強度の表を作成する
         initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        oldbeaconsRssiList = beaconsRssiList
         
         //使用するUUIDのリストを取得
         UUIDList = navigations.getUUIDList()
@@ -211,6 +213,21 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         for i in minor_id_list{
             beaconsRssiList[i] = -100
         }
+    }
+    
+    //平滑化関数
+    func LPF(current_beacons_rssi_list: Dictionary<Int, Int>, old_beacons_rssi_list: Dictionary<Int, Int>) -> Dictionary<Int, Int> {
+        var z = current_beacons_rssi_list
+        let alpha = 0.7
+        
+        
+        for i in current_beacons_rssi_list {
+            let key = i.key
+            let x = Double(old_beacons_rssi_list[key]!) * (1-alpha) + Double(current_beacons_rssi_list[key]!) * alpha
+            z.updateValue(Int(x), forKey: key)
+        }
+        
+        return z
     }
     
 }
