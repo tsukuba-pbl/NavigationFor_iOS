@@ -70,4 +70,14 @@ class NavigationEntity{
     func getUUIDList() -> Array<String>{
         return UUIDList
     }
+    
+    //使用するビーコンのminor idのリストを返す
+    func getMinorList() -> Array<Int>{
+        var minorList = [Int]()
+        
+        for i in routes {
+            minorList.append(i.minor_id)
+        }
+        return minorList
+    }
 }
