@@ -18,6 +18,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var navigations:NavigationEntity!
     var UUIDList : Array<String> = Array()
     
+    //使用するビーコンのRSSI一覧
+    var beaconsRssi = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
+    
     override init() {
         super.init()
         
@@ -189,5 +192,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             return (false, -1, -100, "")
         }
     }
+    
+    
     
 }
