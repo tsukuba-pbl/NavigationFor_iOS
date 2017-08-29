@@ -57,9 +57,8 @@ class NavigationService {
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, uuid : String, rssi : Int, navigation_text : String){
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, rssi : Int, navigation_text : String){
         var minor_id : Int!
-        var uuid : String!
         var rssi : Int!
         var navigation_text : String!
         var mode = 1
@@ -69,7 +68,6 @@ class NavigationService {
         
         //存在するビーコンか判定する
         minor_id = retval.minor
-        uuid = retval.uuid
         rssi = retval.rssi
         navigation_text = ""
         if(retval.flag == true){
@@ -92,7 +90,7 @@ class NavigationService {
         }else{
             mode = -1
         }
-        return (mode, minor_id, uuid, rssi, navigation_text)
+        return (mode, minor_id, rssi, navigation_text)
     }
     
     //ナビゲーションを行うタイミングを判定する
