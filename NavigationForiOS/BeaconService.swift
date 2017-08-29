@@ -31,7 +31,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         self.navigations = navigations
         
         //使用するビーコンのminor idのリストを取得するして、電波強度の表を作成する
-        
+        initBeaconRssiList(minor_id_list: navigations.getMinorList())
         
         //使用するUUIDのリストを取得
         UUIDList = navigations.getUUIDList()
@@ -146,8 +146,18 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
         //使用しているビーコンだけにフィルタリングする
-        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor)) && $0.rssi != 0})
+        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
         if(availableBeacons.count > 0){
+            //BeaconRssiListに格納
+            for i in availableBeacons{
+                let minor_id = i.minor.intValue
+                var rssi = i.rssi
+                if(rssi == 0){
+                    rssi = -100
+                }
+                beaconsRssiList.updateValue(rssi, forKey: minor_id)
+            }
+            
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
             for i in (1 ..< availableBeacons.count){
