@@ -58,7 +58,6 @@ class NavigationViewController: UIViewController{
         if(mode == -1){
             reset()
         }else{
-            self.uuid.text = retval?.uuid
             self.minor.text = "minor id : \(retval?.minor_id ?? 0)"
             self.rssi.text = "RSSI : \(retval?.rssi ?? 0)dB"
             self.navigation.text = retval?.navigation_text

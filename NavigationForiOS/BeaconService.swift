@@ -198,12 +198,11 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     //minor : minor id
     //rssi : RSSI
     //uuid : uuid
-    func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int, uuid : String){
-        let uuid = "12345678-1234-1234-1234-123456789ABC"
+    func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int){
         if(maxRssiBeaconMinorId > 0){
-            return (true, maxRssiBeaconMinorId!, beaconsRssiList[maxRssiBeaconMinorId!]!, uuid)
+            return (true, maxRssiBeaconMinorId!, beaconsRssiList[maxRssiBeaconMinorId!]!)
         }else{
-            return (false, -1, -100, "")
+            return (false, -1, -100)
         }
     }
     
