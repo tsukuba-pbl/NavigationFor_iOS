@@ -160,6 +160,10 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
                 beaconsRssiList.updateValue(rssi, forKey: minor_id)
             }
             
+            //平滑化処理
+            beaconsRssiList = LPF(current_beacons_rssi_list: beaconsRssiList, old_beacons_rssi_list: oldbeaconsRssiList)
+            oldbeaconsRssiList = beaconsRssiList
+            
             //複数あった場合は一番RSSI値の大きいビーコンを取得する
             var maxId = 0
             for i in (1 ..< availableBeacons.count){
@@ -219,7 +223,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func LPF(current_beacons_rssi_list: Dictionary<Int, Int>, old_beacons_rssi_list: Dictionary<Int, Int>) -> Dictionary<Int, Int> {
         var z = current_beacons_rssi_list
         let alpha = 0.7
-        
         
         for i in current_beacons_rssi_list {
             let key = i.key
