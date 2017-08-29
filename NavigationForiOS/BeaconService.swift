@@ -19,7 +19,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var UUIDList : Array<String> = Array()
     
     //使用するビーコンのRSSI一覧
-    var beaconsRssi = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
+    var beaconsRssiList = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
     
     override init() {
         super.init()
@@ -29,6 +29,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     //ナビゲーションデータをセットする
     func startBeaconReceiver(navigations : NavigationEntity){
         self.navigations = navigations
+        
+        //使用するビーコンのminor idのリストを取得するして、電波強度の表を作成する
+        
         
         //使用するUUIDのリストを取得
         UUIDList = navigations.getUUIDList()
@@ -193,6 +196,11 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    
+    //BeaconRSSIListの初期化を行う（引数は、使用するビーコンのminorの配列）
+    func initBeaconRssiList(minor_id_list: [Int]){
+        for i in minor_id_list{
+            beaconsRssiList[i] = -100
+        }
+    }
     
 }
