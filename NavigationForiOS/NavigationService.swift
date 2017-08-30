@@ -65,24 +65,25 @@ class NavigationService {
         
         //現在の最大RSSIのビーコン情報を取得
         let retval = beaconservice.getMaxRssiBeacon()
+        let maxRssiBeacon = retval.maxRssiBeacon
         
         //存在するビーコンか判定する
-        minor_id = retval.minor
-        rssi = retval.rssi
+        minor_id = maxRssiBeacon.minorId
+        rssi = maxRssiBeacon.rssi
         navigation_text = ""
         if(retval.available == true){
             //ナビゲーションの更新
             //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
             let threshold = navigations.getBeaconThreshold(minor_id: minor_id)
-            if(isOnNavigationPoint(RSSI: retval.rssi, threshold: threshold)){
+            if(isOnNavigationPoint(RSSI: rssi, threshold: threshold)){
                 //ゴールに到着したかを判定
-                if(retval.minor == navigations.goal_minor_id){
+                if(minor_id == navigations.goal_minor_id){
                     //到着した
                     navigation_text = "Goal"
                     mode = 2
                 }else{
                     //到達してない
-                    navigation_text = navigations.getNavigationText(minor_id: retval.minor)
+                    navigation_text = navigations.getNavigationText(minor_id: minor_id)
                 }
             }else{
                 navigation_text = "進もう"
