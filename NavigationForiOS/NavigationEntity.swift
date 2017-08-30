@@ -38,20 +38,22 @@ class NavigationEntity{
             start_minor_id = start_id
             goal_minor_id = goal_id
             isAvailable = true
-            return true
         }else{
-            return false
+            isAvailable = false
         }
+        return isAvailable
     }
     
     //ルート上に存在するビーコンかを判定する
     func isAvailableBeaconId(uuid : String, minor_id : Int) -> Bool{
         let retval = routes.filter({ $0.minor_id == minor_id}).first
+        var available = false
         if(retval != nil && UUIDList.contains(uuid)){
-            return true
+            available = true
         }else{
-            return false
+            available = false
         }
+        return available
     }
     
     //指定したminorのナビゲーション内容を返す
@@ -69,5 +71,15 @@ class NavigationEntity{
     //使用するビーコンのUUIDリストを返す
     func getUUIDList() -> Array<String>{
         return UUIDList
+    }
+    
+    //使用するビーコンのminor idのリストを返す
+    func getMinorList() -> Array<Int>{
+        var minorList = [Int]()
+        
+        for i in routes {
+            minorList.append(i.minor_id)
+        }
+        return minorList
     }
 }
