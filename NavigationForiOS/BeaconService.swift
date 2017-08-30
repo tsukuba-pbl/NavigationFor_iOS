@@ -19,8 +19,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     var UUIDList : Array<String> = Array()
     
     //使用するビーコンのRSSI一覧
-    var beaconsRssiList = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
-    var oldbeaconsRssiList = Dictionary<Int, Int>()
+    var availableBeaconRssiList = Dictionary<Int, Int>() //key:minor(int val) val:rssi(int val)
+    var oldAvailableBeaconRssiList = Dictionary<Int, Int>()
     
     override init() {
         super.init()
@@ -33,7 +33,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         //使用するビーコンのminor idのリストを取得するして、電波強度の表を作成する
         initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        oldbeaconsRssiList = beaconsRssiList
+        oldAvailableBeaconRssiList = availableBeaconRssiList
         
         //使用するUUIDのリストを取得
         UUIDList = navigations.getUUIDList()
@@ -150,13 +150,12 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         //使用しているビーコンだけにフィルタリングする
         let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
         //-100dBで初期化
-        var receiveBeaconRssiList = beaconsRssiList
-        for i in beaconsRssiList{
+        var receiveBeaconRssiList = availableBeaconRssiList
+        for i in availableBeaconRssiList{
             receiveBeaconRssiList.updateValue(-100, forKey: i.key)
         }
         //受信できたビーコンのRSSIを更新する
         if(availableBeacons.count > 0){
-            //BeaconRssiListに格納
             for i in availableBeacons{
                 let minor_id = i.minor.intValue
                 var rssi = i.rssi
@@ -167,11 +166,11 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             }
         }
         //平滑化処理
-        beaconsRssiList = LPF(current_beacons_rssi_list: receiveBeaconRssiList, old_beacons_rssi_list: oldbeaconsRssiList)
-        oldbeaconsRssiList = beaconsRssiList
+        availableBeaconRssiList = LPF(currentBeaconRssiList: receiveBeaconRssiList, oldBeaconRssiList: oldAvailableBeaconRssiList)
+        oldAvailableBeaconRssiList = availableBeaconRssiList
             
         //平滑化済みの中から、一番RSSI値の大きいビーコンを取得する
-        let sortedBeaconRssiList = beaconsRssiList.sorted(by: {$0.1 > $1.1 })
+        let sortedBeaconRssiList = availableBeaconRssiList.sorted(by: {$0.1 > $1.1 })
         maxRssiBeaconMinorId = sortedBeaconRssiList.first?.key
     }
     
@@ -194,13 +193,13 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     }
     
     //最大RSSIのビーコンの情報を返す関数
-    //flag : 存在するとき true 存在しないとき false
+    //available : 存在するとき true 存在しないとき false
     //minor : minor id
     //rssi : RSSI
     //uuid : uuid
-    func getMaxRssiBeacon() -> (flag : Bool, minor : Int, rssi : Int){
+    func getMaxRssiBeacon() -> (available : Bool, minor : Int, rssi : Int){
         if(maxRssiBeaconMinorId > 0){
-            return (true, maxRssiBeaconMinorId!, beaconsRssiList[maxRssiBeaconMinorId!]!)
+            return (true, maxRssiBeaconMinorId!, availableBeaconRssiList[maxRssiBeaconMinorId!]!)
         }else{
             return (false, -1, -100)
         }
@@ -209,18 +208,18 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     //BeaconRSSIListの初期化を行う（引数は、使用するビーコンのminorの配列）
     func initBeaconRssiList(minor_id_list: [Int]){
         for i in minor_id_list{
-            beaconsRssiList[i] = -100
+            availableBeaconRssiList[i] = -100
         }
     }
     
     //平滑化関数
-    func LPF(current_beacons_rssi_list: Dictionary<Int, Int>, old_beacons_rssi_list: Dictionary<Int, Int>) -> Dictionary<Int, Int> {
-        var z = current_beacons_rssi_list
+    func LPF(currentBeaconRssiList: Dictionary<Int, Int>, oldBeaconRssiList: Dictionary<Int, Int>) -> Dictionary<Int, Int> {
+        var z = currentBeaconRssiList
         let alpha = 0.7
         
-        for i in current_beacons_rssi_list {
+        for i in currentBeaconRssiList {
             let key = i.key
-            let x = Double(old_beacons_rssi_list[key]!) * (1-alpha) + Double(current_beacons_rssi_list[key]!) * alpha
+            let x = Double(oldBeaconRssiList[key]!) * (1-alpha) + Double(currentBeaconRssiList[key]!) * alpha
             z.updateValue(Int(x), forKey: key)
         }
         

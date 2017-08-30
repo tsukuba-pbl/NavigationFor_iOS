@@ -29,20 +29,20 @@ class BeaconServiceTests: XCTestCase {
     
     func testInitBeaconRssiList(){
         beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        for i in beaconservice.beaconsRssiList{
+        for i in beaconservice.availableBeaconRssiList{
             XCTAssertEqual(i.value, -100)
         }
     }
     
     func testGetMaxRssiBeacon(){
         beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        beaconservice.beaconsRssiList[1] = -74
-        beaconservice.beaconsRssiList[2] = -100
-        beaconservice.beaconsRssiList[3] = -80
-        beaconservice.beaconsRssiList[4] = -65
+        beaconservice.availableBeaconRssiList[1] = -74
+        beaconservice.availableBeaconRssiList[2] = -100
+        beaconservice.availableBeaconRssiList[3] = -80
+        beaconservice.availableBeaconRssiList[4] = -65
         beaconservice.maxRssiBeaconMinorId = 4
         let retval = beaconservice.getMaxRssiBeacon()
-        XCTAssertEqual(retval.flag, true)
+        XCTAssertEqual(retval.available, true)
         XCTAssertEqual(retval.minor, 4)
         XCTAssertEqual(retval.rssi, -65)
     }
@@ -59,7 +59,7 @@ class BeaconServiceTests: XCTestCase {
         current[2] = -80
         current[3] = -90
         
-        let retval = beaconservice.LPF(current_beacons_rssi_list: current, old_beacons_rssi_list: old)
+        let retval = beaconservice.LPF(currentBeaconRssiList: current, oldBeaconRssiList: old)
         for i in retval{
             let key = i.key
             XCTAssertEqual(Int((Double(current[key]!)*alpha) + (Double(old[key]!)*(1.0-alpha))), retval[key])
