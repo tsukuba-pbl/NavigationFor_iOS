@@ -44,9 +44,10 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 1)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 1)
         XCTAssertEqual(retval.navigation_text, "Start")
-        XCTAssertEqual(retval.rssi, -74)
+        XCTAssertEqual(maxRssiBeacon.rssi, -74)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -63,9 +64,10 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 1)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 1)
         XCTAssertEqual(retval.navigation_text, "進もう")
-        XCTAssertEqual(retval.rssi, -85)
+        XCTAssertEqual(maxRssiBeacon.rssi, -85)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -82,9 +84,10 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 4)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 4)
         XCTAssertEqual(retval.navigation_text, "進もう")
-        XCTAssertEqual(retval.rssi, -75)
+        XCTAssertEqual(maxRssiBeacon.rssi, -75)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -101,9 +104,10 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 4)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 4)
         XCTAssertEqual(retval.navigation_text, "Goal")
-        XCTAssertEqual(retval.rssi, -60)
+        XCTAssertEqual(maxRssiBeacon.rssi, -60)
         XCTAssertEqual(retval.mode, 2)
     }
     

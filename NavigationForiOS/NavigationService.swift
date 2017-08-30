@@ -57,33 +57,30 @@ class NavigationService {
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, rssi : Int, navigation_text : String){
-        var minor_id : Int!
-        var rssi : Int!
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
+        var maxRssiBeacon: BeaconEntity!
         var navigation_text : String!
         var mode = 1
         
         //現在の最大RSSIのビーコン情報を取得
         let retval = beaconservice.getMaxRssiBeacon()
-        let maxRssiBeacon = retval.maxRssiBeacon
+        maxRssiBeacon = retval.maxRssiBeacon
         
         //存在するビーコンか判定する
-        minor_id = maxRssiBeacon.minorId
-        rssi = maxRssiBeacon.rssi
         navigation_text = ""
         if(retval.available == true){
             //ナビゲーションの更新
             //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
-            let threshold = navigations.getBeaconThreshold(minor_id: minor_id)
-            if(isOnNavigationPoint(RSSI: rssi, threshold: threshold)){
+            let threshold = navigations.getBeaconThreshold(minor_id: maxRssiBeacon.minorId)
+            if(isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
                 //ゴールに到着したかを判定
-                if(minor_id == navigations.goal_minor_id){
+                if(maxRssiBeacon.minorId == navigations.goal_minor_id){
                     //到着した
                     navigation_text = "Goal"
                     mode = 2
                 }else{
                     //到達してない
-                    navigation_text = navigations.getNavigationText(minor_id: minor_id)
+                    navigation_text = navigations.getNavigationText(minor_id: maxRssiBeacon.minorId)
                 }
             }else{
                 navigation_text = "進もう"
@@ -91,7 +88,7 @@ class NavigationService {
         }else{
             mode = -1
         }
-        return (mode, minor_id, rssi, navigation_text)
+        return (mode, maxRssiBeacon, navigation_text)
     }
     
     //ナビゲーションを行うタイミングを判定する
