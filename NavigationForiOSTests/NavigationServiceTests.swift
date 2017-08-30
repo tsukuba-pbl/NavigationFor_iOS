@@ -36,18 +36,18 @@ class NavigationServiceTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: true, minor: 1, rssi:-74, uuid: "12345678-1234-1234-1234-123456789ABC")
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (available: true, maxRssiBeacon: BeaconEntity(minorId: 1, rssi:-74))
             }
         }
         //NavigationServiceのBeaconServiceをモックに差し替え
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 1)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 1)
         XCTAssertEqual(retval.navigation_text, "Start")
-        XCTAssertEqual(retval.rssi, -74)
-        XCTAssertEqual(retval.uuid, "12345678-1234-1234-1234-123456789ABC")
+        XCTAssertEqual(maxRssiBeacon.rssi, -74)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -56,18 +56,18 @@ class NavigationServiceTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: true, minor: 1, rssi:-85, uuid: "12345678-1234-1234-1234-123456789ABC")
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (available: true, maxRssiBeacon: BeaconEntity(minorId: 1, rssi:-85))
             }
         }
         //NavigationServiceのBeaconServiceをモックに差し替え
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 1)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 1)
         XCTAssertEqual(retval.navigation_text, "進もう")
-        XCTAssertEqual(retval.rssi, -85)
-        XCTAssertEqual(retval.uuid, "12345678-1234-1234-1234-123456789ABC")
+        XCTAssertEqual(maxRssiBeacon.rssi, -85)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -76,18 +76,18 @@ class NavigationServiceTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: true, minor: 4, rssi:-75, uuid: "12345678-1234-1234-1234-123456789ABC")
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (available: true, maxRssiBeacon: BeaconEntity(minorId: 4, rssi:-75))
             }
         }
         //NavigationServiceのBeaconServiceをモックに差し替え
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 4)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 4)
         XCTAssertEqual(retval.navigation_text, "進もう")
-        XCTAssertEqual(retval.rssi, -75)
-        XCTAssertEqual(retval.uuid, "12345678-1234-1234-1234-123456789ABC")
+        XCTAssertEqual(maxRssiBeacon.rssi, -75)
         XCTAssertEqual(retval.mode, 1)
     }
     
@@ -96,18 +96,18 @@ class NavigationServiceTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: true, minor: 4, rssi:-60, uuid: "12345678-1234-1234-1234-123456789ABC")
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (available: true, maxRssiBeacon: BeaconEntity(minorId: 4, rssi:-60))
             }
         }
         //NavigationServiceのBeaconServiceをモックに差し替え
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         let retval = navigationService.updateNavigation(navigations: navigations)
-        XCTAssertEqual(retval.minor_id, 4)
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(maxRssiBeacon.minorId, 4)
         XCTAssertEqual(retval.navigation_text, "Goal")
-        XCTAssertEqual(retval.rssi, -60)
-        XCTAssertEqual(retval.uuid, "12345678-1234-1234-1234-123456789ABC")
+        XCTAssertEqual(maxRssiBeacon.rssi, -60)
         XCTAssertEqual(retval.mode, 2)
     }
     
@@ -116,8 +116,8 @@ class NavigationServiceTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: false, minor: -1, rssi:-100, uuid: "")
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (available: false, maxRssiBeacon: BeaconEntity(minorId: -1, rssi:-100))
             }
         }
         //NavigationServiceのBeaconServiceをモックに差し替え
