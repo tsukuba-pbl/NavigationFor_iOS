@@ -50,19 +50,26 @@ class BeaconServiceTests: XCTestCase {
     func testLPF(){
         var current = Dictionary<Int, Int>()
         var old = Dictionary<Int, Int>()
-        let alpha = 0.7
+        var expected = Dictionary<Int, Int>()
         
+        //過去のRSSI値
         old[1] = -100
         old[2] = -100
         old[3] = -100
+        //現在のRSSI値
         current[1] = -70
         current[2] = -80
         current[3] = -90
+        // 期待値
+        // フィルタ式： z(t+1) = a*z(t) + (1-a)*z(t-1)
+        // a = 0.7
+        expected[1] = -79
+        expected[2] = -86
+        expected[3] = -93
         
         let retval = beaconservice.LPF(currentBeaconRssiList: current, oldBeaconRssiList: old)
         for i in retval{
-            let key = i.key
-            XCTAssertEqual(Int((Double(current[key]!)*alpha) + (Double(old[key]!)*(1.0-alpha))), retval[key])
+            XCTAssertEqual(expected[i.key], retval[i.key])
         }
     }
     
