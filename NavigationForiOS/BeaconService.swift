@@ -214,16 +214,14 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     //平滑化関数
     func LPF(currentBeaconRssiList: Dictionary<Int, Int>, oldBeaconRssiList: Dictionary<Int, Int>) -> Dictionary<Int, Int> {
-        var z = currentBeaconRssiList
         let alpha = 0.7
+        var resultBeaconRssiList = Dictionary<Int, Int>()
         
         for i in currentBeaconRssiList {
-            let key = i.key
-            let x = Double(oldBeaconRssiList[key]!) * (1-alpha) + Double(currentBeaconRssiList[key]!) * alpha
-            z.updateValue(Int(x), forKey: key)
+            let lpfedRssi = Double(oldBeaconRssiList[i.key]!) * (1-alpha) + Double(currentBeaconRssiList[i.key]!) * alpha
+            resultBeaconRssiList[i.key] = Int(lpfedRssi)
         }
-        
-        return z
+        return resultBeaconRssiList
     }
     
 }
