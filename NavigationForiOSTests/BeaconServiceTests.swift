@@ -34,7 +34,7 @@ class BeaconServiceTests: XCTestCase {
         }
     }
     
-    func testGetMaxRssiBeacon(){
+    func testGetMaxRssiBeacon1(){
         beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
         beaconservice.availableBeaconRssiList[1] = -74
         beaconservice.availableBeaconRssiList[2] = -100
@@ -46,6 +46,20 @@ class BeaconServiceTests: XCTestCase {
         XCTAssertEqual(retval.available, true)
         XCTAssertEqual(maxRssiBeacon.minorId, 4)
         XCTAssertEqual(maxRssiBeacon.rssi, -65)
+    }
+    
+    func testGetMaxRssiBeacon2(){
+        beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        beaconservice.availableBeaconRssiList[1] = -100
+        beaconservice.availableBeaconRssiList[2] = -100
+        beaconservice.availableBeaconRssiList[3] = -100
+        beaconservice.availableBeaconRssiList[4] = -100
+        beaconservice.maxRssiBeaconMinorId = 1
+        let retval = beaconservice.getMaxRssiBeacon()
+        let maxRssiBeacon = retval.maxRssiBeacon
+        XCTAssertEqual(retval.available, false)
+        XCTAssertEqual(maxRssiBeacon.minorId, -1)
+        XCTAssertEqual(maxRssiBeacon.rssi, -100)
     }
     
     func testLPF(){
