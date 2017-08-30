@@ -47,8 +47,8 @@ class NavigationViewControllerTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int) {
-                return (flag: true, minor: 1, rssi:-74)
+            public override func getMaxRssiBeacon() -> (flag: Bool, maxRssiBeacon: BeaconEntity) {
+                return (flag: true, maxRssiBeacon: BeaconEntity(minorId: 1, rssi:-74))
             }
         }
         

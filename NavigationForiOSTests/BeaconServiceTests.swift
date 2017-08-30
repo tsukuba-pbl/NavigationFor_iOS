@@ -42,9 +42,10 @@ class BeaconServiceTests: XCTestCase {
         beaconservice.availableBeaconRssiList[4] = -65
         beaconservice.maxRssiBeaconMinorId = 4
         let retval = beaconservice.getMaxRssiBeacon()
+        let maxRssiBeacon = retval.maxRssiBeacon
         XCTAssertEqual(retval.available, true)
-        XCTAssertEqual(retval.minor, 4)
-        XCTAssertEqual(retval.rssi, -65)
+        XCTAssertEqual(maxRssiBeacon.minorId, 4)
+        XCTAssertEqual(maxRssiBeacon.rssi, -65)
     }
     
     func testLPF(){
