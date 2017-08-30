@@ -70,7 +70,7 @@ class NavigationService {
         minor_id = retval.minor
         rssi = retval.rssi
         navigation_text = ""
-        if(retval.flag == true){
+        if(retval.available == true){
             //ナビゲーションの更新
             //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
             let threshold = navigations.getBeaconThreshold(minor_id: minor_id)
