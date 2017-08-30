@@ -198,11 +198,16 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     //rssi : RSSI
     //uuid : uuid
     func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity){
+        var maxRssiBeacon: BeaconEntity!
+        var available: Bool!
         if(maxRssiBeaconMinorId > 0){
-            return (true, BeaconEntity(minorId: maxRssiBeaconMinorId, rssi: availableBeaconRssiList[maxRssiBeaconMinorId]!))
+            available = true
+            maxRssiBeacon = BeaconEntity(minorId: maxRssiBeaconMinorId, rssi: availableBeaconRssiList[maxRssiBeaconMinorId]!)
         }else{
-            return (false, BeaconEntity())
+            available = false
+            maxRssiBeacon = BeaconEntity()
         }
+        return (available, maxRssiBeacon)
     }
     
     //BeaconRSSIListの初期化を行う（引数は、使用するビーコンのminorの配列）
