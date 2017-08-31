@@ -21,12 +21,14 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
+    var motionswitch = false
     
     var navigationDic = [Int: String]()
     
     // DI
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
+    var motionService: MotionService?
     
     var navigations : NavigationEntity? //ナビゲーション情報
 
@@ -67,9 +69,14 @@ class NavigationViewController: UIViewController{
                 goalAlert()
             }
         }
+        
         //歩数取得
         let steps = pedometerService?.get_steps()
         self.stepLabel.text = "\(steps ?? 0)"
+        
+        //ヨー取得
+        let yaw = motionService?.get_yaw()
+        self.yawLabel.text = "\(yaw ?? 0)"
     }
     
     //ゴール時にアラートを表示する
@@ -104,7 +111,14 @@ class NavigationViewController: UIViewController{
     }
     
     @IBAction func motionSwitch(_ sender: Any) {
+        motionswitch = !motionswitch
         
+        if (motionswitch) {
+            motionService?.startMotionManager()
+        }
+        else {
+            motionService?.stopMotionManager()
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
