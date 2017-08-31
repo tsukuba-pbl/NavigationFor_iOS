@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Swinject
+import CoreMotion
 
 class NavigationViewController: UIViewController{
     
@@ -28,9 +29,11 @@ class NavigationViewController: UIViewController{
     // DI
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
-    var motionService: MotionService?
+    var motionService : MotionService?
     
     var navigations : NavigationEntity? //ナビゲーション情報
+    
+    let motionManager: CMMotionManager = CMMotionManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,21 @@ class NavigationViewController: UIViewController{
         
         //表示をリセット
         reset()
+       
+        // Initialize MotionManager
+        //motionManager.deviceMotionUpdateInterval = 0.05 // 20Hz
+        
+        // Start motion data acquisition
+        motionManager.startDeviceMotionUpdates( to: OperationQueue.current!, withHandler:{
+            deviceManager, error in
+            
+            let attitude: CMAttitude = deviceManager!.attitude
+            let roll = Int(attitude.roll * 180.0 / M_PI)
+            let pitch = Int(attitude.pitch * 180.0 / M_PI)
+            let yaw = Int(attitude.yaw * 180.0 / M_PI)
+            print("roll: \(roll) pitch: \(pitch) yaw:\(yaw)")
+            
+        })
     }
     
     func reset(){
@@ -114,6 +132,7 @@ class NavigationViewController: UIViewController{
         motionswitch = !motionswitch
         
         if (motionswitch) {
+            print("startMotionSwitch")
             motionService?.startMotionManager()
         }
         else {
