@@ -9,8 +9,17 @@
 import Foundation
 
 class NavigationController{
-    updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
+    var state: State = GoFoward()
     
+    var beaconservice : BeaconService!
+    
+    init(beaconService: BeaconService) {
+        self.beaconservice = beaconService
+    }
+    
+    //ナビゲーション情報の更新
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
+        return state.updateNavigation(navigationController: self, navigationEntity: navigationEntity)
     }
 }
 

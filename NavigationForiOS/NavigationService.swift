@@ -13,6 +13,8 @@ import SwiftyJSON
 class NavigationService {
     var beaconservice : BeaconService!
     
+    var state: State = GoFoward()
+    
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
     }
@@ -105,4 +107,44 @@ class NavigationService {
         }
         return flag
     }
+}
+
+protocol State {
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String)
+}
+
+//前進状態
+class GoFoward: State{
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+        <#code#>
+    }
+    
+    
+}
+
+//交差点到達状態
+class OnThePoint: State{
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+        <#code#>
+    }
+    
+    
+}
+
+//右左折待機状態
+class WaitTurn: State{
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+        <#code#>
+    }
+    
+    
+}
+
+//目的地到達状態
+class Goal: State{
+    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+        <#code#>
+    }
+    
+    
 }
