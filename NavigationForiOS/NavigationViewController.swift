@@ -18,6 +18,7 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var navigation: UILabel!
     
     @IBOutlet weak var stepLabel: UILabel!
+    @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
     
@@ -102,6 +103,9 @@ class NavigationViewController: UIViewController{
         }
     }
     
+    @IBAction func motionSwitch(_ sender: Any) {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
