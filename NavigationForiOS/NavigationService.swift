@@ -14,7 +14,7 @@ class NavigationService {
     var beaconservice : BeaconService!
     
     //初期状態を設定
-    var state: State = GoFoward()
+    var navigationState: NavigationState = GoFoward()
     
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
@@ -70,11 +70,11 @@ class NavigationService {
         maxRssiBeacon = retval.maxRssiBeacon
         
         //ナビゲーション情報の更新
-        state.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
         //ナビゲーションテキストの取得
-        navigation_text = state.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
+        navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
         //モードの取得
-        mode = state.getMode()
+        mode = navigationState.getMode()
         
         return (mode, maxRssiBeacon, navigation_text)
     }
@@ -95,7 +95,7 @@ class NavigationService {
     }
 }
 
-protocol State {
+protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity)
     func getMode() -> Int
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String
@@ -103,7 +103,7 @@ protocol State {
 }
 
 //ビーコン受信不能状態
-class None: State{
+class None: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
         return "None"
     }
@@ -115,7 +115,7 @@ class None: State{
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
         //受信できた場合、前進状態へ遷移
         if(available == true){
-            navigationService.state = GoFoward()
+            navigationService.navigationState = GoFoward()
         }
     }
 
@@ -123,7 +123,7 @@ class None: State{
 }
 
 //前進状態
-class GoFoward: State{
+class GoFoward: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
         return "進もう"
     }
@@ -135,7 +135,7 @@ class GoFoward: State{
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
         //ビーコンが受信できてない場合は、ビーコン受信不能状態へ
         if(available == false){
-            navigationService.state = None()
+            navigationService.navigationState = None()
             return
         }
         //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
@@ -144,18 +144,18 @@ class GoFoward: State{
             //ゴールに到着したかを判定
             if(maxRssiBeacon.minorId == navigations.goal_minor_id){
                 //到着したとき、Goal状態へ遷移
-                navigationService.state = Goal()
+                navigationService.navigationState = Goal()
                 return
             }
             //交差点到達状態へ遷移
-            navigationService.state = OnThePoint()
+            navigationService.navigationState = OnThePoint()
         }
     }
     
 }
 
 //交差点到達状態
-class OnThePoint: State{
+class OnThePoint: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
         return navigations.getNavigationText(minor_id: maxRssiBeacon.minorId)
     }
@@ -172,12 +172,12 @@ class OnThePoint: State{
             //ゴールに到着したかを判定
             if(maxRssiBeacon.minorId == navigations.goal_minor_id){
                 //到着したとき、Goal状態へ遷移
-                navigationService.state = Goal()
+                navigationService.navigationState = Goal()
                 return
             }
         }else{
             //閾値を下回った場合、前進状態へ遷移
-            navigationService.state = GoFoward()
+            navigationService.navigationState = GoFoward()
         }
     }
     
@@ -185,7 +185,7 @@ class OnThePoint: State{
 /*
 
 //右左折待機状態
-class WaitTurn: State{
+class WaitTurn: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
         return "待機中"
     }
@@ -204,7 +204,7 @@ class WaitTurn: State{
 */
 
 //目的地到達状態
-class Goal: State{
+class Goal: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
         return "Goal"
     }

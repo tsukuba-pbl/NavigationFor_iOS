@@ -44,7 +44,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = None()
+        navigationService.navigationState = None()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -67,7 +67,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = GoFoward()
+        navigationService.navigationState = GoFoward()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -90,7 +90,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = GoFoward()
+        navigationService.navigationState = GoFoward()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -113,7 +113,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = OnThePoint()
+        navigationService.navigationState = OnThePoint()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -136,7 +136,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = OnThePoint()
+        navigationService.navigationState = OnThePoint()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -159,7 +159,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = GoFoward()
+        navigationService.navigationState = GoFoward()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -182,7 +182,7 @@ class NavigationServiceTests: XCTestCase {
         let beaconservice = MocBeaconService()
         navigationService.beaconservice = beaconservice
         //現在の状態をセット
-        navigationService.state = Goal()
+        navigationService.navigationState = Goal()
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
