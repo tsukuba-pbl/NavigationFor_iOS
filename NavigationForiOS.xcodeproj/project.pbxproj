@@ -46,6 +46,7 @@
 		C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
+		EB9164FA1F57DD2700EBDF5B /* MotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9164F91F57DD2700EBDF5B /* MotionService.swift */; };
 		EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +124,7 @@
 		C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconServiceTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
+		EB9164F91F57DD2700EBDF5B /* MotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionService.swift; sourceTree = "<group>"; };
 		EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -270,6 +272,7 @@
 				C2B26B911F471E3100E4B785 /* BeaconService.swift */,
 				B14883A01F4B023E007A9E2E /* SlackService.swift */,
 				EB80B5FD1F4EA91A00349958 /* PedometerService.swift */,
+				EB9164F91F57DD2700EBDF5B /* MotionService.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
 				B160F49E1F5286BA00169231 /* SwinjectStoryboard.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
+				EB9164FA1F57DD2700EBDF5B /* MotionService.swift in Sources */,
 				EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */,
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
 				B14883431F3C4D32007A9E2E /* AppDelegate.swift in Sources */,
