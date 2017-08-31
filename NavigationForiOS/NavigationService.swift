@@ -145,6 +145,7 @@ class GoFoward: State{
             if(maxRssiBeacon.minorId == navigations.goal_minor_id){
                 //到着したとき、Goal状態へ遷移
                 navigationService.state = Goal()
+                return
             }
             //交差点到達状態へ遷移
             navigationService.state = OnThePoint()
@@ -172,6 +173,7 @@ class OnThePoint: State{
             if(maxRssiBeacon.minorId == navigations.goal_minor_id){
                 //到着したとき、Goal状態へ遷移
                 navigationService.state = Goal()
+                return
             }
         }else{
             //閾値を下回った場合、前進状態へ遷移
