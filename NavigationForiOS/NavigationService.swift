@@ -13,6 +13,7 @@ import SwiftyJSON
 class NavigationService {
     var beaconservice : BeaconService!
     
+    //初期状態を設定
     var state: State = GoFoward()
     
     init(beaconService: BeaconService) {
@@ -110,12 +111,12 @@ class NavigationService {
 }
 
 protocol State {
-    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String)
+    func updateNavigation(navigationService: NavigationService, navigationEntity: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String)
 }
 
 //前進状態
 class GoFoward: State{
-    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+    func updateNavigation(navigationService: NavigationService, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
         <#code#>
     }
     
@@ -124,7 +125,7 @@ class GoFoward: State{
 
 //交差点到達状態
 class OnThePoint: State{
-    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+    func updateNavigation(navigationService: NavigationService, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
         <#code#>
     }
     
@@ -133,7 +134,7 @@ class OnThePoint: State{
 
 //右左折待機状態
 class WaitTurn: State{
-    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+    func updateNavigation(navigationService: NavigationService, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
         <#code#>
     }
     
@@ -142,7 +143,7 @@ class WaitTurn: State{
 
 //目的地到達状態
 class Goal: State{
-    func updateNavigation(navigationController: NavigationController, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
+    func updateNavigation(navigationService: NavigationService, navigationEntity: NavigationEntity) -> (mode: Int, maxRssiBeacon: BeaconEntity, navigation_text: String) {
         <#code#>
     }
     
