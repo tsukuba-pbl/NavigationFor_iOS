@@ -13,6 +13,9 @@ import SwiftyJSON
 class NavigationService {
     var beaconservice : BeaconService!
     
+    //初期状態を設定
+    var navigationState: NavigationState = GoFoward()
+    
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
     }
@@ -66,28 +69,13 @@ class NavigationService {
         let retval = beaconservice.getMaxRssiBeacon()
         maxRssiBeacon = retval.maxRssiBeacon
         
-        //存在するビーコンか判定する
-        navigation_text = ""
-        if(retval.available == true){
-            //ナビゲーションの更新
-            //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
-            let threshold = navigations.getBeaconThreshold(minor_id: maxRssiBeacon.minorId)
-            if(isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
-                //ゴールに到着したかを判定
-                if(maxRssiBeacon.minorId == navigations.goal_minor_id){
-                    //到着した
-                    navigation_text = "Goal"
-                    mode = 2
-                }else{
-                    //到達してない
-                    navigation_text = navigations.getNavigationText(minor_id: maxRssiBeacon.minorId)
-                }
-            }else{
-                navigation_text = "進もう"
-            }
-        }else{
-            mode = -1
-        }
+        //ナビゲーション情報の更新
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
+        //ナビゲーションテキストの取得
+        navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
+        //モードの取得
+        mode = navigationState.getMode()
+        
         return (mode, maxRssiBeacon, navigation_text)
     }
     
@@ -106,3 +94,4 @@ class NavigationService {
         return flag
     }
 }
+
