@@ -13,6 +13,9 @@ import SwiftyJSON
 class NavigationService {
     var beaconservice : BeaconService!
     
+    //初期状態を設定
+    var navigationState: NavigationState = GoFoward()
+    
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
     }
@@ -57,42 +60,23 @@ class NavigationService {
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, minor_id : Int, uuid : String, rssi : Int, navigation_text : String){
-        var minor_id : Int!
-        var uuid : String!
-        var rssi : Int!
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
+        var maxRssiBeacon: BeaconEntity!
         var navigation_text : String!
         var mode = 1
         
         //現在の最大RSSIのビーコン情報を取得
         let retval = beaconservice.getMaxRssiBeacon()
+        maxRssiBeacon = retval.maxRssiBeacon
         
-        //存在するビーコンか判定する
-        minor_id = retval.minor
-        uuid = retval.uuid
-        rssi = retval.rssi
-        navigation_text = ""
-        if(retval.flag == true){
-            //ナビゲーションの更新
-            //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
-            let threshold = navigations.getBeaconThreshold(minor_id: minor_id)
-            if(isOnNavigationPoint(RSSI: retval.rssi, threshold: threshold)){
-                //ゴールに到着したかを判定
-                if(retval.minor == navigations.goal_minor_id){
-                    //到着した
-                    navigation_text = "Goal"
-                    mode = 2
-                }else{
-                    //到達してない
-                    navigation_text = navigations.getNavigationText(minor_id: retval.minor)
-                }
-            }else{
-                navigation_text = "進もう"
-            }
-        }else{
-            mode = -1
-        }
-        return (mode, minor_id, uuid, rssi, navigation_text)
+        //ナビゲーション情報の更新
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
+        //ナビゲーションテキストの取得
+        navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
+        //モードの取得
+        mode = navigationState.getMode()
+        
+        return (mode, maxRssiBeacon, navigation_text)
     }
     
     //ナビゲーションを行うタイミングを判定する
@@ -110,3 +94,4 @@ class NavigationService {
         return flag
     }
 }
+

@@ -95,6 +95,14 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertEqual(retval4, -70)
     }
     
+    func testGetMinorList_成功するとき(){
+        let retval = navigations.getMinorList()
+        XCTAssertEqual(retval[0], 1)
+        XCTAssertEqual(retval[1], 2)
+        XCTAssertEqual(retval[2], 3)
+        XCTAssertEqual(retval[3], 4)
+    }
+    
     func testGetBeaconThreshold_失敗するとき(){
         let retval1 = navigations.getBeaconThreshold(minor_id : 1)
         XCTAssertNotEqual(retval1, -74)

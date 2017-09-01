@@ -47,8 +47,8 @@ class NavigationViewControllerTests: XCTestCase {
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconService : BeaconService{
             //getMaxRssiBeaconが指定した値を返すようにオーバーライド
-            public override func getMaxRssiBeacon() -> (flag: Bool, minor: Int, rssi: Int, uuid: String) {
-                return (flag: true, minor: 1, rssi:-74, uuid: "12345678-1234-1234-1234-123456789ABC")
+            public override func getMaxRssiBeacon() -> (flag: Bool, maxRssiBeacon: BeaconEntity) {
+                return (flag: true, maxRssiBeacon: BeaconEntity(minorId: 1, rssi:-74))
             }
         }
         
@@ -57,7 +57,6 @@ class NavigationViewControllerTests: XCTestCase {
         self.navigationViewController?.navigationService?.beaconservice = beaconservice
         
         self.navigationViewController?.updateNavigation()
-        XCTAssertEqual(self.navigationViewController?.uuid.text!, "12345678-1234-1234-1234-123456789ABC")
         XCTAssertEqual(self.navigationViewController?.rssi.text!, "RSSI : -74dB")
         XCTAssertEqual(self.navigationViewController?.minor.text!, "minor id : 1")
         XCTAssertEqual(self.navigationViewController?.navigation.text!, "Start")
