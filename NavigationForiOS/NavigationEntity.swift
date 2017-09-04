@@ -13,11 +13,13 @@ struct NavigationPoint{
     let navigation_text : String! //読み上げるナビゲーション
     let expectedBeacons : Array<BeaconThreshold> //事前計測データ
 }
+
 //ビーコンの事前計測電波強度
 struct BeaconThreshold{
     let minor_id: Int! //minor id
     let threshold: Int! //閾値
 }
+
 class NavigationEntity{
     var routes = [NavigationPoint]() //ルート情報
     var isAvailable = false //ルート情報が有効かどうか
@@ -69,12 +71,11 @@ class NavigationEntity{
         return (retval?.navigation_text)!
     }
     
-    //    //指定したroute idの閾値を返す
-        func getBeaconThreshold(minor_id : Int) -> Int{
-            return -80
-//            let retval = routes.filter({ $0.route_id == route_id}).first
-//            return (retval?.threshold)!
-        }
+    //指定したroute idの閾値の集合を返す
+    func getBeaconThreshold(route_id : Int) -> Array<BeaconThreshold>{
+        let retval = routes.filter({ $0.route_id == route_id}).first
+        return (retval?.expectedBeacons)!
+    }
     
     //使用するビーコンのUUIDリストを返す
     func getUUIDList() -> Array<String>{
