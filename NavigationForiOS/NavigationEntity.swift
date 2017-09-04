@@ -37,7 +37,7 @@ class NavigationEntity{
         routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, expectedBeacons: expectedBeacons))
         //使用しているminor idを登録
         for i in expectedBeacons{
-            if(MinorIdList.contains(i.minor_id)){
+            if(MinorIdList.contains(i.minor_id) == false){
                 MinorIdList.append(i.minor_id)
             }
         }
@@ -72,7 +72,7 @@ class NavigationEntity{
     }
     
     //指定したroute idの閾値の集合を返す
-    func getBeaconThreshold(route_id : Int) -> Array<BeaconThreshold>{
+    func getBeaconsThreshold(route_id : Int) -> Array<BeaconThreshold>{
         let retval = routes.filter({ $0.route_id == route_id}).first
         return (retval?.expectedBeacons)!
     }
