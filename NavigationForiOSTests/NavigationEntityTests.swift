@@ -46,6 +46,14 @@ class NavigationEntityTests: XCTestCase {
         super.tearDown()
     }
     
+    func testGetStartRouteId(){
+        XCTAssertEqual(navigations.getStartRouteId(), 1)
+    }
+    
+    func testGetGoalRouteId(){
+        XCTAssertEqual(navigations.getGoalRouteId(), 4)
+    }
+    
     func testGetUsingUUID_成功するとき（黒いビーコンの識別子）() {
         let uuidlist = navigations.getUUIDList()
         let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
