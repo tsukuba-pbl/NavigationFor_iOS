@@ -20,32 +20,31 @@ class NavigationService {
         self.beaconservice = beaconService
     }
         
-    /// ナビゲーション情報をサーバからJSON形式で取得
+    /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/466b1a69f49b2df30240a3f122dc003a8b20ddd0/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/46b6dfe606731ff91902a7aac48e55f64a5908ff/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
+                var beaconThresholdList: Array<BeaconThreshold>! = []
                 navJson["routes"].forEach{(_, data) in
-                    let minor = data["minor"].int!
-                    let threshold = data["threshold"].int!
+                    let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
-                    let type = data["type"].int!
+                    
+                    // 各地点のビーコンをbeaconThresholdList配列に格納
+                    let beaconsJSON = data["beacons"].array
+                    beaconsJSON?.forEach{(data) in
+                        let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: data["minorId"].int, threshold: data["threshold"].int)
+                        beaconThresholdList.append(beaconThreshold)
+                    }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
-                }
-                //スタートとゴールのidを設定
-                let start_minor_id = navJson["start"].int!
-                let goal_minor_id = navJson["goal"].int!
-                let retval = navigation_entity.checkRoutes(start_id: start_minor_id, goal_id: goal_minor_id)
-                if(retval == false){
-                    SlackService.postError(error: "有効でないルート情報", tag: "Nagivation Service")
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beaconThresholdList)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
