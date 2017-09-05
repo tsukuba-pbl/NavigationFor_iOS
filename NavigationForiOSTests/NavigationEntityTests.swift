@@ -67,7 +67,7 @@ class NavigationEntityTests: XCTestCase {
     }
     
     func testIsAvailableBeaconId_（成功するとき）(){
-        for i in 1...12{
+        for i in 1...navigations.getMinorList().count{
             let retval = navigations.isAvailableBeaconId(uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
             XCTAssertTrue(retval)
         }
@@ -109,9 +109,25 @@ class NavigationEntityTests: XCTestCase {
     
     func testGetMinorList_成功するとき(){
         let retval = navigations.getMinorList()
-        for i in 1...12{
+        for i in 1...retval.count{
             XCTAssertTrue(retval.contains(i))
         }
+    }
+    
+    func testGetRouteIdFromMinorId(){
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 1), 1)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 2), 1)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 3), 1)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 4), 2)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 5), 2)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 6), 2)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 7), 3)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 8), 3)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 9), 3)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 10), 4)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 11), 4)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 12), 4)
+        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 13), -1)
     }
     
     func testPerformanceExample() {
