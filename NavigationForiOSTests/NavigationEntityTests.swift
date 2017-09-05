@@ -14,7 +14,7 @@ class NavigationEntityTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
         //ポイント1
         var beaconThresholdList1: Array<BeaconThreshold>! = []
         beaconThresholdList1.append(BeaconThreshold(minor_id: 1, threshold: -70))

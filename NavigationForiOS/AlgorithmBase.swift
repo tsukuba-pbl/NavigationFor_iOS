@@ -10,4 +10,5 @@ import Foundation
 
 protocol AlgorithmBase {
     func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT
+    func getRouteId(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> Int
 }

@@ -15,6 +15,11 @@ class NavigationService {
     //初期状態を設定
     var navigationState: NavigationState = None()
     
+    // 適用アルゴリズム
+    var algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
+    
+    var routeId: Int = -1
+    
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
     }
@@ -58,20 +63,21 @@ class NavigationService {
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
-        let algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
-        var maxRssiBeacon: BeaconEntity!
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){        var maxRssiBeacon: BeaconEntity!
         var navigation_text : String!
         var mode = 1
+        let receivedBeaconsRssi = beaconservice.getReceivedBeaconsRssi()
         
         //現在の最大RSSIのビーコン情報を取得
         let retval = beaconservice.getMaxRssiBeacon()
         maxRssiBeacon = retval.maxRssiBeacon
         
         //ナビゲーション情報の更新
-        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: beaconservice.getReceivedBeaconsRssi(), algorithm: algorithm)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
+        
         //ナビゲーションテキストの取得
-        navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
+        let routeId = algorithm.getRouteId(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi)
+        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: routeId)
         //モードの取得
         mode = navigationState.getMode()
         

@@ -11,13 +11,13 @@ import Foundation
 protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
     func getMode() -> Int
-    func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String
     
 }
 
 //ビーコン受信不能状態
 class None: NavigationState{
-    func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "None"
     }
     
@@ -36,7 +36,7 @@ class None: NavigationState{
 
 //前進状態
 class GoFoward: NavigationState{
-    func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "進もう"
     }
     
@@ -63,8 +63,8 @@ class GoFoward: NavigationState{
 
 //交差点到達状態
 class OnThePoint: NavigationState{
-    func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
-        return navigations.getNavigationText(route_id: navigations.getRouteIdFromMinorId(minor_id: maxRssiBeacon.minorId))
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+        return navigations.getNavigationText(route_id: routeId)
     }
     
     func getMode() -> Int {
@@ -72,7 +72,6 @@ class OnThePoint: NavigationState{
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
-        
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi) {
         case .CROSSROAD :
             navigationService.navigationState = OnThePoint()
@@ -90,7 +89,7 @@ class OnThePoint: NavigationState{
  
  //右左折待機状態
  class WaitTurn: NavigationState{
- func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
+ func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
  return "待機中"
  }
  
@@ -109,7 +108,7 @@ class OnThePoint: NavigationState{
 
 //目的地到達状態
 class Goal: NavigationState{
-    func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "Goal"
     }
     
