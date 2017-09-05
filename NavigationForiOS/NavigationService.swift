@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class NavigationService {
     var beaconservice : BeaconService!
-    
+    var algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
     //初期状態を設定
     var navigationState: NavigationState = GoFoward()
     
@@ -69,28 +69,13 @@ class NavigationService {
         maxRssiBeacon = retval.maxRssiBeacon
         
         //ナビゲーション情報の更新
-        navigationState.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: beaconservice.getReceivedBeaconsRssi(), algorithm: algorithm)
         //ナビゲーションテキストの取得
         navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
         //モードの取得
         mode = navigationState.getMode()
         
         return (mode, maxRssiBeacon, navigation_text)
-    }
-    
-    //ナビゲーションを行うタイミングを判定する
-    //目的地もしくは交差点にいるかを判定する
-    /// - Parameters:
-    ///   - RSSI: 最大RSSIのビーコンのRSSI
-    ///   - threshold : 閾値（RSSI）
-    /// - Returns: 入力が正しければtrue，正しくなければfalse
-    func isOnNavigationPoint(RSSI : Int, threshold : Int) -> Bool {
-        var flag: Bool = false
-        //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(RSSI > threshold){
-            flag = true
-        }
-        return flag
     }
 }
 
