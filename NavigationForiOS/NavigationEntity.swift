@@ -90,6 +90,21 @@ class NavigationEntity{
         return retval
     }
     
+    //指定したminor idのビーコンの閾値を返す
+    //ない場合は-100がリターンされる
+    //*** あとで、ルートidも指定して絞る必要あり ***
+    func getBeaconThresholdFromMinorId(minor_id: Int) -> Int{
+        var retval = -100
+        for i in routes{
+            let retval2 = i.expectedBeacons.filter({$0.minor_id == minor_id}).first
+            if(retval2 != nil){
+                retval = (retval2?.threshold)!
+                break
+            }
+        }
+        return retval
+    }
+    
     //使用するビーコンのUUIDリストを返す
     func getUUIDList() -> Array<String>{
         return UUIDList

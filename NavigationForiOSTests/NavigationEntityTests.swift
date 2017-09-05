@@ -130,6 +130,22 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 13), -1)
     }
     
+    func testGetBeaconThresholdFromMinorId(){
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 1), -70)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 2), -75)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 3), -80)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 4), -70)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 5), -75)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 6), -80)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 7), -70)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 8), -75)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 9), -80)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 10), -70)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 11), -75)
+        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 12), -80)
+        
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
