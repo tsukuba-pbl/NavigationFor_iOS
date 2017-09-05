@@ -109,6 +109,10 @@ class BeaconServiceTests: XCTestCase {
         }
     }
     
+    func testGetReceivedBeaconsRssi(){
+        XCTAssertTrue(beaconservice.getReceivedBeaconsRssi().isEmpty)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

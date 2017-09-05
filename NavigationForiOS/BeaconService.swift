@@ -24,7 +24,6 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     override init() {
         super.init()
-        
     }
     
     //ナビゲーションデータをセットする
@@ -147,31 +146,31 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
      */
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
-//        //使用しているビーコンだけにフィルタリングする
-//        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
-//        //-100dBで初期化
-//        var receiveBeaconRssiList = availableBeaconRssiList
-//        for i in availableBeaconRssiList{
-//            receiveBeaconRssiList.updateValue(-100, forKey: i.key)
-//        }
-//        //受信できたビーコンのRSSIを更新する
-//        if(availableBeacons.count > 0){
-//            for i in availableBeacons{
-//                let minor_id = i.minor.intValue
-//                var rssi = i.rssi
-//                if(rssi == 0){
-//                    rssi = -100
-//                }
-//                receiveBeaconRssiList.updateValue(rssi, forKey: minor_id)
-//            }
-//        }
-//        //平滑化処理
-//        availableBeaconRssiList = LPF(currentBeaconRssiList: receiveBeaconRssiList, oldBeaconRssiList: oldAvailableBeaconRssiList)
-//        oldAvailableBeaconRssiList = availableBeaconRssiList
-//            
-//        //平滑化済みの中から、一番RSSI値の大きいビーコンを取得する
-//        let sortedBeaconRssiList = availableBeaconRssiList.sorted(by: {$0.1 > $1.1 })
-//        maxRssiBeaconMinorId = sortedBeaconRssiList.first?.key
+        //使用しているビーコンだけにフィルタリングする
+        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
+        //-100dBで初期化
+        var receiveBeaconRssiList = availableBeaconRssiList
+        for i in availableBeaconRssiList{
+            receiveBeaconRssiList.updateValue(-100, forKey: i.key)
+        }
+        //受信できたビーコンのRSSIを更新する
+        if(availableBeacons.count > 0){
+            for i in availableBeacons{
+                let minor_id = i.minor.intValue
+                var rssi = i.rssi
+                if(rssi == 0){
+                    rssi = -100
+                }
+                receiveBeaconRssiList.updateValue(rssi, forKey: minor_id)
+            }
+        }
+        //平滑化処理
+        availableBeaconRssiList = LPF(currentBeaconRssiList: receiveBeaconRssiList, oldBeaconRssiList: oldAvailableBeaconRssiList)
+        oldAvailableBeaconRssiList = availableBeaconRssiList
+            
+        //平滑化済みの中から、一番RSSI値の大きいビーコンを取得する
+        let sortedBeaconRssiList = availableBeaconRssiList.sorted(by: {$0.1 > $1.1 })
+        maxRssiBeaconMinorId = sortedBeaconRssiList.first?.key
     }
     
     /*
@@ -190,6 +189,11 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         
         // 検出中のiBeaconが存在しないのなら、iBeaconのモニタリングを終了する.
         manager.stopRangingBeacons(in: region as! CLBeaconRegion)
+    }
+    
+    //使用しているビーコンの現在のRSSIのリストを返す関数
+    func getReceivedBeaconsRssi() -> Dictionary<Int, Int>{
+        return availableBeaconRssiList
     }
     
     //最大RSSIのビーコンの情報を返す関数
