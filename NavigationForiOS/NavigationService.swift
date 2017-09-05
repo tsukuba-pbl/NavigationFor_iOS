@@ -12,9 +12,8 @@ import SwiftyJSON
 
 class NavigationService {
     var beaconservice : BeaconService!
-    var algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
     //初期状態を設定
-    var navigationState: NavigationState = GoFoward()
+    var navigationState: NavigationState = None()
     
     init(beaconService: BeaconService) {
         self.beaconservice = beaconService
@@ -60,6 +59,7 @@ class NavigationService {
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
     func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
+        let algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
         var maxRssiBeacon: BeaconEntity!
         var navigation_text : String!
         var mode = 1

@@ -9,7 +9,6 @@
 import Foundation
 
 protocol NavigationState {
-//    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity)
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
     func getMode() -> Int
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String

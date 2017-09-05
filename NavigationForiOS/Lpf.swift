@@ -32,7 +32,7 @@ class Lpf: AlgorithmBase {
     
     func getMaxRssiMinorId(receivedBeaconsRssi: Dictionary<Int, Int>) -> Int {
         var maxMinorId = -1
-        var maxRssi = -100
+        var maxRssi = -1000
         receivedBeaconsRssi.forEach { (key: Int, value: Int) in
             if(maxRssi < value) {
                 maxMinorId = key
@@ -51,7 +51,7 @@ class Lpf: AlgorithmBase {
     func isOnNavigationPoint(RSSI : Int, threshold : Int) -> Bool {
         var flag: Bool = false
         //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(RSSI > threshold){
+        if(RSSI > threshold && RSSI > -100){
             flag = true
         }
         return flag

@@ -9,7 +9,7 @@
 import Foundation
 
 class LpfEuclid: AlgorithmBase {
-    func isOnThePoint() {
-        
+    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
+        return POINT.OTHER
     }
 }
