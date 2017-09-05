@@ -53,18 +53,6 @@ class NavigationEntity{
         return (routes.last?.route_id)!
     }
     
-    //ルート上に存在するビーコンかを判定する
-    //システムで使用しているビーコンかどうかを判定する
-    func isAvailableBeaconId(uuid : String, minor_id : Int) -> Bool{
-        var available = false
-        if(MinorIdList.contains(minor_id) && UUIDList.contains(uuid)){
-            available = true
-        }else{
-            available = false
-        }
-        return available
-    }
-    
     //指定したroute idのナビゲーション内容を返す
     func getNavigationText(route_id : Int) -> String{
         let retval = routes.filter({ $0.route_id == route_id}).first

@@ -147,7 +147,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
         //使用しているビーコンだけにフィルタリングする
-        let availableBeacons = beacons.filter({ navigations.isAvailableBeaconId(uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
+        let availableBeacons = beacons.filter({ self.isAvailableBeaconId(navigations: navigations, uuid: $0.proximityUUID.uuidString, minor_id: Int($0.minor))})
         //-100dBで初期化
         var receiveBeaconRssiList = availableBeaconRssiList
         for i in availableBeaconRssiList{
@@ -232,5 +232,17 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         }
         return resultBeaconRssiList
     }
+    
+    // 自身が設置していないビーコンの情報も取得してしまうため，この関数で自身が設置したビーコンかを判定する
+    func isAvailableBeaconId(navigations: NavigationEntity, uuid : String, minor_id : Int) -> Bool{
+        var available = false
+        if(navigations.getMinorList().contains(minor_id) && navigations.getUUIDList().contains(uuid)){
+            available = true
+        }else{
+            available = false
+        }
+        return available
+    }
+    
     
 }

@@ -47,6 +47,25 @@ class BeaconServiceTests: XCTestCase {
         super.tearDown()
     }
     
+    
+    func testIsAvailableBeaconId_（成功するとき）(){
+        for i in 1...navigations.getMinorList().count{
+            let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
+            XCTAssertTrue(retval)
+        }
+    }
+    
+    func testIsAvailableBeaconId_（失敗するとき1_UUIDが違う）(){
+        let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABD", minor_id: 1)
+        XCTAssertFalse(retval)
+    }
+    
+    func testIsAvailableBeaconId_（失敗するとき1_minorが違う）(){
+        let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 20)
+        XCTAssertFalse(retval)
+    }
+
+    
     func testInitBeaconRssiList(){
         XCTAssertEqual(navigations.getMinorList().count, 12)
         beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
