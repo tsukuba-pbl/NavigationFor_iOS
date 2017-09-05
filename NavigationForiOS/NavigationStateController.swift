@@ -46,23 +46,23 @@ class GoFoward: NavigationState{
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
-//        //ビーコンが受信できてない場合は、ビーコン受信不能状態へ
-//        if(available == false){
-//            navigationService.navigationState = None()
-//            return
-//        }
-//        //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
-//        let threshold = navigations.getBeaconThreshold(minor_id: maxRssiBeacon.minorId)
-//        if(navigationService.isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
-//            //ゴールに到着したかを判定
-//            if(maxRssiBeacon.minorId == navigations.getGoalRouteId()){
-//                //到着したとき、Goal状態へ遷移
-//                navigationService.navigationState = Goal()
-//                return
-//            }
-//            //交差点到達状態へ遷移
-//            navigationService.navigationState = OnThePoint()
-//        }
+        //ビーコンが受信できてない場合は、ビーコン受信不能状態へ
+        if(available == false){
+            navigationService.navigationState = None()
+            return
+        }
+        //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
+        let threshold = navigations.getBeaconThresholdFromMinorId(minor_id: maxRssiBeacon.minorId)
+        if(navigationService.isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
+            //ゴールに到着したかを判定
+            if(navigations.getRouteIdFromMinorId(minor_id: maxRssiBeacon.minorId) == navigations.getGoalRouteId()){
+                //到着したとき、Goal状態へ遷移
+                navigationService.navigationState = Goal()
+                return
+            }
+            //交差点到達状態へ遷移
+            navigationService.navigationState = OnThePoint()
+        }
     }
     
 }
@@ -70,7 +70,7 @@ class GoFoward: NavigationState{
 //交差点到達状態
 class OnThePoint: NavigationState{
     func getNavigation(navigations: NavigationEntity, maxRssiBeacon: BeaconEntity) -> String {
-        return navigations.getNavigationText(route_id: maxRssiBeacon.minorId)
+        return navigations.getNavigationText(route_id: navigations.getRouteIdFromMinorId(minor_id: maxRssiBeacon.minorId))
     }
     
     func getMode() -> Int {
@@ -78,20 +78,20 @@ class OnThePoint: NavigationState{
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
-//        //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
-//        //本当は、右に曲がったか左に曲がったかで判断する
-//        let threshold = navigations.getBeaconThreshold(minor_id: maxRssiBeacon.minorId)
-//        if(navigationService.isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
-//            //ゴールに到着したかを判定
-//            if(maxRssiBeacon.minorId == navigations.getGoalRouteId()){
-//                //到着したとき、Goal状態へ遷移
-//                navigationService.navigationState = Goal()
-//                return
-//            }
-//        }else{
-//            //閾値を下回った場合、前進状態へ遷移
-//            navigationService.navigationState = GoFoward()
-//        }
+        //RSSI最大のビーコンの閾値を取得し、ナビゲーションポイントに到達したかを判定する
+        //本当は、右に曲がったか左に曲がったかで判断する
+        let threshold = navigations.getBeaconThresholdFromMinorId(minor_id: maxRssiBeacon.minorId)
+        if(navigationService.isOnNavigationPoint(RSSI: maxRssiBeacon.rssi, threshold: threshold)){
+            //ゴールに到着したかを判定
+            if(navigations.getRouteIdFromMinorId(minor_id: maxRssiBeacon.minorId) == navigations.getGoalRouteId()){
+                //到着したとき、Goal状態へ遷移
+                navigationService.navigationState = Goal()
+                return
+            }
+        }else{
+            //閾値を下回った場合、前進状態へ遷移
+            navigationService.navigationState = GoFoward()
+        }
     }
     
 }
