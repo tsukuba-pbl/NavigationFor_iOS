@@ -14,7 +14,7 @@ class BeaconLoggerViewController: UIViewController {
     var navigations : NavigationEntity = NavigationEntity()
     var beaconManager : BeaconManager = BeaconManager()
     
-    var trainData : Array<Dictionary<Int, Int>>? = nil
+    var trainData : Array<Dictionary<Int, Int>> = []
     
     @IBOutlet weak var getCounter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var getCounter2 = 0
@@ -40,8 +40,6 @@ class BeaconLoggerViewController: UIViewController {
         startButton.isEnabled = false
         startButton.setTitle("計測中", for: UIControlState.normal)
         startButton.backgroundColor = UIColor.red
-        //トレーニングデータの配列の中身をクリア
-        trainData = nil
         //受信するビーコンの情報を与え、受信を開始する
         beaconManager.startBeaconReceiver(navigations: self.navigations)
         getCounter2 = 0
@@ -66,12 +64,28 @@ class BeaconLoggerViewController: UIViewController {
             startButton.setTitle("計測開始", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.blue
             getCounter2 = 0
-
+            //トレーニングデータを送信する
+            sendTrainData()
         }
         //ビーコンの電波強度の計測
         let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
         //トレーニングデータに追加
-        trainData?.append(receivedBeaconsRssiList)
+        trainData.append(receivedBeaconsRssiList)
+    }
+    
+    func sendTrainData(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
+        let now = Date()
+        var message = "Beacon Logger \n Date: \(formatter.string(from: now))\n"
+        for i in trainData{
+            for j in navigations.getMinorList(){
+                message += "\(j):\(i[j] ?? -100), "
+            }
+            message += "\n"
+        }
+        print(message)
+        SlackService.postError(error: message, tag: "Beacon Logger")
     }
 
     override func didReceiveMemoryWarning() {
