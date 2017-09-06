@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class BeaconService: NSObject, CLLocationManagerDelegate {
+class BeaconManager: NSObject, CLLocationManagerDelegate {
     
     var myLocationManager:CLLocationManager!
     var myBeaconRegion:CLBeaconRegion!

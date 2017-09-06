@@ -11,17 +11,16 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    var beaconservice : BeaconService!
     //初期状態を設定
     var navigationState: NavigationState = None()
     
-    // 適用アルゴリズム
-    var algorithm: AlgorithmBase = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
+    // DI
+    var algorithm: AlgorithmBase!       // 適用アルゴリズム
+    var beaconManager : BeaconManager!
     
-    var routeId: Int = -1
-    
-    init(beaconService: BeaconService) {
-        self.beaconservice = beaconService
+    init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
+        self.beaconManager = beaconManager
+        self.algorithm = algorithm
     }
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
@@ -58,19 +57,15 @@ class NavigationService {
     }
     
     func initNavigation(navigations: NavigationEntity) {
-        self.beaconservice.startBeaconReceiver(navigations: navigations)
+        self.beaconManager.startBeaconReceiver(navigations: navigations)
     }
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){        var maxRssiBeacon: BeaconEntity!
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, navigation_text : String){
         var navigation_text : String!
         var mode = 1
-        let receivedBeaconsRssi = beaconservice.getReceivedBeaconsRssi()
-        
-        //現在の最大RSSIのビーコン情報を取得
-        let retval = beaconservice.getMaxRssiBeacon()
-        maxRssiBeacon = retval.maxRssiBeacon
+        let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
         
         //ナビゲーション情報の更新
         navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
@@ -81,7 +76,15 @@ class NavigationService {
         //モードの取得
         mode = navigationState.getMode()
         
-        return (mode, maxRssiBeacon, navigation_text)
+        return (mode, navigation_text)
+    }
+    
+    
+    /// 現在の最大RSSIのビーコン情報を取得
+    ///
+    /// - Returns: ビーコン情報
+    func getMaxRssiBeacon() -> BeaconEntity {
+        return beaconManager.getMaxRssiBeacon().maxRssiBeacon
     }
 }
 

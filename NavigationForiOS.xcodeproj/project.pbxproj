@@ -26,12 +26,10 @@
 		B148839B1F456554007A9E2E /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B14883951F456542007A9E2E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B148839F1F4592B5007A9E2E /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148839E1F4592B5007A9E2E /* EventService.swift */; };
 		B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883A01F4B023E007A9E2E /* SlackService.swift */; };
-		B15B71551F5E68D900B56551 /* NavigationAlgorithmFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B71541F5E68D900B56551 /* NavigationAlgorithmFactory.swift */; };
 		B15B71571F5E699200B56551 /* AlgorithmBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B71561F5E699200B56551 /* AlgorithmBase.swift */; };
 		B15B71591F5E69C600B56551 /* Lpf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B71581F5E69C600B56551 /* Lpf.swift */; };
 		B15B715B1F5E6A3900B56551 /* LpfEucild.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B715A1F5E6A3900B56551 /* LpfEucild.swift */; };
 		B15B715D1F5E832100B56551 /* LpfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B715C1F5E832100B56551 /* LpfTests.swift */; };
-		B15B715F1F5E8A0500B56551 /* NavigationAlgorithmFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B715E1F5E8A0500B56551 /* NavigationAlgorithmFactoryTests.swift */; };
 		B160F49C1F5286AF00169231 /* SwinjectStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */; };
 		B160F49E1F5286BA00169231 /* SwinjectStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B160F49D1F5286BA00169231 /* SwinjectStoryboard.swift */; };
 		B160F49F1F52888C00169231 /* SwinjectStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */; };
@@ -50,8 +48,8 @@
 		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
 		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
 		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
-		C2B26B921F471E3100E4B785 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconService.swift */; };
-		C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */; };
+		C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconManager.swift */; };
+		C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
 		EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */; };
@@ -115,12 +113,10 @@
 		B14883951F456542007A9E2E /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		B148839E1F4592B5007A9E2E /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		B14883A01F4B023E007A9E2E /* SlackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlackService.swift; sourceTree = "<group>"; };
-		B15B71541F5E68D900B56551 /* NavigationAlgorithmFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationAlgorithmFactory.swift; sourceTree = "<group>"; };
 		B15B71561F5E699200B56551 /* AlgorithmBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmBase.swift; sourceTree = "<group>"; };
 		B15B71581F5E69C600B56551 /* Lpf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lpf.swift; sourceTree = "<group>"; };
 		B15B715A1F5E6A3900B56551 /* LpfEucild.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfEucild.swift; sourceTree = "<group>"; };
 		B15B715C1F5E832100B56551 /* LpfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfTests.swift; sourceTree = "<group>"; };
-		B15B715E1F5E8A0500B56551 /* NavigationAlgorithmFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationAlgorithmFactoryTests.swift; sourceTree = "<group>"; };
 		B160F4991F5286AF00169231 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
 		B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwinjectStoryboard.framework; path = Carthage/Build/iOS/SwinjectStoryboard.framework; sourceTree = "<group>"; };
 		B160F49D1F5286BA00169231 /* SwinjectStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwinjectStoryboard.swift; sourceTree = "<group>"; };
@@ -135,8 +131,8 @@
 		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
-		C2B26B911F471E3100E4B785 /* BeaconService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
-		C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconServiceTests.swift; sourceTree = "<group>"; };
+		C2B26B911F471E3100E4B785 /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
+		C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManagerTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
 		EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerServiceTests.swift; sourceTree = "<group>"; };
@@ -284,10 +280,9 @@
 				B14883921F4560FD007A9E2E /* LocationService.swift */,
 				B148839E1F4592B5007A9E2E /* EventService.swift */,
 				C2B26B8F1F47005200E4B785 /* NavigationService.swift */,
-				C2B26B911F471E3100E4B785 /* BeaconService.swift */,
+				C2B26B911F471E3100E4B785 /* BeaconManager.swift */,
 				B14883A01F4B023E007A9E2E /* SlackService.swift */,
 				EB80B5FD1F4EA91A00349958 /* PedometerService.swift */,
-				B15B71541F5E68D900B56551 /* NavigationAlgorithmFactory.swift */,
 				B15B71561F5E699200B56551 /* AlgorithmBase.swift */,
 				B15B71581F5E69C600B56551 /* Lpf.swift */,
 				B15B715A1F5E6A3900B56551 /* LpfEucild.swift */,
@@ -299,10 +294,9 @@
 			isa = PBXGroup;
 			children = (
 				C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */,
-				C2B26B931F490D3200E4B785 /* BeaconServiceTests.swift */,
+				C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */,
 				EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */,
 				B15B715C1F5E832100B56551 /* LpfTests.swift */,
-				B15B715E1F5E8A0500B56551 /* NavigationAlgorithmFactoryTests.swift */,
 				C2962D561F5FC090004629CD /* LpfEuclidTests.swift */,
 			);
 			name = services;
@@ -464,7 +458,6 @@
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
 				B15B715B1F5E6A3900B56551 /* LpfEucild.swift in Sources */,
 				B160F49E1F5286BA00169231 /* SwinjectStoryboard.swift in Sources */,
-				B15B71551F5E68D900B56551 /* NavigationAlgorithmFactory.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
 				EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */,
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
@@ -477,7 +470,7 @@
 				C288D2361F566A9B00A3DBE1 /* BeaconEntity.swift in Sources */,
 				B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */,
 				C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */,
-				C2B26B921F471E3100E4B785 /* BeaconService.swift in Sources */,
+				C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,11 +480,10 @@
 			files = (
 				C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */,
 				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
-				B15B715F1F5E8A0500B56551 /* NavigationAlgorithmFactoryTests.swift in Sources */,
 				EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 				B15B715D1F5E832100B56551 /* LpfTests.swift in Sources */,
-				C2B26B941F490D3200E4B785 /* BeaconServiceTests.swift in Sources */,
+				C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */,
 				B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */,
 				C288D2381F5677CB00A3DBE1 /* BeaconEntityTests.swift in Sources */,
 				C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */,

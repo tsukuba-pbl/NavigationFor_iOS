@@ -1,5 +1,5 @@
 //
-//  BeaconServiceTests.swift
+//  beaconManagerTests.swift
 //  NavigationForiOS
 //
 //  Created by みなじゅん on 2017/08/20.
@@ -9,8 +9,8 @@
 import XCTest
 @testable import NavigationForiOS
 
-class BeaconServiceTests: XCTestCase {
-    let beaconservice = BeaconService()
+class BeaconManagerTests: XCTestCase {
+    let beaconManager = BeaconManager()
     let navigations = NavigationEntity()
     
     override func setUp() {
@@ -50,38 +50,38 @@ class BeaconServiceTests: XCTestCase {
     
     func testIsAvailableBeaconId_（成功するとき）(){
         for i in 1...navigations.getMinorList().count{
-            let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
+            let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
             XCTAssertTrue(retval)
         }
     }
     
     func testIsAvailableBeaconId_（失敗するとき1_UUIDが違う）(){
-        let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABD", minor_id: 1)
+        let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABD", minor_id: 1)
         XCTAssertFalse(retval)
     }
     
     func testIsAvailableBeaconId_（失敗するとき1_minorが違う）(){
-        let retval = beaconservice.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 20)
+        let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 20)
         XCTAssertFalse(retval)
     }
 
     
     func testInitBeaconRssiList(){
         XCTAssertEqual(navigations.getMinorList().count, 12)
-        beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        for i in beaconservice.availableBeaconRssiList{
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        for i in beaconManager.availableBeaconRssiList{
             XCTAssertEqual(i.value, -100)
         }
     }
     
     func testGetMaxRssiBeacon1(){
-        beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        beaconservice.availableBeaconRssiList[1] = -74
-        beaconservice.availableBeaconRssiList[2] = -100
-        beaconservice.availableBeaconRssiList[3] = -80
-        beaconservice.availableBeaconRssiList[4] = -65
-        beaconservice.maxRssiBeaconMinorId = 4
-        let retval = beaconservice.getMaxRssiBeacon()
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        beaconManager.availableBeaconRssiList[1] = -74
+        beaconManager.availableBeaconRssiList[2] = -100
+        beaconManager.availableBeaconRssiList[3] = -80
+        beaconManager.availableBeaconRssiList[4] = -65
+        beaconManager.maxRssiBeaconMinorId = 4
+        let retval = beaconManager.getMaxRssiBeacon()
         let maxRssiBeacon = retval.maxRssiBeacon
         XCTAssertEqual(retval.available, true)
         XCTAssertEqual(maxRssiBeacon.minorId, 4)
@@ -89,13 +89,13 @@ class BeaconServiceTests: XCTestCase {
     }
     
     func testGetMaxRssiBeacon2(){
-        beaconservice.initBeaconRssiList(minor_id_list: navigations.getMinorList())
-        beaconservice.availableBeaconRssiList[1] = -100
-        beaconservice.availableBeaconRssiList[2] = -100
-        beaconservice.availableBeaconRssiList[3] = -100
-        beaconservice.availableBeaconRssiList[4] = -100
-        beaconservice.maxRssiBeaconMinorId = 1
-        let retval = beaconservice.getMaxRssiBeacon()
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        beaconManager.availableBeaconRssiList[1] = -100
+        beaconManager.availableBeaconRssiList[2] = -100
+        beaconManager.availableBeaconRssiList[3] = -100
+        beaconManager.availableBeaconRssiList[4] = -100
+        beaconManager.maxRssiBeaconMinorId = 1
+        let retval = beaconManager.getMaxRssiBeacon()
         let maxRssiBeacon = retval.maxRssiBeacon
         XCTAssertEqual(retval.available, false)
         XCTAssertEqual(maxRssiBeacon.minorId, -1)
@@ -122,14 +122,14 @@ class BeaconServiceTests: XCTestCase {
         expected[2] = -86
         expected[3] = -93
         
-        let retval = beaconservice.LPF(currentBeaconRssiList: current, oldBeaconRssiList: old)
+        let retval = beaconManager.LPF(currentBeaconRssiList: current, oldBeaconRssiList: old)
         for i in retval{
             XCTAssertEqual(expected[i.key], retval[i.key])
         }
     }
     
     func testGetReceivedBeaconsRssi(){
-        XCTAssertTrue(beaconservice.getReceivedBeaconsRssi().isEmpty)
+        XCTAssertTrue(beaconManager.getReceivedBeaconsRssi().isEmpty)
     }
     
     func testPerformanceExample() {

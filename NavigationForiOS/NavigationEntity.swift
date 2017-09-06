@@ -55,14 +55,14 @@ class NavigationEntity{
     
     //指定したroute idのナビゲーション内容を返す
     func getNavigationText(route_id : Int) -> String{
-        let retval = routes.filter({ $0.route_id == route_id}).first
-        return (retval?.navigation_text)!
+        let navigationTextByRouteId = routes.filter({ $0.route_id == route_id}).first
+        return (navigationTextByRouteId?.navigation_text)!
     }
     
     //指定したroute idの閾値の集合を返す
     func getBeaconsThreshold(route_id : Int) -> Array<BeaconThreshold>{
-        let retval = routes.filter({ $0.route_id == route_id}).first
-        return (retval?.expectedBeacons)!
+        let beaconThresholdFilteredByRouteId = routes.filter({ $0.route_id == route_id}).first
+        return (beaconThresholdFilteredByRouteId?.expectedBeacons)!
     }
     
     //指定したminor idが属するroute idを返す

@@ -15,8 +15,8 @@ extension SwinjectStoryboard {
         
         let container = defaultContainer
         
-        container.register(BeaconService.self) { _ in
-            BeaconService()
+        container.register(BeaconManager.self) { _ in
+            BeaconManager()
         }
         
         container.register(PedometerService.self) { _ in
@@ -27,8 +27,16 @@ extension SwinjectStoryboard {
             EventService()
         }
         
+        container.register(Lpf.self) { _ in
+            Lpf()
+        }
+        
+        container.register(LpfEuclid.self) { _ in
+            LpfEuclid()
+        }
+        
         container.register(NavigationService.self) { r in
-            NavigationService(beaconService: r.resolve(BeaconService.self)!)
+            NavigationService(beaconManager: r.resolve(BeaconManager.self)!, algorithm: r.resolve(Lpf.self)!)
         }
         
         // NavigationViewControllerのDIの設定
