@@ -14,6 +14,8 @@ class BeaconLoggerViewController: UIViewController {
     var navigations : NavigationEntity = NavigationEntity()
     var beaconManager : BeaconManager = BeaconManager()
     
+    var trainData : Array<Dictionary<Int, Int>>? = nil
+    
     @IBOutlet weak var getCounter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var getCounter2 = 0
     var timer : Timer!
@@ -37,6 +39,8 @@ class BeaconLoggerViewController: UIViewController {
         startButton.isEnabled = false
         startButton.setTitle("計測中", for: UIControlState.normal)
         startButton.backgroundColor = UIColor.red
+        //トレーニングデータの配列の中身をクリア
+        trainData = nil
         //受信するビーコンの情報を与え、受信を開始する
         beaconManager.startBeaconReceiver(navigations: self.navigations)
         getCounter2 = 0
@@ -61,6 +65,10 @@ class BeaconLoggerViewController: UIViewController {
             getCounter2 = 0
 
         }
+        //ビーコンの電波強度の計測
+        let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
+        //トレーニングデータに追加
+        trainData?.append(receivedBeaconsRssiList)
     }
 
     override func didReceiveMemoryWarning() {
