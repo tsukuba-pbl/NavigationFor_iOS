@@ -11,7 +11,7 @@ import XCTest
 
 class NavigationServiceTests: XCTestCase {
     
-    let navigationService = NavigationService(beaconService: BeaconService())
+    let navigationService = NavigationService(beaconManager: BeaconManager(), algorithm: Lpf())
     let navigations = NavigationEntity()
     
     override func setUp() {
@@ -56,17 +56,14 @@ class NavigationServiceTests: XCTestCase {
     //None状態からGoFowardへの遷移
     func testUpdateNavigations_None_to_GoFoward_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
-
-        // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         
         //現在の状態をセット
         navigationService.navigationState = None()
@@ -80,19 +77,16 @@ class NavigationServiceTests: XCTestCase {
     //GoFoward状態からOnThePointへの遷移
     func testUpdateNavigations_GoFoward_to_OnThePoint_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -95, 2: -90, 3:-90, 4:-60, 5:-70, 6:-80, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         //現在の状態をセット
         navigationService.navigationState = GoFoward()
-        
-        // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -104,20 +98,17 @@ class NavigationServiceTests: XCTestCase {
     //OnThePoint状態からGoFowardへの遷移
     func testUpdateNavigations_OnThePoint_to_GoFoward_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -100, 2: -100, 3:-90, 4:-100, 5:-90, 6:-89, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         
         //現在の状態をセット
         navigationService.navigationState = OnThePoint()
-        
-        // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -129,20 +120,17 @@ class NavigationServiceTests: XCTestCase {
     //OnThePoint状態からGoalへの遷移
     func testUpdateNavigations_OnThePoint_to_Goal_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-90, 10:-80, 11:-70, 12:-75]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         
         //現在の状態をセット
         navigationService.navigationState = OnThePoint()
-        
-        // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -154,19 +142,16 @@ class NavigationServiceTests: XCTestCase {
     //GoFoward状態からGoalへの遷移
     func testUpdateNavigations_GoFoward_to_Goal_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-90, 10:-80, 11:-70, 12:-75]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         //現在の状態をセット
         navigationService.navigationState = GoFoward()
-        
-        // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -178,26 +163,38 @@ class NavigationServiceTests: XCTestCase {
     //Goal状態からGoalへの遷移
     func testUpdateNavigations_Goal_to_Goal_ByLPF(){
         //テスト用にNavigationServiceのモックを作成
-        class MocBeaconService : BeaconService{
+        class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
             public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
                 return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-70, 11:-70, 12:-60]
             }
         }
-        //NavigationServiceのBeaconServiceをモックに差し替え
-        navigationService.beaconservice = MocBeaconService()
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
         
         //現在の状態をセット
         navigationService.navigationState = Goal()
         
         // LPF
-        navigationService.algorithm = NavigationAlgorithmFactory.getNavigationAlgorithm(type: ALGORITHM_TYPE.LPF)
+        navigationService.algorithm = Lpf()
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
         XCTAssertEqual(retval.navigation_text, "Goal")
         XCTAssertEqual(retval.mode, 2)
+    }
+    
+    func testGetMaxRssiBeacon() {
+        class MocBeaconManager: BeaconManager {
+            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
+                return (true, BeaconEntity(minorId: 1, rssi: -70))
+            }
+        }
+        navigationService.beaconManager = MocBeaconManager()
+        
+        XCTAssertEqual(navigationService.getMaxRssiBeacon().minorId , 1)
+        XCTAssertEqual(navigationService.getMaxRssiBeacon().rssi , -70)
     }
     
     func testPerformanceExample() {
