@@ -31,6 +31,7 @@ class BeaconLoggerViewController: UIViewController {
         for i in 1...9{
             navigations.MinorIdList.append(i)
         }
+        getCounter2 = 0
         getCounter.text = "\(getCounter2)"
     }
     
@@ -58,7 +59,9 @@ class BeaconLoggerViewController: UIViewController {
         getCounter.text = "\(getCounter2)"
         //指定回数に達したら、スレッドを停止させる
         if(getCounter2 >= 10){
-            timer.invalidate()
+            if(timer.isValid){
+                timer.invalidate()
+            }
             startButton.isEnabled = true
             startButton.setTitle("計測開始", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.blue
