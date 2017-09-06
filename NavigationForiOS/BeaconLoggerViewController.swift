@@ -9,10 +9,13 @@
 import UIKit
 
 class BeaconLoggerViewController: UIViewController {
+    @IBOutlet weak var startButton: UIButton! //計測開始ボタン
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //最初はスタートボタンは押せる状態
+        startButton.isEnabled = true
         // Do any additional setup after loading the view.
     }
 
@@ -22,17 +25,10 @@ class BeaconLoggerViewController: UIViewController {
     }
     
     @IBAction func tapStartButton(_ sender: Any) {
-        print("hoge")
+        //計測中はスタートボタンが押せない状態にして、それがわかるようにする
+        startButton.isEnabled = false
+        startButton.setTitle("計測中", for: UIControlState.normal)
+        startButton.backgroundColor = UIColor.red
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
