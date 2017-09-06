@@ -26,7 +26,18 @@ class LpfEuclidTests: XCTestCase {
         //小数点第一位まで値が同じかをテストする
         XCTAssertEqual(round(lpfEuclid.getBeaconDist(rssi: -75)*10.0)/10.0, 1.0)
         XCTAssertEqual(round(lpfEuclid.getBeaconDist(rssi: -80)*10.0)/10.0, 1.8)
-
+    }
+    
+    func testGetEuclidResult_実際とビーコンの差分がない場合(){
+        let receivedBeaconRssiList = [1: -80, 2: -70, 3: -90, 4: -80]
+        let expectedBeaconRssiList = [1: -80, 2: -70, 3: -90, 4: -80]
+        XCTAssertEqual(lpfEuclid.getEuclidResult(receivedBeaconRssiList: receivedBeaconRssiList, expectedBeaconRssiList: expectedBeaconRssiList), 0.0)
+    }
+    
+    func testGetEuclidResult_実際とビーコンの差分がある場合(){
+        let receivedBeaconRssiList = [1: -80, 2: -70, 3: -95, 4: -80]
+        let expectedBeaconRssiList = [1: -90, 2: -95, 3: -90, 4: -70]
+        XCTAssertEqual(lpfEuclid.getEuclidResult(receivedBeaconRssiList: receivedBeaconRssiList, expectedBeaconRssiList: expectedBeaconRssiList), 29.15)
     }
     
     func testPerformanceExample() {
