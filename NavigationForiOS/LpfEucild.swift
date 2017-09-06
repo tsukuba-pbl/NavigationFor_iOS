@@ -16,8 +16,16 @@ class LpfEuclid: AlgorithmBase {
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
-        
+    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, expectedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
+        let maxRssiMinorId = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
+        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: expectedBeaconsRssi) < 30.0){
+            //ゴールに到着したかを判定
+            if(navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId) == navigations.getGoalRouteId()){
+                return POINT.GOAL
+            }
+            //交差点到達状態へ遷移
+            return POINT.CROSSROAD
+        }
         return POINT.OTHER
     }
     

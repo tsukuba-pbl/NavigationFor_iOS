@@ -86,5 +86,15 @@ class NavigationService {
     func getMaxRssiBeacon() -> BeaconEntity {
         return beaconManager.getMaxRssiBeacon().maxRssiBeacon
     }
+    
+    func getExpectedBeaconList(navigations: NavigationEntity) -> Dictionary<Int, Int> {
+        var beaconList: Dictionary<Int, Int> = [:]
+        navigations.routes.forEach { (navigationPoint) in
+            navigationPoint.expectedBeacons.forEach({ (beacons) in
+                beaconList[beacons.minor_id] = beacons.threshold
+            })
+        }
+        return beaconList
+    }
 }
 
