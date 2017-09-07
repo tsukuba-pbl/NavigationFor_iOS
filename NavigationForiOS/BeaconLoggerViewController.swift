@@ -89,7 +89,7 @@ class BeaconLoggerViewController: UIViewController {
             message += "\n"
         }
         print(message)
-        SlackService.postError(error: message, tag: "Beacon Logger")
+        SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
     }
 
     override func didReceiveMemoryWarning() {
