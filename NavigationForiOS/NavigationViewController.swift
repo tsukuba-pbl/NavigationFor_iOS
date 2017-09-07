@@ -18,6 +18,7 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var navigation: UILabel!
     
     @IBOutlet weak var stepLabel: UILabel!
+    @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
     
@@ -26,9 +27,10 @@ class NavigationViewController: UIViewController{
     // DI
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
+    var motionService : MotionService? = MotionService()
     
     var navigations : NavigationEntity? //ナビゲーション情報
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,9 +68,14 @@ class NavigationViewController: UIViewController{
                 goalAlert()
             }
         }
+        
         //歩数取得
         let steps = pedometerService?.get_steps()
         self.stepLabel.text = "\(steps ?? 0)"
+        
+        //ヨー取得
+        let direction_text = motionService?.getDirection()
+        self.yawLabel.text = direction_text
     }
     
     //ゴール時にアラートを表示する
@@ -101,10 +108,16 @@ class NavigationViewController: UIViewController{
             pedometerService?.stop_pedometer()
         }
     }
+
+    @IBAction func motionStart(_ sender: Any) {
+        motionService?.startMotionManager()
+    }
+    
+    @IBAction func motionStop(_ sender: Any) {
+        motionService?.stopMotionManager()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    
 }
