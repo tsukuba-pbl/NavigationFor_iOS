@@ -79,10 +79,11 @@ class BeaconLoggerViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
         let now = Date()
-        var message = "Beacon Logger \n Date: \(formatter.string(from: now))\n"
+        var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
+        message += "route id, 1\n"
         for i in trainData{
             for j in navigations.getMinorList(){
-                message += "\(j):\(i[j] ?? -100), "
+                message += "\(j),\(i[j] ?? -100), "
             }
             message += "\n"
         }
