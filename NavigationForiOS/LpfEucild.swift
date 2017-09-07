@@ -19,7 +19,7 @@ class LpfEuclid: AlgorithmBase {
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
         let maxRssiMinorId = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
         let targetRouteId = navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId)
-        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: self.getExpectedBeaconList(navigations: navigations, routeId: targetRouteId)) < 20.0){
+        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: self.getExpectedBeaconList(navigations: navigations, routeId: targetRouteId)) < 15.0){
             //ゴールに到着したかを判定
             if(navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId) == navigations.getGoalRouteId()){
                 return POINT.GOAL
