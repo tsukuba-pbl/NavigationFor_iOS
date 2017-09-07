@@ -18,6 +18,7 @@ class MotionService {
     
     init() {
         // Initialize MotionManager
+        print("test")
         self.motionManager.deviceMotionUpdateInterval = 0.05 // 20Hz
         self.yaw = 0
         self.direction_text = ""
