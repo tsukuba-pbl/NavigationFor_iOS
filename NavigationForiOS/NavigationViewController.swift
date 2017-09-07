@@ -48,23 +48,6 @@ class NavigationViewController: UIViewController{
         
         //表示をリセット
         reset()
-       
-        // Initialize MotionManager
-        //motionManager.deviceMotionUpdateInterval = 0.05 // 20Hz
-        
-        // Start motion data acquisition
-        /*
-        motionManager.startDeviceMotionUpdates( to: OperationQueue.current!, withHandler:{
-            deviceManager, error in
-            
-            let attitude: CMAttitude = deviceManager!.attitude
-            let roll = Int(attitude.roll * 180.0 / M_PI)
-            let pitch = Int(attitude.pitch * 180.0 / M_PI)
-            let yaw = Int(attitude.yaw * 180.0 / M_PI)
-            print("roll: \(roll) pitch: \(pitch) yaw:\(yaw)")
-            
-        })
- */
     }
     
     func reset(){
@@ -129,23 +112,25 @@ class NavigationViewController: UIViewController{
             pedometerService?.stop_pedometer()
         }
     }
-  /*
-    func motionAnimation(motionData: CMDeviceMotion?, error: NSError?) {
-        if let motion = motionData {
-            let attitude = motion.attitude
-            let yaw = Int(attitude.yaw * 180.0 / Double.pi)
-            yawLabel.text = String(yaw)
-            print("yaw: \(yaw)")
-        }
-    }
-    */
+
     @IBAction func motionStart(_ sender: Any) {
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (data, error) in
-            let attitude = data?.attitude
-            let yaw = Int((attitude?.yaw)! * 180.0 / Double.pi)
-            self.yawLabel.text = String(yaw)
-            print("yaw: \(yaw)")
-        })
+        if (motionManager.isDeviceMotionActive) {
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (data, error) in
+                let attitude = data?.attitude
+                let yaw = Int((attitude?.yaw)! * 180.0 / Double.pi)
+                //角度が正だったら左、負だったら右になる
+                let direction: String
+                if (yaw < 0) {
+                    direction = "右"
+                }
+                else {
+                    direction = "左"
+                }
+                let direction_text = direction + "に" + String(yaw) + "度"
+                self.yawLabel.text = direction_text
+                print("yaw: \(yaw)")
+            })
+        }
     }
     
     @IBAction func motionStop(_ sender: Any) {
@@ -157,6 +142,4 @@ class NavigationViewController: UIViewController{
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    
 }
