@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 import Swinject
-import CoreMotion
 
 class NavigationViewController: UIViewController{
     
@@ -22,7 +21,6 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
-    var motionswitch = false
     
     var navigationDic = [Int: String]()
     
@@ -33,8 +31,6 @@ class NavigationViewController: UIViewController{
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
-    let motionManager: CMMotionManager = CMMotionManager()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,15 +110,11 @@ class NavigationViewController: UIViewController{
     }
 
     @IBAction func motionStart(_ sender: Any) {
-        if (motionService?.isDeviceMotionActive())! {
-            motionService?.startMotionManager()
-        }
+        motionService?.startMotionManager()
     }
     
     @IBAction func motionStop(_ sender: Any) {
-        if (motionService?.isDeviceMotionActive())! {
-            motionService?.stopMotionManager()
-        }
+        motionService?.stopMotionManager()
     }
     
     override func didReceiveMemoryWarning() {
