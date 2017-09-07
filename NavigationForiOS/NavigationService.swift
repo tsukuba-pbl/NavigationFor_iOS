@@ -35,8 +35,8 @@ class NavigationService {
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
-                var beaconThresholdList: Array<BeaconThreshold>! = []
                 navJson["routes"].forEach{(_, data) in
+                    var beaconThresholdList: Array<BeaconThreshold>! = []
                     let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
                     

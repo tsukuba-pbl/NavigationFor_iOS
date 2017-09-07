@@ -38,7 +38,7 @@ class AlgorithmBase: AlgorithmBaseProtocol {
     ///   - receivedBeaconsRssi: 実際に歩いて取得できたビーコンのRSSIの値（平滑化済み）
     /// - Returns: 現在のルートID
     func getRouteId(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> Int {
-        var target = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
+        let target = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
         return navigations.getRouteIdFromMinorId(minor_id: target)
     }
 }
