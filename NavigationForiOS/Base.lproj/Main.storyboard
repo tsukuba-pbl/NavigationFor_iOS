@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9XN-7b-jS2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9XN-7b-jS2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -217,8 +217,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Motion START"/>
                                 <connections>
-                                    <action selector="motionSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="MkS-Wa-w7U"/>
-                                    <action selector="pedoMeterSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="ArN-PK-aRv"/>
+                                    <action selector="motionStart:" destination="plz-Sp-jBe" eventType="touchUpInside" id="JhH-SV-5wT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U8i-vJ-7pS">
@@ -226,9 +225,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Motion STOP"/>
                                 <connections>
-                                    <action selector="motionStop:" destination="plz-Sp-jBe" eventType="touchUpInside" id="cjg-47-DFF"/>
-                                    <action selector="motionSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="qgg-hf-7m9"/>
-                                    <action selector="pedoMeterSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="1p7-1i-aKY"/>
+                                    <action selector="motionStop:" destination="plz-Sp-jBe" eventType="touchUpInside" id="57o-4C-z4N"/>
                                 </connections>
                             </button>
                         </subviews>
