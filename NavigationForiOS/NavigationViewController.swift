@@ -78,7 +78,7 @@ class NavigationViewController: UIViewController{
         self.stepLabel.text = "\(steps ?? 0)"
         
         //ヨー取得
-        let direction_text = motionService?.get_direction()
+        let direction_text = motionService?.getDirection()
         self.yawLabel.text = direction_text
     }
     
@@ -114,11 +114,15 @@ class NavigationViewController: UIViewController{
     }
 
     @IBAction func motionStart(_ sender: Any) {
-        motionService?.startMotionManager()
+        if (motionService?.isDeviceMotionActive())! {
+            motionService?.startMotionManager()
+        }
     }
     
     @IBAction func motionStop(_ sender: Any) {
-        motionService?.stopMotionManager()
+        if (motionService?.isDeviceMotionActive())! {
+            motionService?.stopMotionManager()
+        }
     }
     
     override func didReceiveMemoryWarning() {

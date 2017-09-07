@@ -35,6 +35,7 @@ class MotionService {
             let direction: String
             if (self.yaw < 0) {
                 direction = "右"
+                self.yaw *= -1
             }
             else {
                 direction = "左"
@@ -48,12 +49,16 @@ class MotionService {
         self.motionManager.stopDeviceMotionUpdates()
     }
     
-    func get_yaw() -> Int {
+    func getYaw() -> Int {
         return self.yaw
     }
     
-    func get_direction() -> String {
+    func getDirection() -> String {
         return self.direction_text
+    }
+    
+    func isDeviceMotionActive() -> Bool {
+        return self.motionManager.isDeviceMotionActive
     }
 }
 
