@@ -31,6 +31,8 @@ class BeaconLoggerViewController: UIViewController {
         for i in 1...9{
             navigations.MinorIdList.append(i)
         }
+        //受信するビーコンの情報を与え、受信を開始する
+        beaconManager.startBeaconReceiver(navigations: self.navigations)
         getCounter2 = 0
         getCounter.text = "\(getCounter2)"
     }
@@ -42,8 +44,7 @@ class BeaconLoggerViewController: UIViewController {
         startButton.backgroundColor = UIColor.red
         //格納配列を初期化
         trainData.removeAll()
-        //受信するビーコンの情報を与え、受信を開始する
-        beaconManager.startBeaconReceiver(navigations: self.navigations)
+        //カウンタをリセット
         getCounter2 = 0
         getCounter.text = "\(getCounter2)"
         // 1秒ごとにビーコンの情報を取得する
