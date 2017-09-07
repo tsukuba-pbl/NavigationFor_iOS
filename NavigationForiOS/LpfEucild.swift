@@ -19,7 +19,7 @@ class LpfEuclid: AlgorithmBase {
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
         let maxRssiMinorId = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
         let targetRouteId = navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId)
-        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: self.getExpectedBeaconList(navigations: navigations, routeId: targetRouteId)) < 30.0){
+        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: self.getExpectedBeaconList(navigations: navigations, routeId: targetRouteId)) < 20.0){
             //ゴールに到着したかを判定
             if(navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId) == navigations.getGoalRouteId()){
                 return POINT.GOAL
@@ -48,9 +48,11 @@ class LpfEuclid: AlgorithmBase {
     /// - Returns: ユークリッド距離
     func getEuclidResult(receivedBeaconRssiList: Dictionary<Int, Int>, expectedBeaconRssiList: Dictionary<Int, Int>) -> Double {
         var result: Double = 0.0
-        receivedBeaconRssiList.forEach { (key: Int, value: Int) in
-            result += pow(Double(value - expectedBeaconRssiList[key]!), 2)
+        
+        expectedBeaconRssiList.forEach{ (key: Int, value: Int) in
+            result += pow(Double(receivedBeaconRssiList[key]! - value), 2)
         }
+        
         return round(sqrt(result)*100)/100
     }
     
