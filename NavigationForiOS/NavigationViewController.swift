@@ -129,7 +129,7 @@ class NavigationViewController: UIViewController{
             pedometerService?.stop_pedometer()
         }
     }
-    
+  /*
     func motionAnimation(motionData: CMDeviceMotion?, error: NSError?) {
         if let motion = motionData {
             let attitude = motion.attitude
@@ -138,14 +138,14 @@ class NavigationViewController: UIViewController{
             print("yaw: \(yaw)")
         }
     }
-    
+    */
     @IBAction func motionStart(_ sender: Any) {
-        motionManager.deviceMotionUpdateInterval = 0.1
-        let handler:CMDeviceMotionHandler = {
-            (motionData: CMDeviceMotion?, error: NSError?) -> Void in
-            self.motionAnimation(motionData: motionData, error: error )
-        } as! CMDeviceMotionHandler
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: handler)
+        motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (data, error) in
+            let attitude = data?.attitude
+            let yaw = Int((attitude?.yaw)! * 180.0 / Double.pi)
+            self.yawLabel.text = String(yaw)
+            print("yaw: \(yaw)")
+        })
     }
     
     @IBAction func motionStop(_ sender: Any) {
