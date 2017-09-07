@@ -213,12 +213,22 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZy-R0-PwL">
-                                <rect key="frame" x="150" y="258" width="141" height="30"/>
+                                <rect key="frame" x="172" y="258" width="98" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Motion START / END"/>
+                                <state key="normal" title="Motion START"/>
                                 <connections>
                                     <action selector="motionSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="MkS-Wa-w7U"/>
                                     <action selector="pedoMeterSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="ArN-PK-aRv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U8i-vJ-7pS">
+                                <rect key="frame" x="176" y="279" width="91" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Motion STOP"/>
+                                <connections>
+                                    <action selector="motionStop:" destination="plz-Sp-jBe" eventType="touchUpInside" id="cjg-47-DFF"/>
+                                    <action selector="motionSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="qgg-hf-7m9"/>
+                                    <action selector="pedoMeterSwitch:" destination="plz-Sp-jBe" eventType="touchUpInside" id="1p7-1i-aKY"/>
                                 </connections>
                             </button>
                         </subviews>

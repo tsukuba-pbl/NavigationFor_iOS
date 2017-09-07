@@ -53,6 +53,7 @@ class NavigationViewController: UIViewController{
         //motionManager.deviceMotionUpdateInterval = 0.05 // 20Hz
         
         // Start motion data acquisition
+        /*
         motionManager.startDeviceMotionUpdates( to: OperationQueue.current!, withHandler:{
             deviceManager, error in
             
@@ -63,6 +64,7 @@ class NavigationViewController: UIViewController{
             print("roll: \(roll) pitch: \(pitch) yaw:\(yaw)")
             
         })
+ */
     }
     
     func reset(){
@@ -128,17 +130,30 @@ class NavigationViewController: UIViewController{
         }
     }
     
-    @IBAction func motionSwitch(_ sender: Any) {
-        motionswitch = !motionswitch
-        
-        if (motionswitch) {
-            print("startMotionSwitch")
-            motionService?.startMotionManager()
-        }
-        else {
-            motionService?.stopMotionManager()
+    func motionAnimation(motionData: CMDeviceMotion?, error: NSError?) {
+        if let motion = motionData {
+            let attitude = motion.attitude
+            let yaw = Int(attitude.yaw * 180.0 / Double.pi)
+            yawLabel.text = String(yaw)
+            print("yaw: \(yaw)")
         }
     }
+    
+    @IBAction func motionStart(_ sender: Any) {
+        motionManager.deviceMotionUpdateInterval = 0.1
+        let handler:CMDeviceMotionHandler = {
+            (motionData: CMDeviceMotion?, error: NSError?) -> Void in
+            self.motionAnimation(motionData: motionData, error: error )
+        } as! CMDeviceMotionHandler
+        motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: handler)
+    }
+    
+    @IBAction func motionStop(_ sender: Any) {
+        if (motionManager.isDeviceMotionActive) {
+            motionManager.stopDeviceMotionUpdates()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
