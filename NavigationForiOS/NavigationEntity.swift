@@ -5,67 +5,92 @@
 //  Created by みなじゅん on 2017/08/23.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 //交差点・目的地でのポイント情報
 struct NavigationPoint{
-    let minor_id : Int!  //minor_id
-    let threshold : Int! //閾値
+    let route_id: Int!
     let navigation_text : String! //読み上げるナビゲーション
-    let type : Int! //1:目的地 2:交差点
+    let expectedBeacons : Array<BeaconThreshold> //事前計測データ
+}
+
+//ビーコンの事前計測電波強度
+struct BeaconThreshold{
+    let minor_id: Int! //minor id
+    let threshold: Int! //閾値
 }
 
 class NavigationEntity{
     var routes = [NavigationPoint]() //ルート情報
     var isAvailable = false //ルート情報が有効かどうか
-    var start_minor_id : Int!
-    var goal_minor_id : Int!
+    var start_id : Int!
+    var goal_id : Int!
     
     let UUIDList = [
         "12345678-1234-1234-1234-123456789ABC"
     ]
+    var MinorIdList = [Int]()
     
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
-    func addNavigationPoint(minor_id : Int, threshold : Int, navigation_text : String, type: Int){
-        routes.append(NavigationPoint(minor_id: minor_id, threshold: threshold, navigation_text: navigation_text, type: type))
-    }
-    
-    //スタートとゴールが正しいか確認し、セットする
-    func checkRoutes(start_id : Int, goal_id : Int) -> Bool{
-        if(routes.first?.minor_id == start_id && routes.last?.minor_id == goal_id){
-            start_minor_id = start_id
-            goal_minor_id = goal_id
-            isAvailable = true
-        }else{
-            isAvailable = false
+    func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [BeaconThreshold]){
+        routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, expectedBeacons: expectedBeacons))
+        //使用しているminor idを登録
+        for i in expectedBeacons{
+            if(MinorIdList.contains(i.minor_id) == false){
+                MinorIdList.append(i.minor_id)
+            }
         }
-        return isAvailable
     }
     
-    //ルート上に存在するビーコンかを判定する
-    func isAvailableBeaconId(uuid : String, minor_id : Int) -> Bool{
-        let retval = routes.filter({ $0.minor_id == minor_id}).first
-        var available = false
-        if(retval != nil && UUIDList.contains(uuid)){
-            available = true
-        }else{
-            available = false
+    //スタートのIDを取得する
+    func getStartRouteId() -> Int{
+        return (routes.first?.route_id)!
+    }
+    
+    //ゴールのIDを取得する
+    func getGoalRouteId() -> Int{
+        return (routes.last?.route_id)!
+    }
+    
+    //指定したroute idのナビゲーション内容を返す
+    func getNavigationText(route_id : Int) -> String{
+        let navigationTextByRouteId = routes.filter({ $0.route_id == route_id}).first
+        return (navigationTextByRouteId?.navigation_text)!
+    }
+    
+    //指定したroute idの閾値の集合を返す
+    func getBeaconsThreshold(route_id : Int) -> Array<BeaconThreshold>{
+        let beaconThresholdFilteredByRouteId = routes.filter({ $0.route_id == route_id}).first
+        return (beaconThresholdFilteredByRouteId?.expectedBeacons)!
+    }
+    
+    //指定したminor idが属するroute idを返す
+    //ない場合は-1がリターンされる
+    func getRouteIdFromMinorId(minor_id: Int) -> Int{
+        var retval = -1
+        for i in routes{
+            if(i.expectedBeacons.filter({$0.minor_id == minor_id}).first != nil){
+                retval = i.route_id
+                break
+            }
         }
-        return available
+        return retval
     }
     
-    //指定したminorのナビゲーション内容を返す
-    func getNavigationText(minor_id : Int) -> String{
-        let retval = routes.filter({ $0.minor_id == minor_id}).first
-        return (retval?.navigation_text)!
-    }
-    
-    //指定したminorの閾値を返す
-    func getBeaconThreshold(minor_id : Int) -> Int{
-        let retval = routes.filter({ $0.minor_id == minor_id}).first
-        return (retval?.threshold)!
+    //指定したminor idのビーコンの閾値を返す
+    //ない場合は-100がリターンされる
+    //*** あとで、ルートidも指定して絞る必要あり ***
+    func getBeaconThresholdFromMinorId(minor_id: Int) -> Int{
+        var retval = -100
+        for i in routes{
+            let retval2 = i.expectedBeacons.filter({$0.minor_id == minor_id}).first
+            if(retval2 != nil){
+                retval = (retval2?.threshold)!
+                break
+            }
+        }
+        return retval
     }
     
     //使用するビーコンのUUIDリストを返す
@@ -75,11 +100,6 @@ class NavigationEntity{
     
     //使用するビーコンのminor idのリストを返す
     func getMinorList() -> Array<Int>{
-        var minorList = [Int]()
-        
-        for i in routes {
-            minorList.append(i.minor_id)
-        }
-        return minorList
+        return MinorIdList
     }
 }
