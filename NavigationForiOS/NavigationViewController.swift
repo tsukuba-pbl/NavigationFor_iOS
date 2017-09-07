@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Swinject
+import CoreMotion
 
 class NavigationViewController: UIViewController{
     
@@ -18,16 +19,21 @@ class NavigationViewController: UIViewController{
     @IBOutlet weak var navigation: UILabel!
     
     @IBOutlet weak var stepLabel: UILabel!
+    @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
+    var motionswitch = false
     
     var navigationDic = [Int: String]()
     
     // DI
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
+    var motionService : MotionService? = MotionService()
     
     var navigations : NavigationEntity? //ナビゲーション情報
+    
+    let motionManager: CMMotionManager = CMMotionManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +72,14 @@ class NavigationViewController: UIViewController{
                 goalAlert()
             }
         }
+        
         //歩数取得
         let steps = pedometerService?.get_steps()
         self.stepLabel.text = "\(steps ?? 0)"
+        
+        //ヨー取得
+        let direction_text = motionService?.getDirection()
+        self.yawLabel.text = direction_text
     }
     
     //ゴール時にアラートを表示する
@@ -101,10 +112,20 @@ class NavigationViewController: UIViewController{
             pedometerService?.stop_pedometer()
         }
     }
+
+    @IBAction func motionStart(_ sender: Any) {
+        if (motionService?.isDeviceMotionActive())! {
+            motionService?.startMotionManager()
+        }
+    }
+    
+    @IBAction func motionStop(_ sender: Any) {
+        if (motionService?.isDeviceMotionActive())! {
+            motionService?.stopMotionManager()
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    
 }
