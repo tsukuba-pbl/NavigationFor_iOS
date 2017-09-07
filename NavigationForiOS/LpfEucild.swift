@@ -67,6 +67,7 @@ class LpfEuclid: AlgorithmBase {
         var beaconList: Dictionary<Int, Int> = [:]
         navigations.routes.forEach { (navigationPoint) in
             if (navigationPoint.route_id == routeId) {
+                
                 navigationPoint.expectedBeacons.forEach({ (beacons) in
                     beaconList[beacons.minor_id] = beacons.threshold
                 })
