@@ -11,21 +11,24 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
-    var beaconservice : BeaconService!
-    
     //初期状態を設定
-    var navigationState: NavigationState = GoFoward()
+    var navigationState: NavigationState = None()
     
-    init(beaconService: BeaconService) {
-        self.beaconservice = beaconService
+    // DI
+    var algorithm: AlgorithmBase!       // 適用アルゴリズム
+    var beaconManager : BeaconManager!
+    
+    init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
+        self.beaconManager = beaconManager
+        self.algorithm = algorithm
     }
         
-    /// ナビゲーション情報をサーバからJSON形式で取得
+    /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/466b1a69f49b2df30240a3f122dc003a8b20ddd0/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/c94288bb89dbc9e6b76173aee59ffe2ff778fb56/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -33,19 +36,18 @@ class NavigationService {
             case .success(let value):
                 let navJson = JSON(value)
                 navJson["routes"].forEach{(_, data) in
-                    let minor = data["minor"].int!
-                    let threshold = data["threshold"].int!
+                    var beaconThresholdList: Array<BeaconThreshold>! = []
+                    let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
-                    let type = data["type"].int!
+                    
+                    // 各地点のビーコンをbeaconThresholdList配列に格納
+                    let beaconsJSON = data["beacons"].array
+                    beaconsJSON?.forEach{(data) in
+                        let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: data["minorId"].int, threshold: data["threshold"].int)
+                        beaconThresholdList.append(beaconThreshold)
+                    }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(minor_id: minor, threshold: threshold, navigation_text: navigation, type: type)
-                }
-                //スタートとゴールのidを設定
-                let start_minor_id = navJson["start"].int!
-                let goal_minor_id = navJson["goal"].int!
-                let retval = navigation_entity.checkRoutes(start_id: start_minor_id, goal_id: goal_minor_id)
-                if(retval == false){
-                    SlackService.postError(error: "有効でないルート情報", tag: "Nagivation Service")
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beaconThresholdList)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
@@ -55,43 +57,34 @@ class NavigationService {
     }
     
     func initNavigation(navigations: NavigationEntity) {
-        self.beaconservice.startBeaconReceiver(navigations: navigations)
+        self.beaconManager.startBeaconReceiver(navigations: navigations)
     }
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, maxRssiBeacon: BeaconEntity, navigation_text : String){
-        var maxRssiBeacon: BeaconEntity!
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, navigation_text : String){
         var navigation_text : String!
         var mode = 1
-        
-        //現在の最大RSSIのビーコン情報を取得
-        let retval = beaconservice.getMaxRssiBeacon()
-        maxRssiBeacon = retval.maxRssiBeacon
+        let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
         
         //ナビゲーション情報の更新
-        navigationState.updateNavigation(navigationService: self, navigations: navigations, available: retval.available, maxRssiBeacon: maxRssiBeacon)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
+        
         //ナビゲーションテキストの取得
-        navigation_text = navigationState.getNavigation(navigations: navigations, maxRssiBeacon: maxRssiBeacon)
+        let routeId = algorithm.getRouteId(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi)
+        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: routeId)
         //モードの取得
         mode = navigationState.getMode()
         
-        return (mode, maxRssiBeacon, navigation_text)
+        return (mode, navigation_text)
     }
     
-    //ナビゲーションを行うタイミングを判定する
-    //目的地もしくは交差点にいるかを判定する
-    /// - Parameters:
-    ///   - RSSI: 最大RSSIのビーコンのRSSI
-    ///   - threshold : 閾値（RSSI）
-    /// - Returns: 入力が正しければtrue，正しくなければfalse
-    func isOnNavigationPoint(RSSI : Int, threshold : Int) -> Bool {
-        var flag: Bool = false
-        //使用するUUIDと一致しており、かつ閾値よりも大きいRSSI
-        if(RSSI > threshold){
-            flag = true
-        }
-        return flag
+    
+    /// 現在の最大RSSIのビーコン情報を取得
+    ///
+    /// - Returns: ビーコン情報
+    func getMaxRssiBeacon() -> BeaconEntity {
+        return beaconManager.getMaxRssiBeacon().maxRssiBeacon
     }
 }
 

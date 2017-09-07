@@ -53,16 +53,16 @@ class NavigationViewController: UIViewController{
     
     //ナビゲーションの更新
     func updateNavigation(){
-        let retval = navigationService?.updateNavigation(navigations: self.navigations!)
-        let maxRssiBeacon = retval?.maxRssiBeacon
-        let mode = retval?.mode
-        if(mode == -1){
+        let navigation = navigationService?.updateNavigation(navigations: self.navigations!)
+        let maxRssiBeacon = navigationService?.getMaxRssiBeacon()
+        
+        if(navigation?.mode == -1){
             reset()
         }else{
             self.minor.text = "minor id : \(maxRssiBeacon?.minorId ?? 0)"
             self.rssi.text = "RSSI : \(maxRssiBeacon?.rssi ?? 0)dB"
-            self.navigation.text = retval?.navigation_text
-            if(mode == 2){
+            self.navigation.text = navigation?.navigation_text
+            if(navigation?.mode == 2){
                 goalAlert()
             }
         }
