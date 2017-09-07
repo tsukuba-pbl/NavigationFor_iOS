@@ -13,23 +13,34 @@ class MotionService {
     
     // create instance of MotionManager
     let motionManager = CMMotionManager()
-    var yaw = 100
+    var direction_text: String
+    var yaw:Int
     
     init() {
         // Initialize MotionManager
-        print("init")
         self.motionManager.deviceMotionUpdateInterval = 0.05 // 20Hz
+        self.yaw = 0
+        self.direction_text = ""
     }
     
     func startMotionManager() {
-        print("startMotionManager")
         // Start motion data acquisition
         self.motionManager.startDeviceMotionUpdates( to: OperationQueue.current!, withHandler:{
             deviceManager, error in
             
-            let attitude: CMAttitude = deviceManager!.attitude
-            self.yaw = Int(attitude.yaw * 180.0 / Double.pi)
-            print("\(self.yaw)")
+            let attitude = deviceManager?.attitude
+            self.yaw = Int((attitude?.yaw)! * 180.0 / Double.pi)
+            
+            //角度が正だったら左、負だったら右になる
+            let direction: String
+            if (self.yaw < 0) {
+                direction = "右"
+            }
+            else {
+                direction = "左"
+            }
+            
+            self.direction_text = direction + "に" + String(self.yaw) + "度"
         })
     }
     
@@ -38,8 +49,11 @@ class MotionService {
     }
     
     func get_yaw() -> Int {
-        print("get")
         return self.yaw
+    }
+    
+    func get_direction() -> String {
+        return self.direction_text
     }
 }
 

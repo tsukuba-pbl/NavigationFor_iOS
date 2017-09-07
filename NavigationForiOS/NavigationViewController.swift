@@ -29,7 +29,7 @@ class NavigationViewController: UIViewController{
     // DI
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
-    var motionService : MotionService?
+    var motionService : MotionService? = MotionService()
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
@@ -78,8 +78,8 @@ class NavigationViewController: UIViewController{
         self.stepLabel.text = "\(steps ?? 0)"
         
         //ヨー取得
-        let yaw = motionService?.get_yaw()
-        self.yawLabel.text = "\(yaw ?? 0)"
+        let direction_text = motionService?.get_direction()
+        self.yawLabel.text = direction_text
     }
     
     //ゴール時にアラートを表示する
@@ -114,29 +114,11 @@ class NavigationViewController: UIViewController{
     }
 
     @IBAction func motionStart(_ sender: Any) {
-        if (motionManager.isDeviceMotionActive) {
-            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (data, error) in
-                let attitude = data?.attitude
-                let yaw = Int((attitude?.yaw)! * 180.0 / Double.pi)
-                //角度が正だったら左、負だったら右になる
-                let direction: String
-                if (yaw < 0) {
-                    direction = "右"
-                }
-                else {
-                    direction = "左"
-                }
-                let direction_text = direction + "に" + String(yaw) + "度"
-                self.yawLabel.text = direction_text
-                print("yaw: \(yaw)")
-            })
-        }
+        motionService?.startMotionManager()
     }
     
     @IBAction func motionStop(_ sender: Any) {
-        if (motionManager.isDeviceMotionActive) {
-            motionManager.stopDeviceMotionUpdates()
-        }
+        motionService?.stopMotionManager()
     }
     
     override func didReceiveMemoryWarning() {

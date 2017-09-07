@@ -15,10 +15,6 @@ class PedometerService {
     let pedometer = CMPedometer()
     var steps = 0
     
-    init() {
-        print("test-init-pedo")
-    }
-    
     //歩数計測関数
     func pedoMeter() {
         self.pedometer.startUpdates(from: NSDate() as Date) {
