@@ -16,9 +16,10 @@ class LpfEuclid: AlgorithmBase {
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, expectedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
+    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
         let maxRssiMinorId = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
-        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: expectedBeaconsRssi) < 30.0){
+        let targetRouteId = navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId)
+        if(self.getEuclidResult(receivedBeaconRssiList: receivedBeaconsRssi, expectedBeaconRssiList: self.getExpectedBeaconList(navigations: navigations, routeId: targetRouteId)) < 30.0){
             //ゴールに到着したかを判定
             if(navigations.getRouteIdFromMinorId(minor_id: maxRssiMinorId) == navigations.getGoalRouteId()){
                 return POINT.GOAL
@@ -51,5 +52,24 @@ class LpfEuclid: AlgorithmBase {
             result += pow(Double(value - expectedBeaconRssiList[key]!), 2)
         }
         return round(sqrt(result)*100)/100
+    }
+    
+    
+    /// 対象のルートIDの予期するビーコン情報を取得する関数
+    ///
+    /// - Parameters:
+    ///   - navigations: Navigation情報
+    ///   - routeId: 対象のRouteID
+    /// - Returns: 対象のRouteIDの予期するビーコンリスト
+    func getExpectedBeaconList(navigations: NavigationEntity, routeId: Int) -> Dictionary<Int, Int> {
+        var beaconList: Dictionary<Int, Int> = [:]
+        navigations.routes.forEach { (navigationPoint) in
+            if (navigationPoint.route_id == routeId) {
+                navigationPoint.expectedBeacons.forEach({ (beacons) in
+                    beaconList[beacons.minor_id] = beacons.threshold
+                })
+            }
+        }
+        return beaconList
     }
 }

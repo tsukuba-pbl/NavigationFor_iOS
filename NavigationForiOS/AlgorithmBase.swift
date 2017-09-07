@@ -10,7 +10,7 @@ import Foundation
 
 class AlgorithmBase: AlgorithmBaseProtocol {
     
-    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
+    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT {
         return POINT.OTHER
     }
     
@@ -38,7 +38,7 @@ class AlgorithmBase: AlgorithmBaseProtocol {
     ///   - receivedBeaconsRssi: 実際に歩いて取得できたビーコンのRSSIの値（平滑化済み）
     /// - Returns: 現在のルートID
     func getRouteId(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> Int {
-        var target = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
+        let target = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
         return navigations.getRouteIdFromMinorId(minor_id: target)
     }
 }

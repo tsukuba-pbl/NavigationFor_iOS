@@ -23,7 +23,7 @@ class Lpf: AlgorithmBase {
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedBeaconsRssi: Dictionary<Int, Int>) -> POINT {
+    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT {
         let maxRssiMinorId = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
         let threshold = navigations.getBeaconThresholdFromMinorId(minor_id: maxRssiMinorId)
         if(self.isOnNavigationPoint(RSSI: receivedBeaconsRssi[maxRssiMinorId]!, threshold: threshold)){

@@ -28,7 +28,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/46b6dfe606731ff91902a7aac48e55f64a5908ff/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/1650328508ada6e44d0964b6abf89dfbd92eef37/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -85,16 +85,6 @@ class NavigationService {
     /// - Returns: ビーコン情報
     func getMaxRssiBeacon() -> BeaconEntity {
         return beaconManager.getMaxRssiBeacon().maxRssiBeacon
-    }
-    
-    func getExpectedBeaconList(navigations: NavigationEntity) -> Dictionary<Int, Int> {
-        var beaconList: Dictionary<Int, Int> = [:]
-        navigations.routes.forEach { (navigationPoint) in
-            navigationPoint.expectedBeacons.forEach({ (beacons) in
-                beaconList[beacons.minor_id] = beacons.threshold
-            })
-        }
-        return beaconList
     }
 }
 
