@@ -57,22 +57,40 @@ class BeaconLoggerController : NSObject{
         getCounter += 1
         //getCounter.text = "\(getCounter2)"
         //指定回数に達したら、スレッドを停止させる
+        //テスト時には実行しない
         if(getCounter >= 10){
-            if(timer.isValid){
-                timer.invalidate()
-            }
+            #if DEBUG
+                if(TestService.isTesting() == false){
+                    if(timer.isValid){
+                        timer.invalidate()
+                    }
+                    //ビューを更新
+                    delegate?.updateView()
+                }
+            #else
+                if(timer.isValid){
+                    timer.invalidate()
+                }
+                //ビューを更新
+                delegate?.updateView()
+            #endif
             state = false
             //トレーニングデータを送信する
             sendTrainData()
-            //ビューを更新
-            delegate?.updateView()
         }
         //ビーコンの電波強度の計測
         let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
         //トレーニングデータに追加
         trainData.append(receivedBeaconsRssiList)
         //ビューを更新
-        delegate?.updateView()
+        //テスト実行時には、呼び出さない
+        #if DEBUG
+            if(TestService.isTesting() == false){
+                delegate?.updateView()
+            }
+        #else
+            delegate?.updateView()
+        #endif
     }
     
     //トレーニングデータを外部に送信する

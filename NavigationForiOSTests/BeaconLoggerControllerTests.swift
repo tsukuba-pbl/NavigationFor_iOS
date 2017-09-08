@@ -13,6 +13,7 @@ import UIKit
 class BeaconLoggerControllerTests: XCTestCase {
     var beaconLoggerController: BeaconLoggerController!
     var navigations: NavigationEntity!
+    var beaconLoggerVC = BeaconLoggerViewController()
     
     override func setUp() {
         super.setUp()
@@ -21,7 +22,7 @@ class BeaconLoggerControllerTests: XCTestCase {
         for i in 1...9{
             navigations.MinorIdList.append(i)
         }
-        beaconLoggerController = BeaconLoggerController(navigations: navigations)
+        beaconLoggerController = BeaconLoggerController(navigations: navigations, delegate: beaconLoggerVC)
     }
     
     override func tearDown() {
@@ -32,6 +33,35 @@ class BeaconLoggerControllerTests: XCTestCase {
     func testInit(){
         let expected = [1,2,3,4,5,6,7,8,9]
         XCTAssertEqual(beaconLoggerController.navigations.getMinorList(), expected)
+        XCTAssertEqual(beaconLoggerController.state, false)
+    }
+    
+    func testStartBeaconLogger(){
+        beaconLoggerController.startBeaconLogger()
+        XCTAssertEqual(beaconLoggerController.getCounter, 0)
+        XCTAssertTrue(beaconLoggerController.trainData.isEmpty)
+        XCTAssertTrue(beaconLoggerController.timer.isValid)
+        XCTAssertEqual(beaconLoggerController.state, true)
+    }
+    
+    func testGetLoggerState(){
+        let retval = beaconLoggerController.getLoggerState()
+        XCTAssertEqual(retval.counter, 0)
+        XCTAssertEqual(retval.state, false)
+    }
+    
+    func testGetBeaconRssi(){
+        beaconLoggerController.state = true
+        beaconLoggerController.getCounter = 0
+        var expCounter = 0
+        while(beaconLoggerController.state == true){
+            XCTAssertEqual(beaconLoggerController.state, true)
+            XCTAssertEqual(beaconLoggerController.getCounter, expCounter)
+            beaconLoggerController.getBeaconRssi()
+            expCounter += 1
+        }
+        XCTAssertEqual(beaconLoggerController.state, false)
+        XCTAssertEqual(beaconLoggerController.getCounter, 10)
     }
     
     func testPerformanceExample() {

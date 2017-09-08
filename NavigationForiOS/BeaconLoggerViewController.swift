@@ -48,7 +48,9 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     //ビューの更新
     func updateView(){
         let retval = beaconLogger?.getLoggerState()
-        Counter.text = "\(retval?.counter ?? 0)"
+        if(Counter.text != nil){
+            Counter.text = "\(retval?.counter ?? 0)"
+        }
         if(retval?.state == true){
             startButton.isEnabled = false
         }else{
