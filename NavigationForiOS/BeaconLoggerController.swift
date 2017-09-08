@@ -8,9 +8,13 @@
 
 import Foundation
 
-class BeaconLoggerController{
+class BeaconLoggerController : NSObject{
     var navigations : NavigationEntity = NavigationEntity()
     var beaconManager : BeaconManager = BeaconManager()
+    var trainData : Array<Dictionary<Int, Int>> = []
+    var timer : Timer!
+    var getCounter = 0
+    var state = false
     
     /// イニシャライザ
     ///
@@ -22,4 +26,59 @@ class BeaconLoggerController{
         //受信するビーコンの情報を与え、受信を開始する
         beaconManager.startBeaconReceiver(navigations: self.navigations)
     }
+    
+    /// トレーニングデータの計測を開始する
+    func startBeaconLogger(){
+        // 1秒ごとにビーコンの情報を取得する
+        getCounter = 0
+        //格納配列を初期化
+        trainData.removeAll()
+        //スレッドの開始
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.getBeaconRssi), userInfo: nil, repeats: true)
+        state = true
+    }
+    
+    //Loggerの状況を取得するメソッド
+    func getLoggerState() -> (state: Bool, counter: Int){
+        return (state, getCounter)
+    }
+    
+    /// ビーコンの電波を受信するメソッド
+    /// tapStartButton内のスレッド呼び出しによって、1秒ごとに呼ばれる
+    func getBeaconRssi(){
+        //取得した回数をカウント
+        getCounter += 1
+        //getCounter.text = "\(getCounter2)"
+        //指定回数に達したら、スレッドを停止させる
+        if(getCounter >= 10){
+            if(timer.isValid){
+                timer.invalidate()
+            }
+            state = false
+            //トレーニングデータを送信する
+            sendTrainData()
+        }
+        //ビーコンの電波強度の計測
+        let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
+        //トレーニングデータに追加
+        trainData.append(receivedBeaconsRssiList)
+    }
+    
+    //トレーニングデータを外部に送信する
+    func sendTrainData(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
+        let now = Date()
+        var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
+        message += "route id, 1\n"
+        for i in trainData{
+            for j in navigations.getMinorList(){
+                message += "\(j),\(i[j] ?? -100), "
+            }
+            message += "\n"
+        }
+        print(message)
+        SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
+    }
+
 }

@@ -59,7 +59,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="getCounter" destination="EVX-HH-Eiv" id="gg7-JG-F1t"/>
+                        <outlet property="Counter" destination="EVX-HH-Eiv" id="t8a-LH-bTP"/>
                         <outlet property="startButton" destination="LDO-su-tAb" id="p1Z-ce-aN9"/>
                     </connections>
                 </viewController>
@@ -92,7 +92,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </state>
                                     <connections>
-                                        <segue destination="AMJ-mc-yY0" kind="presentation" id="pGq-NM-Djk"/>
+                                        <segue destination="AMJ-mc-yY0" kind="show" id="hnz-wZ-9H3"/>
                                     </connections>
                                 </button>
                                 <prototypes>
@@ -100,7 +100,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0N-Sx-2RY" id="jFT-Py-xmv">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
@@ -318,6 +318,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2Nx-rf-kXk"/>
+        <segue reference="DOT-aP-u0p"/>
     </inferredMetricsTieBreakers>
 </document>
