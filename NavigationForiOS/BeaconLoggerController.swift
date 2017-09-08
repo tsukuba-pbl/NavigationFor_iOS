@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol BeaconLoggerVCDelegate {
+    func updateView()
+}
+
 class BeaconLoggerController : NSObject{
     var navigations : NavigationEntity = NavigationEntity()
     var beaconManager : BeaconManager = BeaconManager()
@@ -15,14 +19,17 @@ class BeaconLoggerController : NSObject{
     var timer : Timer!
     var getCounter = 0
     var state = false
+    var delegate: BeaconLoggerVCDelegate?
     
     /// イニシャライザ
     ///
     /// - Parameters:
     ///   - navigations: 使用するビーコン情報の入ったナビゲーション情報
-    init(navigations: NavigationEntity){
+    init(navigations: NavigationEntity, delegate: BeaconLoggerVCDelegate){
         //使用するビーコン情報を格納
         self.navigations = navigations
+        //デリゲートの設定
+        self.delegate = delegate
         //受信するビーコンの情報を与え、受信を開始する
         beaconManager.startBeaconReceiver(navigations: self.navigations)
     }
@@ -57,11 +64,15 @@ class BeaconLoggerController : NSObject{
             state = false
             //トレーニングデータを送信する
             sendTrainData()
+            //ビューを更新
+            delegate?.updateView()
         }
         //ビーコンの電波強度の計測
         let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
         //トレーニングデータに追加
         trainData.append(receivedBeaconsRssiList)
+        //ビューを更新
+        delegate?.updateView()
     }
     
     //トレーニングデータを外部に送信する

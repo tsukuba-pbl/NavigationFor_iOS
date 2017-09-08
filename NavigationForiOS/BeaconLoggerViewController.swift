@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BeaconLoggerViewController: UIViewController {
+class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     @IBOutlet weak var startButton: UIButton! //計測開始ボタン
     
     var navigations : NavigationEntity = NavigationEntity()
@@ -22,7 +22,7 @@ class BeaconLoggerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //最初はスタートボタンは押せる状態
         startButton.isEnabled = true
         Counter.text = "0"
@@ -33,7 +33,7 @@ class BeaconLoggerViewController: UIViewController {
             navigations.MinorIdList.append(i)
         }
         //受信するビーコンの情報を与え、受信を開始する
-        beaconLogger = BeaconLoggerController(navigations : navigations)
+        beaconLogger = BeaconLoggerController(navigations : navigations, delegate: self)
     }
     
     @IBAction func tapStartButton(_ sender: Any) {
@@ -45,14 +45,16 @@ class BeaconLoggerViewController: UIViewController {
         beaconLogger?.startBeaconLogger()
     }
     
+    //ビューの更新
     func updateView(){
         let retval = beaconLogger?.getLoggerState()
+        Counter.text = "\(retval?.counter ?? 0)"
         if(retval?.state == true){
             startButton.isEnabled = false
-            Counter.text = "\(retval?.counter ?? 0)"
         }else{
             startButton.isEnabled = true
             startButton.setTitle("計測開始", for: UIControlState.normal)
+            startButton.backgroundColor = UIColor.blue
         }
     }
 
