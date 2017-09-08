@@ -43,20 +43,22 @@
 		C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */; };
 		C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */; };
 		C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */; };
+		C283C34C1F62C78F009D2723 /* BeaconLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */; };
+		C283C34E1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */; };
 		C288D2361F566A9B00A3DBE1 /* BeaconEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C288D2351F566A9B00A3DBE1 /* BeaconEntity.swift */; };
 		C288D2381F5677CB00A3DBE1 /* BeaconEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C288D2371F5677CB00A3DBE1 /* BeaconEntityTests.swift */; };
 		C2962D571F5FC090004629CD /* LpfEuclidTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2962D561F5FC090004629CD /* LpfEuclidTests.swift */; };
 		C2962D5F1F603496004629CD /* BeaconLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */; };
 		C2962D631F60492B004629CD /* BeaconLoggerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2962D621F60492B004629CD /* BeaconLoggerViewControllerTests.swift */; };
 		C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B26B891F43EC7800E4B785 /* CoreLocation.framework */; };
-		EBB6470C1F612978009A4FD3 /* MotionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */; };
-		EBF3FC0B1F57F30E00A26C2A /* MotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3FC0A1F57F30E00A26C2A /* MotionService.swift */; };
 		C2B26B8E1F45A54800E4B785 /* NavigationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */; };
 		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
 		C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconManager.swift */; };
 		C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
+		EBB6470C1F612978009A4FD3 /* MotionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */; };
+		EBF3FC0B1F57F30E00A26C2A /* MotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3FC0A1F57F30E00A26C2A /* MotionService.swift */; };
 		EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -129,15 +131,15 @@
 		B160F4A71F53496700169231 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
 		C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntityTests.swift; sourceTree = "<group>"; };
-		EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionServiceTests.swift; sourceTree = "<group>"; };
-		EBF3FC0A1F57F30E00A26C2A /* MotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionService.swift; sourceTree = "<group>"; };
 		C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationServiceTests.swift; sourceTree = "<group>"; };
-		C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerViewController.swift; sourceTree = "<group>"; };
-		C2962D621F60492B004629CD /* BeaconLoggerViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerViewControllerTests.swift; sourceTree = "<group>"; };
 		C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationStateController.swift; sourceTree = "<group>"; };
+		C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerController.swift; sourceTree = "<group>"; };
+		C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerControllerTests.swift; sourceTree = "<group>"; };
 		C288D2351F566A9B00A3DBE1 /* BeaconEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconEntity.swift; sourceTree = "<group>"; };
 		C288D2371F5677CB00A3DBE1 /* BeaconEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconEntityTests.swift; sourceTree = "<group>"; };
 		C2962D561F5FC090004629CD /* LpfEuclidTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfEuclidTests.swift; sourceTree = "<group>"; };
+		C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerViewController.swift; sourceTree = "<group>"; };
+		C2962D621F60492B004629CD /* BeaconLoggerViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerViewControllerTests.swift; sourceTree = "<group>"; };
 		C2B26B891F43EC7800E4B785 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewControllerTests.swift; sourceTree = "<group>"; };
 		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
@@ -145,6 +147,8 @@
 		C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManagerTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
+		EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionServiceTests.swift; sourceTree = "<group>"; };
+		EBF3FC0A1F57F30E00A26C2A /* MotionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionService.swift; sourceTree = "<group>"; };
 		EBF9022C1F512B44009EB4EA /* PedometerServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +266,7 @@
 				B14883441F3C4D32007A9E2E /* HomeViewController.swift */,
 				C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */,
 				C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */,
+				C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -273,6 +278,7 @@
 				B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */,
 				B160F4A71F53496700169231 /* HomeViewControllerTests.swift */,
 				C2962D621F60492B004629CD /* BeaconLoggerViewControllerTests.swift */,
+				C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -472,6 +478,7 @@
 				B1533EDA1F5FE14200776036 /* AlgorithmBase.swift in Sources */,
 				B15B71571F5E699200B56551 /* AlgorithmBaseProtocol.swift in Sources */,
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
+				C283C34C1F62C78F009D2723 /* BeaconLoggerController.swift in Sources */,
 				B15B715B1F5E6A3900B56551 /* LpfEucild.swift in Sources */,
 				B160F49E1F5286BA00169231 /* SwinjectStoryboard.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
@@ -501,6 +508,7 @@
 				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
 				EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
+				C283C34E1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift in Sources */,
 				B15B715D1F5E832100B56551 /* LpfTests.swift in Sources */,
 				C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */,
 				B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */,
