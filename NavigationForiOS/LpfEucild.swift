@@ -56,7 +56,6 @@ class LpfEuclid: AlgorithmBase {
         return round(sqrt(result)*100)/100
     }
     
-    
     /// 対象のルートIDの予期するビーコン情報を取得する関数
     ///
     /// - Parameters:

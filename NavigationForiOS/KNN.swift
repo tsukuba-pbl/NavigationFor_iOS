@@ -80,4 +80,32 @@ class KNN: AlgorithmBase{
         
         return round(sqrt(result)*100)/100
     }
+    
+    
+    /// k近傍の教師データに対する精度を返す
+    ///
+    /// - Parameter trainData: 教師データ
+    /// - Returns: 精度
+    func getKnnAccuracy(trainData: [knnData]) -> Double{
+        var nCorrect = 0   //正答数をカウント
+        var accuracy = 0.0
+        
+        for (i,element1) in trainData.enumerated(){
+            //入力する教師データを教師データ群から削除する
+            var removedTrainData = [knnData]()
+            for(j,element2) in trainData.enumerated(){
+                if(i != j){
+                    removedTrainData.append(element2)
+                }
+            }
+            let answer = knn(trainData: removedTrainData, inputData: element1)
+            if(answer == element1.routeId){
+                nCorrect += 1
+            }
+        }
+        
+        accuracy = Double(nCorrect) / Double(trainData.count)
+        
+        return accuracy
+    }
 }
