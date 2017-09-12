@@ -39,6 +39,7 @@ class NavigationService {
                     var beaconThresholdList: Array<BeaconThreshold>! = []
                     let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
+                    let rotateDegree = data["rotateDegree"].int!
                     
                     // 各地点のビーコンをbeaconThresholdList配列に格納
                     let beaconsJSON = data["beacons"].array
@@ -47,7 +48,7 @@ class NavigationService {
                         beaconThresholdList.append(beaconThreshold)
                     }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beaconThresholdList)
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beaconThresholdList, rotate_degree: rotateDegree)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
