@@ -100,7 +100,28 @@ class WaitTurn: NavigationState{
     }
  
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, algorithm: AlgorithmBase) {
-        var routeId = algorithm.getRouteId(navigations: <#T##NavigationEntity#>, receivedBeaconsRssi: <#T##Dictionary<Int, Int>#>)
+        var rotateFlag = "left"
+        let routeId = algorithm.getRouteId(navigations: <#T##NavigationEntity#>, receivedBeaconsRssi: <#T##Dictionary<Int, Int>#>)
+        let rotateDegree = navigations.getNavigationDegree(route_id: routeId)
+        
+        if (rotateDegree < 0) {
+            rotateFlag = "right"
+        }
+        
+        motionService.startMotionManager()
+        
+        if (rotateFlag == "left") {
+            if (rotateDegree > motionService.getYaw()) {
+                motionService.stopMotionManager()
+                navigationService.navigationState = GoFoward()
+            }
+        }
+        else if (rotateFlag == "right") {
+            if (rotateDegree < motionService.getYaw()) {
+                motionService.stopMotionManager()
+                navigationService.navigationState = GoFoward()
+            }
+        }
         
     }
  
