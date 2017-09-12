@@ -29,7 +29,7 @@ class KNN: AlgorithmBase{
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT {
         //教師データの作成
         
-        
+        return POINT.OTHER
     }
 
     
@@ -46,18 +46,11 @@ class KNN: AlgorithmBase{
             dist.append(EuclidData(routeId: i.routeId, euclidResult: EuclidDist(trainData: i, inputData: inputData)))
         }
         //距離が短い順にソーティング
-        var sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
-        var target = [EuclidData]()
+        let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
+        //上位3つのデータを取得する
+        let target = sortedDist[0...2]
         
-        for (i, value) in sortedDist.enumerated() {
-            if (i < 3) {
-                target.append(value)
-            } else {
-                break
-            }
-        }
-        
-        //上位3つのデータ多数決を取る
+        //上位3つのデータで多数決を取る
         var result = Dictionary<Int, Int>()
         for i in target {
             if ((result[i.routeId]) != nil) {
@@ -66,10 +59,11 @@ class KNN: AlgorithmBase{
                 result[i.routeId] = 1
             }
         }
+        
+        //最も多いデータを返す
         let owari = result.sorted { $0.1 > $1.1 }
         return (owari.first?.key)!
     }
-    
     
     /// ユークリッド距離を求める関数
     ///
