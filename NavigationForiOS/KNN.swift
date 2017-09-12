@@ -25,13 +25,22 @@ class KNN: AlgorithmBase{
     /// - Parameters:
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
+    ///   - expectedRouteId: 到達するか判定する場所のroute id
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT {
-        //教師データの作成
+    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
         
-        return POINT.OTHER
+        //交差点にいるかいないかをk近傍で判定する
+        //トレーニングデータを作成
+        var trainData = [knnData]()
+        //先ずは交差点にいるときのデータを格納
+        trainData.append(knnData(X: , routeId: 1))
+        //交差点にいないときのデータを格納
+        trainData.append(knnData(X: , routeId: 0))
+        
+        //k近傍によって判定
+        //return 1:いる 0:いない
+        
     }
-
     
     /// k近傍法
     ///
