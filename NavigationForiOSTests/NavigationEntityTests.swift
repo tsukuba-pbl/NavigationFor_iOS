@@ -46,7 +46,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        var beacons1: [[BeaconRssi]] = [[]]
+        var beacons1 = [[BeaconRssi]]()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -83,7 +83,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        beacons1 = [[]]
+        beacons1.removeAll()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -120,7 +120,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        beacons1 = [[]]
+        beacons1.removeAll()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -157,7 +157,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        beacons1 = [[]]
+        beacons1.removeAll()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -195,7 +195,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        beacons1 = [[]]
+        beacons1.removeAll()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -233,7 +233,7 @@ class NavigationEntityTests: XCTestCase {
         beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
         beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
         beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
-        beacons1 = [[]]
+        beacons1.removeAll()
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
@@ -274,54 +274,62 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertEqual(retval2, "straight")
     }
     
-//    func testGetBeaconsThreshold_成功するとき(){
-//        let retval1 = navigations.getBeaconsThreshold(route_id: 1)
-//        XCTAssertEqual(retval1[0].minor_id, 1)
-//        XCTAssertEqual(retval1[1].minor_id, 2)
-//        XCTAssertEqual(retval1[2].minor_id, 3)
-//        XCTAssertEqual(retval1[0].rssi, -70)
-//        XCTAssertEqual(retval1[1].rssi, -75)
-//        XCTAssertEqual(retval1[2].rssi, -80)
-//    }
+    func testGetRouteExpectedBeacons(){
+        var beaconThresholdList1: [BeaconRssi] = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList2: [BeaconRssi] = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList3: [BeaconRssi] = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beacons = [[BeaconRssi]]()
+        beacons.append(beaconThresholdList1)
+        beacons.append(beaconThresholdList2)
+        beacons.append(beaconThresholdList3)
+        
+        let retval = navigations.getRouteExpectedBeacons(route_id: 1)
+        
+        for (i, element1) in beacons.enumerated(){
+            for (j, element2) in element1.enumerated(){
+                XCTAssertEqual(retval[i][j].minor_id, element2.minor_id)
+                XCTAssertEqual(retval[i][j].rssi, element2.rssi)
+            }
+        }
+
+    }
     
-//    func testGetMinorList_成功するとき(){
-//        let retval = navigations.getMinorList()
-//        for i in 1...retval.count{
-//            XCTAssertTrue(retval.contains(i))
-//        }
-//    }
+    func testGetNavigationDegree(){
+        XCTAssertEqual(navigations.getNavigationDegree(route_id: 2), -90)
+        XCTAssertEqual(navigations.getNavigationDegree(route_id: 4), 90)
+    }
     
-//    func testGetRouteIdFromMinorId(){
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 1), 1)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 2), 1)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 3), 1)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 4), 2)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 5), 2)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 6), 2)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 7), 3)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 8), 3)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 9), 3)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 10), 4)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 11), 4)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 12), 4)
-//        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 13), -1)
-//    }
-    
-//    func testGetBeaconThresholdFromMinorId(){
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 1), -70)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 2), -75)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 3), -80)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 4), -70)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 5), -75)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 6), -80)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 7), -70)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 8), -75)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 9), -80)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 10), -70)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 11), -75)
-//        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 12), -80)
-//        
-//    }
+    func testGetMinorList(){
+        let expectedVal = [1,2,3,4,5,6,7,8,9]
+        XCTAssertEqual(navigations.getMinorList(), expectedVal)
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
