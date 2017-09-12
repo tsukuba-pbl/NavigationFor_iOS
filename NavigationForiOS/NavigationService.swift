@@ -14,6 +14,9 @@ class NavigationService {
     //初期状態を設定
     var navigationState: NavigationState = None()
     
+    //次に行くべき場所のroute id
+    var expectedRouteId = 1
+    
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム
     var beaconManager : BeaconManager!
@@ -77,9 +80,6 @@ class NavigationService {
         var navigation_text : String!
         var mode = 1
         let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
-        
-        //次に行くべき場所のroute id
-        var expectedRouteId = 1
         
         //ナビゲーション情報の更新
         navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm, expectedRouteId: expectedRouteId)

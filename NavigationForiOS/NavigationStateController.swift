@@ -46,7 +46,7 @@ class GoFoward: NavigationState{
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         
-        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1) {
+        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
         case .CROSSROAD :
             navigationService.navigationState = OnThePoint()
         case .OTHER :
@@ -61,7 +61,14 @@ class GoFoward: NavigationState{
 }
 
 //交差点到達状態
+//指定方向に移動することで、次状態へ遷移
 class OnThePoint: NavigationState{
+    let motionService = MotionService()
+    
+    init(){
+        motionService.startMotionManager()
+    }
+    
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return navigations.getNavigationText(route_id: routeId)
     }
@@ -71,33 +78,6 @@ class OnThePoint: NavigationState{
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
-        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1) {
-        case .CROSSROAD :
-            navigationService.navigationState = OnThePoint()
-        case .OTHER :
-            navigationService.navigationState = GoFoward()
-        case .START : break
-        case .GOAL :
-            navigationService.navigationState = Goal()
-        }
-    }
-    
-}
-
- 
-//右左折待機状態
-class WaitTurn: NavigationState{
-    let motionService = MotionService()
-    
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
-        return "待機中"
-    }
-    
-    func getMode() -> Int {
-        return 1
-    }
- 
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         var rotateFlag = "left"
         let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
         
@@ -105,24 +85,19 @@ class WaitTurn: NavigationState{
             rotateFlag = "right"
         }
         
-        motionService.startMotionManager()
-        
         if (rotateFlag == "left") {
             if (rotateDegree > motionService.getYaw()) {
                 motionService.stopMotionManager()
                 navigationService.navigationState = GoFoward()
             }
-        }
-        else if (rotateFlag == "right") {
+        }else if (rotateFlag == "right") {
             if (rotateDegree < motionService.getYaw()) {
                 motionService.stopMotionManager()
                 navigationService.navigationState = GoFoward()
             }
         }
-        
     }
- 
- }
+}
 
 //目的地到達状態
 class Goal: NavigationState{
