@@ -85,26 +85,26 @@ class OnThePoint: NavigationState{
     }
     
 }
-/*
+
  
- //右左折待機状態
- class WaitTurn: NavigationState{
- func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
- return "待機中"
+//右左折待機状態
+class WaitTurn: NavigationState{
+    let motionService = MotionService()
+    
+    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+        return "待機中"
+    }
+    
+    func getMode() -> Int {
+        return 1
+    }
+ 
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+        var routeId = algorithm.getRouteId(navigations: <#T##NavigationEntity#>, receivedBeaconsRssi: <#T##Dictionary<Int, Int>#>)
+        
+    }
+ 
  }
- 
- func getMode() -> Int {
- return 1
- }
- 
- func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
- 
- }
- 
- 
- }
- 
- */
 
 //目的地到達状態
 class Goal: NavigationState{

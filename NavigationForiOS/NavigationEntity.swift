@@ -33,7 +33,7 @@ class NavigationEntity{
     
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
-    func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [BeaconThreshold]){
+    func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [BeaconThreshold], rotate_degree: Int){
         routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, expectedBeacons: expectedBeacons))
         //使用しているminor idを登録
         for i in expectedBeacons{
