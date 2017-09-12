@@ -108,6 +108,7 @@ class OnThePoint: NavigationState{
 
 //目的地到達状態
 class Goal: NavigationState{
+    
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "Goal"
     }
