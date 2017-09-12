@@ -103,10 +103,10 @@ class KNN: AlgorithmBase{
         for (i,value) in trainData.X.enumerated(){
             result += pow(Double(inputData.X[i] - value), 2)
         }
+        result = sqrt(result)
         
-        return round(sqrt(result)*100)/100
+        return result
     }
-    
     
     /// k近傍の教師データに対する精度を返す
     ///
@@ -124,7 +124,7 @@ class KNN: AlgorithmBase{
                     targetTrainData.append(element2)
                 }
             }
-            let answer = knn(trainData: removedTrainData, inputData: inputData)
+            let answer = knn(trainData: targetTrainData, inputData: inputData)
             if(answer == inputData.routeId){
                 nCorrect += 1
             }
