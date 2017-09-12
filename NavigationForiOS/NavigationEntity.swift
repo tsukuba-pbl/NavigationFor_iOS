@@ -15,11 +15,11 @@ struct NavigationPoint{
     let isGoal: Int!
     let isCrossroad: Int!
     let isRoad: Int!
-    let expectedBeacons : [[BeaconThreshold]] //事前計測データ
+    let expectedBeacons : [[BeaconRssi]] //事前計測データ
 }
 
 //ビーコンの事前計測電波強度
-struct BeaconThreshold{
+struct BeaconRssi{
     let minor_id: Int! //minor id
     let rssi: Int! //閾値
 }
@@ -36,7 +36,7 @@ class NavigationEntity{
     
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
-    func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [[BeaconThreshold]], isStart: Int, isGoal: Int, isCrossroad: Int, isRoad: Int){
+    func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [[BeaconRssi]], isStart: Int, isGoal: Int, isCrossroad: Int, isRoad: Int){
         routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, expectedBeacons: expectedBeacons))
     }
     
@@ -57,7 +57,7 @@ class NavigationEntity{
     }
     
     //指定したroute idの閾値の集合を返す
-    func getRouteExpectedBeacons(route_id : Int) -> [[BeaconThreshold]]{
+    func getRouteExpectedBeacons(route_id : Int) -> [[BeaconRssi]]{
         let beaconThresholdFilteredByRouteId = routes.filter({ $0.route_id == route_id}).first
         return (beaconThresholdFilteredByRouteId?.expectedBeacons)!
     }

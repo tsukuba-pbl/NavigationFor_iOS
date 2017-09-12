@@ -36,7 +36,7 @@ class NavigationService {
             case .success(let value):
                 let navJson = JSON(value)
                 navJson["routes"].forEach{(_, data) in
-                    var beacons = [[BeaconThreshold]]()
+                    var beacons = [[BeaconRssi]]()
                     let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
                     let isStart = data["isStart"].int!
@@ -49,12 +49,12 @@ class NavigationService {
                     // 教師データの取得（教師データの全体）
                     beaconsJSON?.forEach{(data) in
                         // ビーコンの数だけのminorIdとthresholdを配列に入れる．（教師データの１行）
-                        var beaconThresholdList: Array<BeaconThreshold>! = []
+                        var beaconRssiList: Array<BeaconRssi>! = []
                         data.forEach({ (_, beacon) in
-                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: beacon["minorId"].int, rssi: beacon["rssi"].int)
-                            beaconThresholdList.append(beaconThreshold)
+                            let beaconRssi: BeaconRssi = BeaconRssi(minor_id: beacon["minorId"].int, rssi: beacon["rssi"].int)
+                            beaconRssiList.append(beaconRssi)
                         })
-                        beacons.append(beaconThresholdList)
+                        beacons.append(beaconRssiList)
                     }
                     //ナビゲーション情報を順番に格納
                     navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad)

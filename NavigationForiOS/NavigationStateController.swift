@@ -54,7 +54,6 @@ class GoFoward: NavigationState{
         case .START : break
         case .GOAL :
             navigationService.navigationState = Goal()
-        default: break
         }
 
     }
@@ -80,7 +79,6 @@ class OnThePoint: NavigationState{
         case .START : break
         case .GOAL :
             navigationService.navigationState = Goal()
-        default: break
         }
     }
     
