@@ -9,7 +9,7 @@
 import Foundation
 
 protocol NavigationState {
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int)
     func getMode() -> Int
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String
     
@@ -25,7 +25,7 @@ class None: NavigationState{
         return -1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
 
         //受信できた場合、前進状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
@@ -44,7 +44,7 @@ class GoFoward: NavigationState{
         return 1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1) {
         case .CROSSROAD :
@@ -70,7 +70,7 @@ class OnThePoint: NavigationState{
         return 1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1) {
         case .CROSSROAD :
             navigationService.navigationState = OnThePoint()
@@ -97,10 +97,9 @@ class WaitTurn: NavigationState{
         return 1
     }
  
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         var rotateFlag = "left"
-        let routeId = algorithm.getRouteId(navigations: <#T##NavigationEntity#>, receivedBeaconsRssi: <#T##Dictionary<Int, Int>#>)
-        let rotateDegree = navigations.getNavigationDegree(route_id: routeId)
+        let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
         
         if (rotateDegree < 0) {
             rotateFlag = "right"
@@ -137,7 +136,7 @@ class Goal: NavigationState{
     }
     
     //呼ばれない関数
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
         
     }
     

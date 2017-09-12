@@ -78,16 +78,18 @@ class NavigationService {
         var mode = 1
         let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
         
+        //次に行くべき場所のroute id
+        var expectedRouteId = 1
+        
         //ナビゲーション情報の更新
-        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm, expectedRouteId: expectedRouteId)
         
         //ナビゲーションテキストの取得
-//        let routeId = algorithm.getRouteId(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi)
-//        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: routeId)
-//        //モードの取得
-//        mode = navigationState.getMode()
+        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: expectedRouteId)
+        //モードの取得
+        mode = navigationState.getMode()
         
-        return (1, "navigation_text")
+        return (mode, navigation_text)
     }
     
     

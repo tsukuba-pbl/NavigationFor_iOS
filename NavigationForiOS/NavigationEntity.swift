@@ -39,12 +39,6 @@ class NavigationEntity{
     // minor_id : ビーコンのminor threshold : 閾値
     func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [[BeaconRssi]], isStart: Int, isGoal: Int, isCrossroad: Int, isRoad: Int, rotate_degree: Int){
         routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, expectedBeacons: expectedBeacons, rotate_degree: rotate_degree))
-        //使用しているminor idを登録
-        for i in expectedBeacons{
-            if(MinorIdList.contains(i.minor_id) == false){
-                MinorIdList.append(i.minor_id)
-            }
-        }
     }
     
     //スタートのIDを取得する
@@ -74,34 +68,6 @@ class NavigationEntity{
         let navigationDegreeByRouteId = routes.filter({$0.route_id == route_id}).first
         return (navigationDegreeByRouteId?.rotate_degree)!
     }
-    
-    //指定したminor idが属するroute idを返す
-    //ない場合は-1がリターンされる
-//    func getRouteIdFromMinorId(minor_id: Int) -> Int{
-//        var retval = -1
-//        for i in routes{
-//            if(i.expectedBeacons.filter({$0.minor_id == minor_id}).first != nil){
-//                retval = i.route_id
-//                break
-//            }
-//        }
-//        return retval
-//    }
-    
-    //指定したminor idのビーコンの閾値を返す
-    //ない場合は-100がリターンされる
-    //*** あとで、ルートidも指定して絞る必要あり ***
-//    func getBeaconThresholdFromMinorId(minor_id: Int) -> Int{
-//        var retval = -100
-//        for i in routes{
-//            let retval2 = i.expectedBeacons.filter({$0.minor_id == minor_id}).first
-//            if(retval2 != nil){
-//                retval = (retval2?.threshold)!
-//                break
-//            }
-//        }
-//        return retval
-//    }
     
     //使用するビーコンのUUIDリストを返す
     func getUUIDList() -> Array<String>{
