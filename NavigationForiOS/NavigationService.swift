@@ -43,6 +43,7 @@ class NavigationService {
                     let isGoal = data["isGoal"].int!
                     let isCrossroad = data["isCrossroad"].int!
                     let isRoad = data["isRoad"].int!
+                    let rotateDegree = data["rotateDegree"].int!
                     
                     // 各地点のビーコンをbeaconThresholdList配列に格納
                     let beaconsJSON = data["beacons"].array
@@ -57,7 +58,7 @@ class NavigationService {
                         beacons.append(beaconRssiList)
                     }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad)
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, rotate_degree: rotateDegree)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
