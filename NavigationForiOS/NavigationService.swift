@@ -37,6 +37,7 @@ class NavigationService {
                 let navJson = JSON(value)
                 print(navJson)
                 print(navJson["routes"].count)
+                print(navJson["routes"])
                 navJson["routes"].forEach{(_, data) in
                     var beacons: [[BeaconThreshold]] = [[]]
                     let routeId = data["routeId"].int!
@@ -52,8 +53,8 @@ class NavigationService {
                     beaconsJSON?.forEach{(data) in
                         // ビーコンの数だけのminorIdとthresholdを配列に入れる．（教師データの１行）
                         var beaconThresholdList: Array<BeaconThreshold>! = []
-                        data.forEach({ (beacon) in
-                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: data["minorId"].int, threshold: data["threshold"].int)
+                        data.array?.forEach({ (beacon) in
+                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: beacon["minorId"].int, threshold: beacon["threshold"].int)
                             beaconThresholdList.append(beaconThreshold)
                         })
                         beacons.append(beaconThresholdList)

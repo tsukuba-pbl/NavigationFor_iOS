@@ -42,48 +42,49 @@ class KNN: AlgorithmBase{
         var trainData = [knnData]()
         
         navigations.routes.forEach { (navigationPoint) in
+            //種別を取得
+            var routeId : Int!
             if(navigationPoint.route_id == expectedRouteId){
-                //交差点にいるときのデータを格納
+                routeId = 1
+            }else{
+                routeId = 0
+            }
+            //対応するroute idのトレーニングデータを取得
+            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
+            routeTrainData.forEach { (routeTrainDataList) in
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.threshold))
+                }
+                trainData.append(knnData(X: logData, routeId: routeId))
             }
         }
+        print(trainData)
+
+        //入力データの作成(現在取得しているビーコン)
+        var beaconRssiData = [Double]()
+        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
+        expectedTrainData.first?.forEach({ (beacon) in
+            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
+        })
+        let inputData = knnData(X: beaconRssiData, routeId: 1)
         
-        //先ずは交差点にいるときのデータを格納
-        let expectedRouteTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
-        expectedRouteTrainData.forEach { (routeTrainDataList) in
-            var logData = [Double]()
-            routeTrainDataList.forEach{ (routeTrainData) in
-                logData.append(Double(routeTrainData.threshold))
+        //k近傍によって判定
+        //return 1:いる 0:いない
+        let ans = knn(trainData: trainData, inputData: inputData)
+        
+        if(ans == 1){
+            //目的地に到達したか判定
+            if(expectedRouteId == navigations.getGoalRouteId()){
+                status = POINT.GOAL
+            }else{
+                status = POINT.CROSSROAD
             }
-            trainData.append(knnData(X: logData, routeId: 1))
-            print(routeTrainDataList)
+        }else{
+            status = POINT.OTHER
         }
-        //交差点にいないときのデータを格納
         
-        
-//        trainData.append(knnData(X: , routeId: 1))
-//        //交差点にいないときのデータを格納
-//        trainData.append(knnData(X: , routeId: 0))
-//        
-//        //入力データの作成
-//        var inputData = knnData(X: , routeId: 1)
-//        
-//        //k近傍によって判定
-//        //return 1:いる 0:いない
-//        let ans = knn(trainData: trainData, inputData: inputData)
-//        
-//        if(ans == 1){
-//            //目的地に到達したか判定
-//            if(expectedRouteId == navigations.getGoalRouteId()){
-//                status = POINT.GOAL
-//            }else{
-//                status = POINT.CROSSROAD
-//            }
-//        }else{
-//            status = POINT.OTHER
-//        }
-//        
-//        return status
-        return POINT.CROSSROAD
+        return status
     }
     
     /// k近傍法
