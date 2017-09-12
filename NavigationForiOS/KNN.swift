@@ -28,6 +28,7 @@ class KNN: AlgorithmBase{
     ///   - expectedRouteId: 到達するか判定する場所のroute id
     /// - Returns: return 現在の場所のENUM
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
+        var status: POINT
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
@@ -37,9 +38,25 @@ class KNN: AlgorithmBase{
         //交差点にいないときのデータを格納
         trainData.append(knnData(X: , routeId: 0))
         
+        //入力データの作成
+        var inputData = knnData(X: , routeId: 1)
+        
         //k近傍によって判定
         //return 1:いる 0:いない
+        let ans = knn(trainData: trainData, inputData: inputData)
         
+        if(ans == 1){
+            //目的地に到達したか判定
+            if(expectedRouteId == navigations.getGoalRouteId()){
+                status = POINT.GOAL
+            }else{
+                status = POINT.CROSSROAD
+            }
+        }else{
+            status = POINT.OTHER
+        }
+        
+        return status
     }
     
     /// k近傍法
@@ -52,7 +69,7 @@ class KNN: AlgorithmBase{
         var dist = [EuclidData]()
         //ユークリッド距離を求める
         for i in trainData{
-            dist.append(EuclidData(routeId: i.routeId, euclidResult: EuclidDist(trainData: i, inputData: inputData)))
+            dist.append(EuclidData(routeId: i.routeId, euclidResult: getEuclidDist(trainData: i, inputData: inputData)))
         }
         //距離が短い順にソーティング
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
@@ -60,18 +77,18 @@ class KNN: AlgorithmBase{
         let target = sortedDist[0...2]
         
         //上位3つのデータで多数決を取る
-        var result = Dictionary<Int, Int>()
+        var targetTop3 = Dictionary<Int, Int>()
         for i in target {
-            if ((result[i.routeId]) != nil) {
-                result[i.routeId] = result[i.routeId]! + 1
+            if ((targetTop3[i.routeId]) != nil) {
+                targetTop3[i.routeId] = targetTop3[i.routeId]! + 1
             } else {
-                result[i.routeId] = 1
+                targetTop3[i.routeId] = 1
             }
         }
         
         //最も多いデータを返す
-        let owari = result.sorted { $0.1 > $1.1 }
-        return (owari.first?.key)!
+        let result = targetTop3.sorted { $0.1 > $1.1 }
+        return (result.first?.key)!
     }
     
     /// ユークリッド距離を求める関数
@@ -80,7 +97,7 @@ class KNN: AlgorithmBase{
     ///   - trainData: 教師データ
     ///   - inputData: 入力データ
     /// - Returns: ユークリッド距離
-    func EuclidDist(trainData: knnData, inputData: knnData) -> Double{
+    func getEuclidDist(trainData: knnData, inputData: knnData) -> Double{
         var result: Double = 0.0
         
         for (i,value) in trainData.X.enumerated(){
@@ -99,16 +116,16 @@ class KNN: AlgorithmBase{
         var nCorrect = 0   //正答数をカウント
         var accuracy = 0.0
         
-        for (i,element1) in trainData.enumerated(){
+        for (i,inputData) in trainData.enumerated(){
             //入力する教師データを教師データ群から削除する
-            var removedTrainData = [knnData]()
+            var targetTrainData = [knnData]()
             for(j,element2) in trainData.enumerated(){
                 if(i != j){
-                    removedTrainData.append(element2)
+                    targetTrainData.append(element2)
                 }
             }
-            let answer = knn(trainData: removedTrainData, inputData: element1)
-            if(answer == element1.routeId){
+            let answer = knn(trainData: removedTrainData, inputData: inputData)
+            if(answer == inputData.routeId){
                 nCorrect += 1
             }
         }

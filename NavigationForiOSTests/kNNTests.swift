@@ -12,19 +12,11 @@ import XCTest
 class kNNTests: XCTestCase {
     let kNN = KNN()
     
+    //routeId = 1 交差点にいる routeId = 2 交差点にいない
+    var tData = [knnData]()
+    
     override func setUp() {
         super.setUp()
-        
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testKnn(){
-        //routeId = 1 交差点にいる routeId = 2 交差点にいない
-        var tData = [knnData]()
         
         //教師データの作成
         //交差点で計測した値
@@ -50,7 +42,14 @@ class kNNTests: XCTestCase {
         tData.append(knnData(X: [-100, -93, -89, -90, -95, -91], routeId: 2))
         tData.append(knnData(X: [-90, -100, -88, -100, -90, -89], routeId: 2))
         tData.append(knnData(X: [-90, -95, -91, -100, -90, -89], routeId: 2))
-        
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    func testKnn(){
         //教師データの正答率を調べる
         let accuracy = kNN.getKnnAccuracy(trainData: tData)
         print("正答率：\(accuracy)")
