@@ -69,7 +69,7 @@ class KNN: AlgorithmBase{
         var dist = [EuclidData]()
         //ユークリッド距離を求める
         for i in trainData{
-            dist.append(EuclidData(routeId: i.routeId, euclidResult: EuclidDist(trainData: i, inputData: inputData)))
+            dist.append(EuclidData(routeId: i.routeId, euclidResult: getEuclidDist(trainData: i, inputData: inputData)))
         }
         //距離が短い順にソーティング
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
@@ -77,18 +77,18 @@ class KNN: AlgorithmBase{
         let target = sortedDist[0...2]
         
         //上位3つのデータで多数決を取る
-        var result = Dictionary<Int, Int>()
+        var targetTop3 = Dictionary<Int, Int>()
         for i in target {
-            if ((result[i.routeId]) != nil) {
-                result[i.routeId] = result[i.routeId]! + 1
+            if ((targetTop3[i.routeId]) != nil) {
+                targetTop3[i.routeId] = targetTop3[i.routeId]! + 1
             } else {
-                result[i.routeId] = 1
+                targetTop3[i.routeId] = 1
             }
         }
         
         //最も多いデータを返す
-        let owari = result.sorted { $0.1 > $1.1 }
-        return (owari.first?.key)!
+        let result = targetTop3.sorted { $0.1 > $1.1 }
+        return (result.first?.key)!
     }
     
     /// ユークリッド距離を求める関数
@@ -97,7 +97,7 @@ class KNN: AlgorithmBase{
     ///   - trainData: 教師データ
     ///   - inputData: 入力データ
     /// - Returns: ユークリッド距離
-    func EuclidDist(trainData: knnData, inputData: knnData) -> Double{
+    func getEuclidDist(trainData: knnData, inputData: knnData) -> Double{
         var result: Double = 0.0
         
         for (i,value) in trainData.X.enumerated(){
@@ -116,16 +116,16 @@ class KNN: AlgorithmBase{
         var nCorrect = 0   //正答数をカウント
         var accuracy = 0.0
         
-        for (i,element1) in trainData.enumerated(){
+        for (i,inputData) in trainData.enumerated(){
             //入力する教師データを教師データ群から削除する
-            var removedTrainData = [knnData]()
+            var targetTrainData = [knnData]()
             for(j,element2) in trainData.enumerated(){
                 if(i != j){
-                    removedTrainData.append(element2)
+                    targetTrainData.append(element2)
                 }
             }
-            let answer = knn(trainData: removedTrainData, inputData: element1)
-            if(answer == element1.routeId){
+            let answer = knn(trainData: removedTrainData, inputData: inputData)
+            if(answer == inputData.routeId){
                 nCorrect += 1
             }
         }
