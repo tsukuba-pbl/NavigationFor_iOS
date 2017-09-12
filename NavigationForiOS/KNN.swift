@@ -54,12 +54,11 @@ class KNN: AlgorithmBase{
             routeTrainData.forEach { (routeTrainDataList) in
                 var logData = [Double]()
                 routeTrainDataList.forEach{ (routeTrainData) in
-                    logData.append(Double(routeTrainData.threshold))
+                    logData.append(Double(routeTrainData.rssi))
                 }
                 trainData.append(knnData(X: logData, routeId: routeId))
             }
         }
-        print(trainData)
 
         //入力データの作成(現在取得しているビーコン)
         var beaconRssiData = [Double]()

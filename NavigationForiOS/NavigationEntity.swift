@@ -21,7 +21,7 @@ struct NavigationPoint{
 //ビーコンの事前計測電波強度
 struct BeaconThreshold{
     let minor_id: Int! //minor id
-    let threshold: Int! //閾値
+    let rssi: Int! //閾値
 }
 
 class NavigationEntity{

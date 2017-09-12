@@ -28,18 +28,15 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/a750edc3011d6aa402fec35a6a5a3e4ee919e4b9/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/afd5c6983d38cd8bc29447008aec4dd13cd09c69/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
-                print(navJson)
-                print(navJson["routes"].count)
-                print(navJson["routes"])
                 navJson["routes"].forEach{(_, data) in
-                    var beacons: [[BeaconThreshold]] = [[]]
+                    var beacons = [[BeaconThreshold]]()
                     let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
                     let isStart = data["isStart"].int!
@@ -53,8 +50,8 @@ class NavigationService {
                     beaconsJSON?.forEach{(data) in
                         // ビーコンの数だけのminorIdとthresholdを配列に入れる．（教師データの１行）
                         var beaconThresholdList: Array<BeaconThreshold>! = []
-                        data.array?.forEach({ (beacon) in
-                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: beacon["minorId"].int, threshold: beacon["threshold"].int)
+                        data.forEach({ (_, beacon) in
+                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: beacon["minorId"].int, rssi: beacon["rssi"].int)
                             beaconThresholdList.append(beaconThreshold)
                         })
                         beacons.append(beaconThresholdList)
