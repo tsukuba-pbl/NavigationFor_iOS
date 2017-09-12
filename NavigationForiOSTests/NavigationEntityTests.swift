@@ -240,7 +240,6 @@ class NavigationEntityTests: XCTestCase {
         
         navigations.addNavigationPoint(route_id: 6, navigation_text: "Goal", expectedBeacons: beacons1, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0)
 
-        
     }
     
     override func tearDown() {
