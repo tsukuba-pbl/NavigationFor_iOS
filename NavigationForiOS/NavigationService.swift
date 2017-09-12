@@ -36,18 +36,28 @@ class NavigationService {
             case .success(let value):
                 let navJson = JSON(value)
                 navJson["routes"].forEach{(_, data) in
-                    var beaconThresholdList: Array<BeaconThreshold>! = []
+                    var beacons: [[BeaconThreshold]] = [[]]
                     let routeId = data["routeId"].int!
                     let navigation = data["navigation"].string!
+                    let isStart = data["isStart"].int!
+                    let isGoal = data["isGoal"].int!
+                    let isCrossroad = data["isCrossroad"].int!
+                    let isRoad = data["isRoad"].int!
                     
                     // 各地点のビーコンをbeaconThresholdList配列に格納
                     let beaconsJSON = data["beacons"].array
+                    // 教師データの取得（教師データの全体）
                     beaconsJSON?.forEach{(data) in
-                        let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: data["minorId"].int, threshold: data["threshold"].int)
-                        beaconThresholdList.append(beaconThreshold)
+                        // ビーコンの数だけのminorIdとthresholdを配列に入れる．（教師データの１行）
+                        var beaconThresholdList: Array<BeaconThreshold>! = []
+                        data.forEach({ (beacon) in
+                            let beaconThreshold: BeaconThreshold = BeaconThreshold(minor_id: data["minorId"].int, threshold: data["threshold"].int)
+                            beaconThresholdList.append(beaconThreshold)
+                        })
+                        beacons.append(beaconThresholdList)
                     }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beaconThresholdList)
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, expectedBeacons: beaconThresholdList)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
