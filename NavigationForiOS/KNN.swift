@@ -30,33 +30,34 @@ class KNN: AlgorithmBase{
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
         var status: POINT
         
-        //交差点にいるかいないかをk近傍で判定する
-        //トレーニングデータを作成
-        var trainData = [knnData]()
-        //先ずは交差点にいるときのデータを格納
-        trainData.append(knnData(X: , routeId: 1))
-        //交差点にいないときのデータを格納
-        trainData.append(knnData(X: , routeId: 0))
-        
-        //入力データの作成
-        var inputData = knnData(X: , routeId: 1)
-        
-        //k近傍によって判定
-        //return 1:いる 0:いない
-        let ans = knn(trainData: trainData, inputData: inputData)
-        
-        if(ans == 1){
-            //目的地に到達したか判定
-            if(expectedRouteId == navigations.getGoalRouteId()){
-                status = POINT.GOAL
-            }else{
-                status = POINT.CROSSROAD
-            }
-        }else{
-            status = POINT.OTHER
-        }
-        
-        return status
+//        //交差点にいるかいないかをk近傍で判定する
+//        //トレーニングデータを作成
+//        var trainData = [knnData]()
+//        //先ずは交差点にいるときのデータを格納
+//        trainData.append(knnData(X: , routeId: 1))
+//        //交差点にいないときのデータを格納
+//        trainData.append(knnData(X: , routeId: 0))
+//        
+//        //入力データの作成
+//        var inputData = knnData(X: , routeId: 1)
+//        
+//        //k近傍によって判定
+//        //return 1:いる 0:いない
+//        let ans = knn(trainData: trainData, inputData: inputData)
+//        
+//        if(ans == 1){
+//            //目的地に到達したか判定
+//            if(expectedRouteId == navigations.getGoalRouteId()){
+//                status = POINT.GOAL
+//            }else{
+//                status = POINT.CROSSROAD
+//            }
+//        }else{
+//            status = POINT.OTHER
+//        }
+//        
+//        return status
+        return POINT.OTHER
     }
     
     /// k近傍法

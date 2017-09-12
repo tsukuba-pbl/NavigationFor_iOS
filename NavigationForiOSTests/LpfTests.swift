@@ -49,22 +49,22 @@ class LpfTests: XCTestCase {
     
     func testGetCurrentPoint_ビーコンの値が初期値の場合() {
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi), POINT.OTHER)
+        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1), POINT.OTHER)
     }
     
     func testGetCurrentPoint_ゴールでも交差点でもない場合() {
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -90, 2: -100, 3:-100, 4:-70, 5:-80, 6:-80, 7:-100, 8:-100, 9:-100, 10:-90, 11:-90, 12:-90]
-        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi), POINT.OTHER)
+        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1), POINT.OTHER)
     }
     
     func testGetCurrentPoint_交差点にいる場合() {
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -65, 2: -90, 3:-70, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi), POINT.CROSSROAD)
+        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1), POINT.CROSSROAD)
     }
     
     func testGetCurrentPoint_ゴールにいる場合() {
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-75, 11:-90, 12:-75]
-        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi), POINT.GOAL)
+        XCTAssertEqual(self.lpf.getCurrentPoint(navigations: self.navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 1), POINT.GOAL)
     }
     
     func testIsOnNavigationPoint_成功する場合1() {
