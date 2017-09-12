@@ -50,7 +50,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
-        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", isStart: 1, isGoal: 0, isCrossroad: 0, isRoad: 1, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", expectedBeacons: beacons1, isStart: 1, isGoal: 0, isCrossroad: 0, isRoad: 1)
         
         //ポイント2
         beaconThresholdList1 = []
@@ -87,7 +87,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
-        navigations.addNavigationPoint(route_id: 2, navigation_text: "turn right", isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 2, navigation_text: "turn right", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0)
         
         //ポイント3
         beaconThresholdList1 = []
@@ -124,7 +124,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList1)
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
-        navigations.addNavigationPoint(route_id: 3, navigation_text: "straight", isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 3, navigation_text: "straight", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1)
         
         //ポイント4
         beaconThresholdList1 = []
@@ -162,7 +162,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
 
-        navigations.addNavigationPoint(route_id: 4, navigation_text: "turn left", isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 4, navigation_text: "turn left", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1)
         
         //ポイント5
         beaconThresholdList1 = []
@@ -200,7 +200,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
         
-        navigations.addNavigationPoint(route_id: 5, navigation_text: "straight", isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 5, navigation_text: "straight", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1)
         
         //ポイント6
         beaconThresholdList1 = []
@@ -238,7 +238,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
         
-        navigations.addNavigationPoint(route_id: 6, navigation_text: "Goal", isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, expectedBeacons: beacons1)
+        navigations.addNavigationPoint(route_id: 6, navigation_text: "Goal", expectedBeacons: beacons1, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0)
 
         
     }

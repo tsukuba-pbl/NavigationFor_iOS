@@ -28,13 +28,15 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/c94288bb89dbc9e6b76173aee59ffe2ff778fb56/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/a750edc3011d6aa402fec35a6a5a3e4ee919e4b9/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
+                print(navJson)
+                print(navJson["routes"].count)
                 navJson["routes"].forEach{(_, data) in
                     var beacons: [[BeaconThreshold]] = [[]]
                     let routeId = data["routeId"].int!
@@ -57,7 +59,7 @@ class NavigationService {
                         beacons.append(beaconThresholdList)
                     }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, expectedBeacons: beaconThresholdList)
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
@@ -81,12 +83,12 @@ class NavigationService {
         navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
         
         //ナビゲーションテキストの取得
-        let routeId = algorithm.getRouteId(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi)
-        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: routeId)
-        //モードの取得
-        mode = navigationState.getMode()
+//        let routeId = algorithm.getRouteId(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi)
+//        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: routeId)
+//        //モードの取得
+//        mode = navigationState.getMode()
         
-        return (mode, navigation_text)
+        return (1, "navigation_text")
     }
     
     

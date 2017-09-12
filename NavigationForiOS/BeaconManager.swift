@@ -154,6 +154,7 @@ class BeaconManager: NSObject, CLLocationManagerDelegate {
             receiveBeaconRssiList.updateValue(-100, forKey: i.key)
         }
         //受信できたビーコンのRSSIを更新する
+        print(availableBeacons)
         if(availableBeacons.count > 0){
             for i in availableBeacons{
                 let minor_id = i.minor.intValue
@@ -236,6 +237,7 @@ class BeaconManager: NSObject, CLLocationManagerDelegate {
     // 自身が設置していないビーコンの情報も取得してしまうため，この関数で自身が設置したビーコンかを判定する
     func isAvailableBeaconId(navigations: NavigationEntity, uuid : String, minor_id : Int) -> Bool{
         var available = false
+        print(navigations.getMinorList())
         if(navigations.getMinorList().contains(minor_id) && navigations.getUUIDList().contains(uuid)){
             available = true
         }else{

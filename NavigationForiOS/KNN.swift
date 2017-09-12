@@ -18,6 +18,13 @@ struct EuclidData {
     var euclidResult: Double
 }
 
+enum POINT {
+    case GOAL
+    case START
+    case CROSSROAD
+    case OTHER
+}
+
 class KNN: AlgorithmBase{
     
     /// k近傍で現在いる場所を取得する関数
@@ -30,10 +37,29 @@ class KNN: AlgorithmBase{
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
         var status: POINT
         
-//        //交差点にいるかいないかをk近傍で判定する
-//        //トレーニングデータを作成
-//        var trainData = [knnData]()
-//        //先ずは交差点にいるときのデータを格納
+        //交差点にいるかいないかをk近傍で判定する
+        //トレーニングデータを作成
+        var trainData = [knnData]()
+        
+        navigations.routes.forEach { (navigationPoint) in
+            if(navigationPoint.route_id == expectedRouteId){
+                //交差点にいるときのデータを格納
+            }
+        }
+        
+        //先ずは交差点にいるときのデータを格納
+        let expectedRouteTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
+        expectedRouteTrainData.forEach { (routeTrainDataList) in
+            var logData = [Double]()
+            routeTrainDataList.forEach{ (routeTrainData) in
+                logData.append(Double(routeTrainData.threshold))
+            }
+            trainData.append(knnData(X: logData, routeId: 1))
+            print(routeTrainDataList)
+        }
+        //交差点にいないときのデータを格納
+        
+        
 //        trainData.append(knnData(X: , routeId: 1))
 //        //交差点にいないときのデータを格納
 //        trainData.append(knnData(X: , routeId: 0))
@@ -57,7 +83,7 @@ class KNN: AlgorithmBase{
 //        }
 //        
 //        return status
-        return POINT.OTHER
+        return POINT.CROSSROAD
     }
     
     /// k近傍法
