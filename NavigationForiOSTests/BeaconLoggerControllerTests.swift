@@ -50,19 +50,23 @@ class BeaconLoggerControllerTests: XCTestCase {
         XCTAssertEqual(retval.state, false)
     }
     
-//    func testGetBeaconRssi(){
-//        beaconLoggerController.state = true
-//        beaconLoggerController.getCounter = 0
-//        var expCounter = 0
-//        while(beaconLoggerController.state == true){
-//            XCTAssertEqual(beaconLoggerController.state, true)
-//            XCTAssertEqual(beaconLoggerController.getCounter, expCounter)
-//            beaconLoggerController.getBeaconRssi()
-//            expCounter += 1
-//        }
-//        XCTAssertEqual(beaconLoggerController.state, false)
-//        XCTAssertEqual(beaconLoggerController.getCounter, 10)
-//    }
+    func testGetBeaconRssi(){
+        beaconLoggerController.state = true
+        beaconLoggerController.getCounter = 0
+        var expCounter = 0
+        while(expCounter < 10){
+            XCTAssertEqual(beaconLoggerController.state, true)
+            XCTAssertEqual(beaconLoggerController.getCounter, expCounter)
+            beaconLoggerController.getBeaconRssi()
+            expCounter += 1
+        }
+    }
+    
+    func testStopBeaconLogger(){
+        beaconLoggerController.state = true
+        beaconLoggerController.stopBeaconLogger()
+        XCTAssertEqual(beaconLoggerController.state, false)
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
