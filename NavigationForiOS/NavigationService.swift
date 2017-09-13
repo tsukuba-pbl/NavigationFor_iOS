@@ -11,11 +11,11 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationService {
+    //初期値のroute id
+    var initRouteId = 1
+
     //初期状態を設定
-    var navigationState: NavigationState = None()
-    
-    //次に行くべき場所のroute id
-    var expectedRouteId = 1
+    var navigationState: NavigationState = None(expectedRouteId: initRouteId)
     
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム

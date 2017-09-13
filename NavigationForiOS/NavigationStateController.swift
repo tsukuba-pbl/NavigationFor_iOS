@@ -9,7 +9,7 @@
 import Foundation
 
 protocol NavigationState {
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int)
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
     func getMode() -> Int
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String
     
@@ -17,6 +17,12 @@ protocol NavigationState {
 
 //ビーコン受信不能状態
 class None: NavigationState{
+    private let expectedRouteId: Int
+    
+    init(expectedRouteId: Int){
+        self.expectedRouteId = expectedRouteId
+    }
+    
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "None"
     }
@@ -25,17 +31,23 @@ class None: NavigationState{
         return -1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
 
         //受信できた場合、前進状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
-            navigationService.navigationState = GoFoward()
+            navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         }
     }
 }
 
 //前進状態
 class GoFoward: NavigationState{
+    private let expectedRouteId: Int
+    
+    init(expectedRouteId: Int){
+        self.expectedRouteId = expectedRouteId
+    }
+    
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "進もう"
     }
@@ -44,16 +56,16 @@ class GoFoward: NavigationState{
         return 1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
         case .CROSSROAD :
-            navigationService.navigationState = OnThePoint()
+            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
         case .OTHER :
-            navigationService.navigationState = GoFoward()
+            navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
-            navigationService.navigationState = Goal()
+            navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
         }
 
     }
@@ -63,9 +75,13 @@ class GoFoward: NavigationState{
 //交差点到達状態
 //指定方向に移動することで、次状態へ遷移
 class OnThePoint: NavigationState{
-    let motionService = MotionService()
+    let motionService: MotionService
+    private let expectedRouteId: Int
+    private let allowableDegree: Int = 10
     
-    init(){
+    init(expectedRouteId: Int){
+        self.expectedRouteId = expectedRouteId
+        motionService = MotionService()
         motionService.startMotionManager()
     }
     
@@ -77,30 +93,23 @@ class OnThePoint: NavigationState{
         return 1
     }
     
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
-        var rotateFlag = "left"
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
         
-        if (rotateDegree < 0) {
-            rotateFlag = "right"
-        }
-        
-        if (rotateFlag == "left") {
-            if (rotateDegree > motionService.getYaw()) {
-                motionService.stopMotionManager()
-                navigationService.navigationState = GoFoward()
-            }
-        }else if (rotateFlag == "right") {
-            if (rotateDegree < motionService.getYaw()) {
-                motionService.stopMotionManager()
-                navigationService.navigationState = GoFoward()
-            }
+        if (rotateDegree - allowableDegree > motionService.getYaw() || rotateDegree + allowableDegree < motionService.getYaw()) {
+            motionService.stopMotionManager()
+            navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId + 1)
         }
     }
 }
 
 //目的地到達状態
 class Goal: NavigationState{
+    private let expectedRouteId: Int
+    
+    init(expectedRouteId: Int){
+        self.expectedRouteId = expectedRouteId
+    }
     
     func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
         return "Goal"
@@ -111,7 +120,7 @@ class Goal: NavigationState{
     }
     
     //呼ばれない関数
-    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase, expectedRouteId: Int) {
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
     }
     

@@ -46,6 +46,27 @@ class NavigationEntity{
         return (routes.first?.route_id)!
     }
     
+    func isStartRoute(routeId: Int) -> Bool {
+        let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
+            NavigationPoint.route_id == routeId
+        })
+        if targetRoute.count > 0 {
+            return ((targetRoute.first?.isStart) != nil) as Bool
+        }
+        return false
+    }
+    
+    func isGoalRoute(routeId: Int) -> Bool {
+        let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
+            NavigationPoint.route_id == routeId
+        })
+        if targetRoute.count > 0 {
+            return ((targetRoute.first?.isGoal) != nil) as Bool
+        }
+        return false
+    }
+    
+    
     //ゴールのIDを取得する
     func getGoalRouteId() -> Int{
         return (routes.last?.route_id)!
