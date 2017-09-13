@@ -100,12 +100,18 @@ class BeaconLoggerController : NSObject{
         let now = Date()
         var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
         message += "route id, 1\n"
+        message += "[\n"
         for i in trainData{
+            message += "\t[\n"
             for j in navigations.getMinorList(){
-                message += "\(j),\(i[j] ?? -100), "
+                message += "\t\t{\n"
+                message += "\t\t\t\"minorId\": \(j),\n"
+                message += "\t\t\t\"rssi\": \(i[j] ?? -100)\n"
+                message += "\t\t},\n"
             }
-            message += "\n"
+            message += "\t],\n"
         }
+        message += "],\n"
         print(message)
         SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
     }
