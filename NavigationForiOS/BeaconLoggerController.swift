@@ -72,21 +72,10 @@ class BeaconLoggerController : NSObject{
     
     /// 終了時に呼ぶ
     func stopBeaconLogger(){
-        #if DEBUG
-            if(TestService.isTesting() == false){
-                if(timer.isValid){
-                    timer.invalidate()
-                }
-                //ビューを更新
-                delegate?.updateView()
-            }
-        #else
-            if(timer.isValid){
-                timer.invalidate()
-            }
-            //ビューを更新
-            delegate?.updateView()
-        #endif
+        //スレッドを終了させる
+        if(timer.isValid){
+            timer.invalidate()
+        }
         state = false
         //トレーニングデータを送信する
         sendTrainData()

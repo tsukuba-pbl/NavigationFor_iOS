@@ -45,6 +45,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
             beaconLogger?.stopBeaconLogger()
             startButton.setTitle("計測開始", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.blue
+            Counter.text = "0"
             onStart = false
         }
     }
