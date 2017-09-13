@@ -10,6 +10,8 @@ import UIKit
 
 class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     @IBOutlet weak var startButton: UIButton! //計測開始ボタン
+    @IBOutlet weak var routeIdLabel: UILabel!
+    @IBOutlet weak var setRouteIdStepper: UIStepper!
     
     var navigations : NavigationEntity = NavigationEntity()
     var beaconLogger : BeaconLoggerController?
@@ -17,6 +19,8 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     @IBOutlet weak var Counter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var timer : Timer!
     var onStart = false //計測中かどうか
+    
+    var routeId = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +28,8 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         //最初はスタートボタンは押せる状態
         startButton.isEnabled = true
         Counter.text = "0"
+        
+        routeIdLabel.text = "\(routeId)"
         
         //使用するビーコンのminor idを設定する
         //本当はここで、JSONとかを読み込んで設定したい
@@ -37,15 +43,24 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     @IBAction func tapStartButton(_ sender: Any) {
         if(onStart == false){
             onStart = true
-            startButton.setTitle("計測終了", for: UIControlState.normal)
+            startButton.setTitle("Stop", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.red
+            //Stepperを押せないようにする
+            setRouteIdStepper.isEnabled = false
             //計測を開始する
             beaconLogger?.startBeaconLogger()
         }else{
             beaconLogger?.stopBeaconLogger()
-            startButton.setTitle("計測開始", for: UIControlState.normal)
+            //ボタンの表示を変更
+            startButton.setTitle("Start", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.blue
             Counter.text = "0"
+            //Stepperの表示を変更
+            setRouteIdStepper.value += 1.0
+            routeId += 1
+            routeIdLabel.text = "\(routeId)"
+            setRouteIdStepper.isEnabled = true
+            //フラグ処理
             onStart = false
         }
     }
@@ -56,6 +71,12 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         if(Counter.text != nil){
             Counter.text = "\(retval?.counter ?? 0)"
         }
+    }
+    
+    /// Route Id 指定用のステッパの値が変更したとき
+    @IBAction func didTapRouteIdStepper(_ stepper: UIStepper) {
+        routeId = Int(stepper.value)
+        routeIdLabel.text = "\(routeId)"
     }
 
     override func didReceiveMemoryWarning() {
