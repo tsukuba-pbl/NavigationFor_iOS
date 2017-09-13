@@ -16,6 +16,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     
     @IBOutlet weak var Counter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var timer : Timer!
+    var onStart = false //計測中かどうか
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +35,18 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     }
     
     @IBAction func tapStartButton(_ sender: Any) {
-        //計測中はスタートボタンが押せない状態にして、それがわかるようにする
-        startButton.isEnabled = false
-        startButton.setTitle("計測中", for: UIControlState.normal)
-        startButton.backgroundColor = UIColor.red
-        //計測を開始する
-        beaconLogger?.startBeaconLogger()
+        if(onStart == false){
+            onStart = true
+            startButton.setTitle("計測終了", for: UIControlState.normal)
+            startButton.backgroundColor = UIColor.red
+            //計測を開始する
+            beaconLogger?.startBeaconLogger()
+        }else{
+            beaconLogger?.stopBeaconLogger()
+            startButton.setTitle("計測開始", for: UIControlState.normal)
+            startButton.backgroundColor = UIColor.blue
+            onStart = false
+        }
     }
     
     //ビューの更新
@@ -47,13 +54,6 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         let retval = beaconLogger?.getLoggerState()
         if(Counter.text != nil){
             Counter.text = "\(retval?.counter ?? 0)"
-        }
-        if(retval?.state == true){
-            startButton.isEnabled = false
-        }else{
-            startButton.isEnabled = true
-            startButton.setTitle("計測開始", for: UIControlState.normal)
-            startButton.backgroundColor = UIColor.blue
         }
     }
 

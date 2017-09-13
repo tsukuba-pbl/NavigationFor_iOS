@@ -55,29 +55,6 @@ class BeaconLoggerController : NSObject{
     func getBeaconRssi(){
         //取得した回数をカウント
         getCounter += 1
-        //getCounter.text = "\(getCounter2)"
-        //指定回数に達したら、スレッドを停止させる
-        //テスト時には実行しない
-        if(getCounter >= 10){
-            #if DEBUG
-                if(TestService.isTesting() == false){
-                    if(timer.isValid){
-                        timer.invalidate()
-                    }
-                    //ビューを更新
-                    delegate?.updateView()
-                }
-            #else
-                if(timer.isValid){
-                    timer.invalidate()
-                }
-                //ビューを更新
-                delegate?.updateView()
-            #endif
-            state = false
-            //トレーニングデータを送信する
-            sendTrainData()
-        }
         //ビーコンの電波強度の計測
         let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
         //トレーニングデータに追加
@@ -91,6 +68,28 @@ class BeaconLoggerController : NSObject{
         #else
             delegate?.updateView()
         #endif
+    }
+    
+    /// 終了時に呼ぶ
+    func stopBeaconLogger(){
+        #if DEBUG
+            if(TestService.isTesting() == false){
+                if(timer.isValid){
+                    timer.invalidate()
+                }
+                //ビューを更新
+                delegate?.updateView()
+            }
+        #else
+            if(timer.isValid){
+                timer.invalidate()
+            }
+            //ビューを更新
+            delegate?.updateView()
+        #endif
+        state = false
+        //トレーニングデータを送信する
+        sendTrainData()
     }
     
     //トレーニングデータを外部に送信する
@@ -110,7 +109,7 @@ class BeaconLoggerController : NSObject{
         }
         message += "],\n"
         print(message)
-        SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
+        //SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
     }
 
 }
