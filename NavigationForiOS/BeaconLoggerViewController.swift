@@ -12,10 +12,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     @IBOutlet weak var startButton: UIButton! //計測開始ボタン
     
     var navigations : NavigationEntity = NavigationEntity()
-    var beaconManager : BeaconManager = BeaconManager()
     var beaconLogger : BeaconLoggerController?
-    
-    var trainData : Array<Dictionary<Int, Int>> = []
     
     @IBOutlet weak var Counter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var timer : Timer!
