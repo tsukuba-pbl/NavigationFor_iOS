@@ -15,13 +15,14 @@ class NavigationService {
     var initRouteId = 1
 
     //初期状態を設定
-    var navigationState: NavigationState = None(expectedRouteId: initRouteId)
+    var navigationState: NavigationState
     
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム
     var beaconManager : BeaconManager!
     
     init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
+        navigationState = None(expectedRouteId: initRouteId)
         self.beaconManager = beaconManager
         self.algorithm = algorithm
     }
@@ -31,7 +32,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/afd5c6983d38cd8bc29447008aec4dd13cd09c69/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/b61de1dad05b19433db8e0d40d87bab91774e132/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -82,10 +83,10 @@ class NavigationService {
         let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
         
         //ナビゲーション情報の更新
-        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm, expectedRouteId: expectedRouteId)
+        navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
         
         //ナビゲーションテキストの取得
-        navigation_text = navigationState.getNavigation(navigations: navigations, routeId: expectedRouteId)
+        navigation_text = navigationState.getNavigation(navigations: navigations)
         //モードの取得
         mode = navigationState.getMode()
         

@@ -11,7 +11,7 @@ import Foundation
 protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
     func getMode() -> Int
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String
+    func getNavigation(navigations: NavigationEntity) -> String
     
 }
 
@@ -23,7 +23,7 @@ class None: NavigationState{
         self.expectedRouteId = expectedRouteId
     }
     
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+    func getNavigation(navigations: NavigationEntity) -> String {
         return "None"
     }
     
@@ -35,6 +35,7 @@ class None: NavigationState{
 
         //受信できた場合、前進状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
+            SlackService.postError(error: "None状態", tag: "State")
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         }
     }
@@ -48,7 +49,7 @@ class GoFoward: NavigationState{
         self.expectedRouteId = expectedRouteId
     }
     
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+    func getNavigation(navigations: NavigationEntity) -> String {
         return "進もう"
     }
     
@@ -60,11 +61,14 @@ class GoFoward: NavigationState{
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
         case .CROSSROAD :
+            //SlackService.postError(error: "GoFoward: CROSSROAD", tag: "State")
             navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
         case .OTHER :
+            //SlackService.postError(error: "GoFoward: OTHER", tag: "State")
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
+            //SlackService.postError(error: "GoFoward: GOAL", tag: "State")
             navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
         }
 
@@ -85,8 +89,8 @@ class OnThePoint: NavigationState{
         motionService.startMotionManager()
     }
     
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
-        return navigations.getNavigationText(route_id: routeId)
+    func getNavigation(navigations: NavigationEntity) -> String {
+        return navigations.getNavigationText(route_id: expectedRouteId)
     }
     
     func getMode() -> Int {
@@ -95,8 +99,10 @@ class OnThePoint: NavigationState{
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
+        //SlackService.postError(error: "OnThePOINT: なう, rotate: \(rotateDegree), actial: \(motionService.getYaw())", tag: "State")
         
-        if (rotateDegree - allowableDegree > motionService.getYaw() || rotateDegree + allowableDegree < motionService.getYaw()) {
+        if (rotateDegree - allowableDegree < motionService.getYaw() && rotateDegree + allowableDegree > motionService.getYaw()) {
+            //SlackService.postError(error: "OnThePOINT: まがれた", tag: "State")
             motionService.stopMotionManager()
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId + 1)
         }
@@ -111,7 +117,7 @@ class Goal: NavigationState{
         self.expectedRouteId = expectedRouteId
     }
     
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+    func getNavigation(navigations: NavigationEntity) -> String {
         return "Goal"
     }
     
@@ -121,6 +127,7 @@ class Goal: NavigationState{
     
     //呼ばれない関数
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+        //SlackService.postError(error: "GOAL: まがれた", tag: "State")
         
     }
     
