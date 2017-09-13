@@ -49,13 +49,7 @@ class SlackService {
                     "fallback": tag,
                     "pretext": tag,
                     "color": "#0072d0",
-                    "fields": [
-                        [
-                            "title": "Beacon Log Data",
-                            "value": message,
-                            "short": false
-                        ]
-                    ]
+                    "text": message
                 ],
             ],
             ]
