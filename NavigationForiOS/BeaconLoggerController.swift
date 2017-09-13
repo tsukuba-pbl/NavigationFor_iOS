@@ -20,11 +20,14 @@ class BeaconLoggerController : NSObject{
     var getCounter = 0
     var state = false
     var delegate: BeaconLoggerVCDelegate?
+    var routeId = 1
     
     /// イニシャライザ
     ///
     /// - Parameters:
     ///   - navigations: 使用するビーコン情報の入ったナビゲーション情報
+    ///   - delegate: デリゲート
+    ///   - routeId: 観測を行う場所のroute id
     init(navigations: NavigationEntity, delegate: BeaconLoggerVCDelegate){
         //使用するビーコン情報を格納
         self.navigations = navigations
@@ -35,7 +38,9 @@ class BeaconLoggerController : NSObject{
     }
     
     /// トレーニングデータの計測を開始する
-    func startBeaconLogger(){
+    func startBeaconLogger(routeId: Int){
+        //route idの設定
+        self.routeId = routeId
         // 1秒ごとにビーコンの情報を取得する
         getCounter = 0
         //格納配列を初期化
@@ -99,7 +104,7 @@ class BeaconLoggerController : NSObject{
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
         let now = Date()
         var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
-        message += "route id, 1\n"
+        message += "route id, \(routeId)\n"
         message += "[\n"
         for i in trainData{
             message += "\t[\n"

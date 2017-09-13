@@ -48,7 +48,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
             //Stepperを押せないようにする
             setRouteIdStepper.isEnabled = false
             //計測を開始する
-            beaconLogger?.startBeaconLogger()
+            beaconLogger?.startBeaconLogger(routeId: routeId)
         }else{
             beaconLogger?.stopBeaconLogger()
             //ボタンの表示を変更

@@ -37,11 +37,12 @@ class BeaconLoggerControllerTests: XCTestCase {
     }
     
     func testStartBeaconLogger(){
-        beaconLoggerController.startBeaconLogger()
+        beaconLoggerController.startBeaconLogger(routeId: 2)
         XCTAssertEqual(beaconLoggerController.getCounter, 0)
         XCTAssertTrue(beaconLoggerController.trainData.isEmpty)
         XCTAssertTrue(beaconLoggerController.timer.isValid)
         XCTAssertEqual(beaconLoggerController.state, true)
+        XCTAssertEqual(beaconLoggerController.routeId, 2)
     }
     
     func testGetLoggerState(){
