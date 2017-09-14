@@ -12,6 +12,7 @@ import Swinject
 
 class NavigationViewController: UIViewController{
     
+    @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var uuid: UILabel!
     @IBOutlet weak var minor: UILabel!
     @IBOutlet weak var rssi: UILabel!
@@ -51,6 +52,7 @@ class NavigationViewController: UIViewController{
         self.minor.text    = "none"
         self.rssi.text     = "none"
         self.navigation.text = "none"
+        self.stateMachineLabel.text = "none"
     }
     
     //ナビゲーションの更新
@@ -64,6 +66,7 @@ class NavigationViewController: UIViewController{
             self.minor.text = "minor id : \(maxRssiBeacon?.minorId ?? 0)"
             self.rssi.text = "RSSI : \(maxRssiBeacon?.rssi ?? 0)dB"
             self.navigation.text = navigation?.navigation_text
+            self.stateMachineLabel.text = "State: \(navigation?.navigation_state ?? ""), Id: \(navigation?.expected_routeId ?? -1)"
             if(navigation?.mode == 2){
                 goalAlert()
             }
