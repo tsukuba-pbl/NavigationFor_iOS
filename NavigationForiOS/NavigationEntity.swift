@@ -46,7 +46,7 @@ class NavigationEntity{
         return (routes.first?.route_id)!
     }
     
-    func isStartRoute(routeId: Int) -> Bool {
+    func isStart(routeId: Int) -> Bool {
         let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
             NavigationPoint.route_id == routeId
         })
@@ -56,7 +56,7 @@ class NavigationEntity{
         return false
     }
     
-    func isGoalRoute(routeId: Int) -> Bool {
+    func isGoal(routeId: Int) -> Bool {
         let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
             NavigationPoint.route_id == routeId
         })
@@ -66,6 +66,33 @@ class NavigationEntity{
         return false
     }
     
+    func isCrossroad(routeId: Int) -> Bool {
+        let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
+            NavigationPoint.route_id == routeId
+        })
+        if targetRoute.count > 0 {
+            return ((targetRoute.first?.isCrossroad) != nil) as Bool
+        }
+        return false
+    }
+    
+    func isRoad(routeId: Int) -> Bool {
+        let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
+            NavigationPoint.route_id == routeId
+        })
+        if targetRoute.count > 0 {
+            return ((targetRoute.first?.isRoad) != nil) as Bool
+        }
+        return false
+    }
+    
+    func getMinorIdList() -> [Int] {
+        var minorIdList = [Int]()
+        routes.first?.expectedBeacons.first?.forEach { (beacon) in
+            minorIdList.append(beacon.minor_id)
+        }
+        return minorIdList
+    }
     
     //ゴールのIDを取得する
     func getGoalRouteId() -> Int{

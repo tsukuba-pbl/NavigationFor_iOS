@@ -63,13 +63,14 @@ class GoFoward: NavigationState{
         case .CROSSROAD :
             //SlackService.postError(error: "GoFoward: CROSSROAD", tag: "State")
             navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
-        case .OTHER :
+        case .ROAD :
             //SlackService.postError(error: "GoFoward: OTHER", tag: "State")
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
             //SlackService.postError(error: "GoFoward: GOAL", tag: "State")
             navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
+        case .OTHER: break
         }
 
     }
