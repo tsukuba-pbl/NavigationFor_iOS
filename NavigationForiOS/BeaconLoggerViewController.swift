@@ -16,6 +16,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
     var navigations : NavigationEntity = NavigationEntity()
     var beaconLogger : BeaconLoggerController?
     
+    @IBOutlet weak var loggerActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var Counter: UILabel! //ビーコンの受信を行う回数を記録するカウンタ
     var timer : Timer!
     var onStart = false //計測中かどうか
@@ -30,6 +31,8 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         Counter.text = "0"
         
         routeIdLabel.text = "\(routeId)"
+        //くるくる設定
+        loggerActivityIndicator.hidesWhenStopped = true
         
         //使用するビーコンのminor idを設定する
         //本当はここで、JSONとかを読み込んで設定したい
@@ -47,6 +50,8 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
             startButton.backgroundColor = UIColor.red
             //Stepperを押せないようにする
             setRouteIdStepper.isEnabled = false
+            //くるくる開始
+            loggerActivityIndicator.startAnimating()
             //計測を開始する
             beaconLogger?.startBeaconLogger(routeId: routeId)
         }else{
@@ -55,6 +60,8 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
             startButton.setTitle("Start", for: UIControlState.normal)
             startButton.backgroundColor = UIColor.blue
             Counter.text = "0"
+            //くるくる終了
+            loggerActivityIndicator.stopAnimating()
             //Stepperの表示を変更
             setRouteIdStepper.value += 1.0
             routeId += 1
