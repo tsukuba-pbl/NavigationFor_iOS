@@ -37,11 +37,12 @@ class BeaconLoggerControllerTests: XCTestCase {
     }
     
     func testStartBeaconLogger(){
-        beaconLoggerController.startBeaconLogger()
+        beaconLoggerController.startBeaconLogger(routeId: 2)
         XCTAssertEqual(beaconLoggerController.getCounter, 0)
         XCTAssertTrue(beaconLoggerController.trainData.isEmpty)
         XCTAssertTrue(beaconLoggerController.timer.isValid)
         XCTAssertEqual(beaconLoggerController.state, true)
+        XCTAssertEqual(beaconLoggerController.routeId, 2)
     }
     
     func testGetLoggerState(){
@@ -54,14 +55,18 @@ class BeaconLoggerControllerTests: XCTestCase {
         beaconLoggerController.state = true
         beaconLoggerController.getCounter = 0
         var expCounter = 0
-        while(beaconLoggerController.state == true){
+        while(expCounter < 10){
             XCTAssertEqual(beaconLoggerController.state, true)
             XCTAssertEqual(beaconLoggerController.getCounter, expCounter)
             beaconLoggerController.getBeaconRssi()
             expCounter += 1
         }
+    }
+    
+    func testStopBeaconLogger(){
+        beaconLoggerController.state = true
+        beaconLoggerController.stopBeaconLogger()
         XCTAssertEqual(beaconLoggerController.state, false)
-        XCTAssertEqual(beaconLoggerController.getCounter, 10)
     }
     
     func testPerformanceExample() {

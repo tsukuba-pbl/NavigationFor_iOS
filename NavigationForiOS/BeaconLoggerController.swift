@@ -20,11 +20,14 @@ class BeaconLoggerController : NSObject{
     var getCounter = 0
     var state = false
     var delegate: BeaconLoggerVCDelegate?
+    var routeId = 1
     
     /// イニシャライザ
     ///
     /// - Parameters:
     ///   - navigations: 使用するビーコン情報の入ったナビゲーション情報
+    ///   - delegate: デリゲート
+    ///   - routeId: 観測を行う場所のroute id
     init(navigations: NavigationEntity, delegate: BeaconLoggerVCDelegate){
         //使用するビーコン情報を格納
         self.navigations = navigations
@@ -35,7 +38,9 @@ class BeaconLoggerController : NSObject{
     }
     
     /// トレーニングデータの計測を開始する
-    func startBeaconLogger(){
+    func startBeaconLogger(routeId: Int){
+        //route idの設定
+        self.routeId = routeId
         // 1秒ごとにビーコンの情報を取得する
         getCounter = 0
         //格納配列を初期化
@@ -55,29 +60,6 @@ class BeaconLoggerController : NSObject{
     func getBeaconRssi(){
         //取得した回数をカウント
         getCounter += 1
-        //getCounter.text = "\(getCounter2)"
-        //指定回数に達したら、スレッドを停止させる
-        //テスト時には実行しない
-        if(getCounter >= 10){
-            #if DEBUG
-                if(TestService.isTesting() == false){
-                    if(timer.isValid){
-                        timer.invalidate()
-                    }
-                    //ビューを更新
-                    delegate?.updateView()
-                }
-            #else
-                if(timer.isValid){
-                    timer.invalidate()
-                }
-                //ビューを更新
-                delegate?.updateView()
-            #endif
-            state = false
-            //トレーニングデータを送信する
-            sendTrainData()
-        }
         //ビーコンの電波強度の計測
         let receivedBeaconsRssiList = beaconManager.getReceivedBeaconsRssi()
         //トレーニングデータに追加
@@ -93,13 +75,36 @@ class BeaconLoggerController : NSObject{
         #endif
     }
     
+    /// 終了時に呼ぶ
+    func stopBeaconLogger(){
+        state = false
+        //テスト実行時には、呼び出さない
+        #if DEBUG
+            if(TestService.isTesting() == false){
+                //スレッドを終了させる
+                if(timer.isValid){
+                    timer.invalidate()
+                }
+                //トレーニングデータを送信する
+                sendTrainData()
+            }
+        #else
+            //スレッドを終了させる
+            if(timer.isValid){
+                timer.invalidate()
+            }
+            //トレーニングデータを送信する
+            sendTrainData()
+        #endif
+    }
+    
     //トレーニングデータを外部に送信する
     func sendTrainData(){
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
         let now = Date()
         var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
-        message += "route id, 1\n"
+        message += "route id, \(routeId)\n"
         message += "[\n"
         for i in trainData{
             message += "\t[\n"
