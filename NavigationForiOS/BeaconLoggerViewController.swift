@@ -35,12 +35,13 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         loggerActivityIndicator.hidesWhenStopped = true
         
         //使用するビーコンのminor idを設定する
-        //本当はここで、JSONとかを読み込んで設定したい
-        for i in 1...9{
-            navigations.MinorIdList.append(i)
+        //使用するビーコンのMinor Idを設定
+        BeaconLoggerService.getBeaconMinorIdList { response in
+            //JSONで取得
+            self.navigations.MinorIdList = response
+            //受信するビーコンの情報を与え、受信を開始する
+            self.beaconLogger = BeaconLoggerController(navigations : self.navigations, delegate: self)
         }
-        //受信するビーコンの情報を与え、受信を開始する
-        beaconLogger = BeaconLoggerController(navigations : navigations, delegate: self)
     }
     
     @IBAction func tapStartButton(_ sender: Any) {
