@@ -83,8 +83,8 @@ class KNN: AlgorithmBase{
             status = POINT.OTHER
         }
         
-        let accuracy = getKnnAccuracy(trainData: trainData)
-        print(accuracy)
+        //let accuracy = getKnnAccuracy(trainData: trainData)
+        //print(accuracy)
         
         return status
     }
