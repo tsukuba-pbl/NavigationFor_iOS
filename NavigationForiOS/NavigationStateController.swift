@@ -8,6 +8,8 @@
 
 import Foundation
 
+var stateMachineLog = ""
+
 protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
     func getMode() -> Int
@@ -40,6 +42,7 @@ class None: NavigationState{
         //受信できた場合、前進状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
+            stateMachineLog += "None -> GoFoward(\(expectedRouteId)) -> "
         }
     }
 }
@@ -68,11 +71,13 @@ class GoFoward: NavigationState{
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
         case .CROSSROAD :
+            stateMachineLog += "OnThePoint(\(expectedRouteId))->"
             navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
         case .OTHER :
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
+            stateMachineLog += "Goal"
             navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
         }
 
@@ -111,6 +116,7 @@ class OnThePoint: NavigationState{
         if (rotateDegree - allowableDegree < motionService.getYaw() && rotateDegree + allowableDegree > motionService.getYaw()) {
             motionService.stopMotionManager()
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId + 1)
+            stateMachineLog += "GoFoward(\(expectedRouteId+1))->"
         }
     }
 }
@@ -125,6 +131,7 @@ class Goal: NavigationState{
     
     init(expectedRouteId: Int){
         self.expectedRouteId = expectedRouteId
+        SlackService.postError(error: stateMachineLog, tag: "StateMachine Log")
     }
     
     func getNavigation(navigations: NavigationEntity) -> String {
