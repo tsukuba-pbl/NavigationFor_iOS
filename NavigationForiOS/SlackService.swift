@@ -41,7 +41,7 @@ class SlackService {
     static func postBeaconLog(log: String, tag: String) {
         request_log(message: log, tag: tag)
     }
-    
+
     private static func request_log(message: String, tag: String) {
         let params: Parameters = [
             "attachments": [

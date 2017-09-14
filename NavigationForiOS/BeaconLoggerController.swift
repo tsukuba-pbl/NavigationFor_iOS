@@ -105,17 +105,32 @@ class BeaconLoggerController : NSObject{
         let now = Date()
         var message = "Beacon Logger Train Data \n Date: \(formatter.string(from: now))\n"
         message += "route id, \(routeId)\n"
-        message += "[\n"
-        for i in trainData{
-            message += "\t[\n"
-            for j in navigations.getMinorList(){
-                message += "\t\t{\"minorId\": \(j), \"rssi\": \(i[j] ?? -100)},\n"
-            }
-            message += "\t],\n"
-        }
-        message += "],\n"
-        print(message)
+        
         SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
+        
+        for value in self.getMessages() {
+            SlackService.postBeaconLog(log: value, tag: "Beacon Logger")
+        }
+    }
+    
+    func getMessages() -> [String] {
+        var messageList = [String]()
+        var tmpMessage = ""
+        // message += "[\n"
+        
+        for (key, i) in trainData.enumerated(){
+            tmpMessage += "\t[\n"
+            for j in navigations.getMinorList(){
+                tmpMessage += "\t\t{\"minorId\": \(j), \"rssi\": \(i[j] ?? -100)},\n"
+            }
+            tmpMessage += "\t],\n"
+            if key%10 == 0 {
+                messageList.append(tmpMessage)
+                tmpMessage = ""
+            }
+        }
+        // message += "],\n"
+        return messageList
     }
 
 }
