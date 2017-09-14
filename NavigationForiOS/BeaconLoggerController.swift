@@ -115,7 +115,7 @@ class BeaconLoggerController : NSObject{
         }
         message += "],\n"
         print(message)
-        //SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
+        SlackService.postBeaconLog(log: message, tag: "Beacon Logger")
     }
 
 }
