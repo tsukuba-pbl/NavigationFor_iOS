@@ -72,7 +72,7 @@ class GoFoward: NavigationState{
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
         case .CROSSROAD :
             stateMachineLog += "OnThePoint(\(expectedRouteId))->"
-            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
+            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId)
         case .OTHER :
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
@@ -112,7 +112,7 @@ class OnThePoint: NavigationState{
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
-        
+
         if (rotateDegree - allowableDegree < motionService.getYaw() && rotateDegree + allowableDegree > motionService.getYaw()) {
             motionService.stopMotionManager()
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId + 1)
