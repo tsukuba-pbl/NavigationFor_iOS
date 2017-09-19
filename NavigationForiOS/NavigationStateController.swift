@@ -57,7 +57,7 @@ class GoFoward: NavigationState{
     }
     
     func getNavigation(navigations: NavigationEntity) -> String {
-        return "進もう"
+        return "進んでください"
     }
     
     func getMode() -> Int {
