@@ -67,7 +67,7 @@ class GoFoward: NavigationState{
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
-        case .CROSSROAD :
+        case .ON_POINT :
             navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId)
         case .OTHER :
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)

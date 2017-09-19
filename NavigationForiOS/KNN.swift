@@ -21,7 +21,7 @@ struct EuclidData {
 enum POINT {
     case GOAL
     case START
-    case CROSSROAD
+    case ON_POINT
     case OTHER
 }
 
@@ -77,7 +77,7 @@ class KNN: AlgorithmBase{
             if(expectedRouteId == navigations.getGoalRouteId()){
                 status = POINT.GOAL
             }else{
-                status = POINT.CROSSROAD
+                status = POINT.ON_POINT
             }
         }else{
             status = POINT.OTHER
