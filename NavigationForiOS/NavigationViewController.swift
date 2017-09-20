@@ -32,6 +32,12 @@ class NavigationViewController: UIViewController{
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
+    //画像
+    var imgFoward: UIImage!
+    var imgLeft: UIImage!
+    var imgRight: UIImage!
+    @IBOutlet weak var navigationImg: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +48,11 @@ class NavigationViewController: UIViewController{
             // 1秒ごとにビーコンの情報を取得する
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
         }
+        
+        //画像の読み込み
+        imgFoward = UIImage(named: "foward.png")
+        imgLeft = UIImage(named: "left.png")
+        imgRight = UIImage(named: "right.png")
         
         //表示をリセット
         reset()
@@ -67,8 +78,18 @@ class NavigationViewController: UIViewController{
             self.rssi.text = "RSSI : \(maxRssiBeacon?.rssi ?? 0)dB"
             self.navigation.text = navigation?.navigation_text
             self.stateMachineLabel.text = "State: \(navigation?.navigation_state ?? ""), Id: \(navigation?.expected_routeId ?? -1)"
-            if(navigation?.mode == 2){
+            
+            switch (navigation?.mode)! {
+            case 1: //前進
+                navigationImg.image = imgFoward
+            case 2: //左折
+                navigationImg.image = imgLeft
+            case 3: //右折
+                navigationImg.image = imgRight
+            case 4: //目的地に到達
                 goalAlert()
+            default: break //その他
+                
             }
         }
         

@@ -10,7 +10,7 @@ import Foundation
 
 protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
-    func getMode() -> Int
+    func getMode(navigations: NavigationEntity) -> Int
     func getNavigation(navigations: NavigationEntity) -> String
     func getNavigationState() -> (state: String, expectedRouteId: Int)
 }
@@ -31,7 +31,7 @@ class None: NavigationState{
         return "None"
     }
     
-    func getMode() -> Int {
+    func getMode(navigations: NavigationEntity) -> Int {
         return -1
     }
     
@@ -60,7 +60,7 @@ class GoFoward: NavigationState{
         return "進んでください"
     }
     
-    func getMode() -> Int {
+    func getMode(navigations: NavigationEntity) -> Int {
         return 1
     }
     
@@ -101,8 +101,17 @@ class OnThePoint: NavigationState{
         return navigations.getNavigationText(route_id: expectedRouteId)
     }
     
-    func getMode() -> Int {
-        return 1
+    func getMode(navigations: NavigationEntity) -> Int {
+        var retval = -1
+        //右折のとき3,左折のとき2をリターン
+        if(navigations.getNavigationDegree(route_id: expectedRouteId) == 0){
+            retval = 1
+        }else if(navigations.getNavigationDegree(route_id: expectedRouteId) > 0){
+            retval = 2
+        }else{
+            retval = 3
+        }
+        return retval
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
@@ -131,8 +140,8 @@ class Goal: NavigationState{
         return "Goal"
     }
     
-    func getMode() -> Int {
-        return 2
+    func getMode(navigations: NavigationEntity) -> Int {
+        return 4
     }
     
     //呼ばれない関数

@@ -235,18 +235,16 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8OO-08-j90">
                                         <rect key="frame" x="79" y="0.0" width="296" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.057292582110526034" green="0.58022684010152292" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="38"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Gb-bb-sKx">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V7H-U2-3p1">
+                                        <rect key="frame" x="6" y="8" width="65" height="65"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.061232440173625946" green="0.58223479986190796" blue="0.0026798238977789879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </view>
+                                    </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.061232440169999999" green="0.58223479990000004" blue="0.0026798238979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -254,6 +252,7 @@
                     <connections>
                         <outlet property="minor" destination="baV-VQ-Hzy" id="uPW-Uk-zhY"/>
                         <outlet property="navigation" destination="8OO-08-j90" id="QO4-9h-TnA"/>
+                        <outlet property="navigationImg" destination="V7H-U2-3p1" id="z2U-fC-iZb"/>
                         <outlet property="rssi" destination="DEw-Dg-ZBY" id="4eg-fy-aNc"/>
                         <outlet property="stateMachineLabel" destination="ZXl-QS-2Fp" id="lpg-hT-0L7"/>
                         <outlet property="stepLabel" destination="hlw-13-Ws5" id="HjP-4n-XeU"/>

@@ -88,7 +88,7 @@ class NavigationService {
         //ナビゲーションテキストの取得
         navigation_text = navigationState.getNavigation(navigations: navigations)
         //モードの取得
-        mode = navigationState.getMode()
+        mode = navigationState.getMode(navigations: navigations)
         
         //ステートマシンの状態を取得
         let navigationStateMachineProperty = navigationState.getNavigationState()
