@@ -53,6 +53,7 @@
 		C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B8F1F47005200E4B785 /* NavigationService.swift */; };
 		C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconManager.swift */; };
 		C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */; };
+		C2C22FD11F722133007FCD27 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C22FD01F722133007FCD27 /* SpeechService.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
 		EB80B5FE1F4EA91A00349958 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB80B5FD1F4EA91A00349958 /* PedometerService.swift */; };
 		EBB6470C1F612978009A4FD3 /* MotionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */; };
@@ -141,6 +142,7 @@
 		C2B26B8F1F47005200E4B785 /* NavigationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
 		C2B26B911F471E3100E4B785 /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManagerTests.swift; sourceTree = "<group>"; };
+		C2C22FD01F722133007FCD27 /* SpeechService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EB80B5FD1F4EA91A00349958 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
 		EBB6470B1F612978009A4FD3 /* MotionServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionServiceTests.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				B15B715A1F5E6A3900B56551 /* LpfEucild.swift */,
 				B1533ED91F5FE14200776036 /* AlgorithmBase.swift */,
 				C21301831F66780B00D966A9 /* KNN.swift */,
+				C2C22FD01F722133007FCD27 /* SpeechService.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				B14883851F435BF1007A9E2E /* NavigationViewController.swift in Sources */,
 				C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */,
 				B14883431F3C4D32007A9E2E /* AppDelegate.swift in Sources */,
+				C2C22FD11F722133007FCD27 /* SpeechService.swift in Sources */,
 				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,
 				B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */,
 				B15B71591F5E69C600B56551 /* Lpf.swift in Sources */,
