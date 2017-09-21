@@ -24,6 +24,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
     var motionService : MotionService? = MotionService()
+    var magneticSensorSerivce: MagneticSensorSerivce? = MagneticSensorSerivce()
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
@@ -54,18 +55,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //表示をリセット
         reset()
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-            locationManager.delegate = self
-            
-            // Specifies the minimum amount of change in degrees needed for a heading service update (default: 1 degree)
-            locationManager.headingFilter = kCLHeadingFilterNone
-            
-            // Specifies a physical device orientation from which heading calculation should be referenced
-            locationManager.headingOrientation = .portrait
-            
-            locationManager.startUpdatingHeading()
-        }
+        magneticSensorSerivce?.startMagneticSensorService()
     }
     
     func reset(){
@@ -97,6 +87,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             }
         }
         
+        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
+
+        
     }
     
     //ゴール時にアラートを表示する
@@ -125,26 +118,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.stopUpdatingHeading()
-        }
-    }
-    
-    // MARK: - CLLocationManager delegate
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted, .denied:
-            break
-        case .authorizedAlways, .authorizedWhenInUse:
-            break
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        self.textField.text = "".appendingFormat("%.2f", newHeading.magneticHeading)
-        print(newHeading.magneticHeading)
+        magneticSensorSerivce?.stopMagineticSensorService()
     }
 }
