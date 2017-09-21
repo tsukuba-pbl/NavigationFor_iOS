@@ -38,7 +38,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/2e9774ef381622fbf3cd0d1cdd1218f25a7c2493/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/d4d5bc555ce9ff34e42242d8c1a8fd317e2219ab/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
