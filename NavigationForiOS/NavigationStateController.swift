@@ -67,13 +67,16 @@ class GoFoward: NavigationState{
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
-        case .ON_POINT :
-            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId)
-        case .OTHER :
+        case .CROSSROAD :
+            //SlackService.postError(error: "GoFoward: CROSSROAD", tag: "State")
+            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
+        case .ROAD :
+            //SlackService.postError(error: "GoFoward: OTHER", tag: "State")
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
             navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
+        case .OTHER: break
         }
 
     }
