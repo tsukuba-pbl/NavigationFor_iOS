@@ -12,13 +12,8 @@ import Swinject
 
 class NavigationViewController: UIViewController{
     
-    @IBOutlet weak var uuid: UILabel!
-    @IBOutlet weak var minor: UILabel!
-    @IBOutlet weak var rssi: UILabel!
+    @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var navigation: UILabel!
-    
-    @IBOutlet weak var stepLabel: UILabel!
-    @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
     
@@ -31,6 +26,12 @@ class NavigationViewController: UIViewController{
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
+    //画像
+    var imgFoward: UIImage!
+    var imgLeft: UIImage!
+    var imgRight: UIImage!
+    @IBOutlet weak var navigationImg: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,40 +43,44 @@ class NavigationViewController: UIViewController{
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
         }
         
+        //画像の読み込み
+        imgFoward = UIImage(named: "foward.png")
+        imgLeft = UIImage(named: "left.png")
+        imgRight = UIImage(named: "right.png")
+        
         //表示をリセット
         reset()
     }
     
     func reset(){
-        self.uuid.text     = "none"
-        self.minor.text    = "none"
-        self.rssi.text     = "none"
         self.navigation.text = "none"
+        self.stateMachineLabel.text = "none"
     }
     
     //ナビゲーションの更新
     func updateNavigation(){
         let navigation = navigationService?.updateNavigation(navigations: self.navigations!)
-        let maxRssiBeacon = navigationService?.getMaxRssiBeacon()
         
         if(navigation?.mode == -1){
             reset()
         }else{
-            self.minor.text = "minor id : \(maxRssiBeacon?.minorId ?? 0)"
-            self.rssi.text = "RSSI : \(maxRssiBeacon?.rssi ?? 0)dB"
             self.navigation.text = navigation?.navigation_text
-            if(navigation?.mode == 2){
+            self.stateMachineLabel.text = "State: \(navigation?.navigation_state ?? ""), Id: \(navigation?.expected_routeId ?? -1)"
+            
+            switch (navigation?.mode)! {
+            case 1: //前進
+                navigationImg.image = imgFoward
+            case 2: //左折
+                navigationImg.image = imgLeft
+            case 3: //右折
+                navigationImg.image = imgRight
+            case 4: //目的地に到達
                 goalAlert()
+            default: break //その他
+                
             }
         }
         
-        //歩数取得
-        let steps = pedometerService?.get_steps()
-        self.stepLabel.text = "\(steps ?? 0)"
-        
-        //ヨー取得
-        let direction_text = motionService?.getDirection()
-        self.yawLabel.text = direction_text
     }
     
     //ゴール時にアラートを表示する
@@ -95,26 +100,6 @@ class NavigationViewController: UIViewController{
         
         //④ アラートの表示
         present(alertController, animated: true, completion: nil)
-    }
-
-    //歩数計測のON/OFF切り替えボタン
-    @IBAction func pedoMeterSwitch(_ sender: Any) {
-        pedoswitch = !pedoswitch
-        
-        if(pedoswitch) {
-            pedometerService?.start_pedometer()
-        }
-        else {
-            pedometerService?.stop_pedometer()
-        }
-    }
-
-    @IBAction func motionStart(_ sender: Any) {
-        motionService?.startMotionManager()
-    }
-    
-    @IBAction func motionStop(_ sender: Any) {
-        motionService?.stopMotionManager()
     }
     
     override func didReceiveMemoryWarning() {

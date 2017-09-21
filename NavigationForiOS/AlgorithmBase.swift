@@ -10,7 +10,7 @@ import Foundation
 
 class AlgorithmBase: AlgorithmBaseProtocol {
     
-    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> POINT {
+    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
         return POINT.OTHER
     }
     
@@ -28,17 +28,5 @@ class AlgorithmBase: AlgorithmBaseProtocol {
             }
         }
         return maxMinorId
-    }
-    
-    
-    /// 現在のルートIDを取得する関数
-    ///
-    /// - Parameters:
-    ///   - navigations: ナビゲーションのルートなどの情報を含む変数
-    ///   - receivedBeaconsRssi: 実際に歩いて取得できたビーコンのRSSIの値（平滑化済み）
-    /// - Returns: 現在のルートID
-    func getRouteId(navigations: NavigationEntity, receivedBeaconsRssi: Dictionary<Int, Int>) -> Int {
-        let target = self.getMaxRssiMinorId(receivedBeaconsRssi: receivedBeaconsRssi)
-        return navigations.getRouteIdFromMinorId(minor_id: target)
     }
 }
