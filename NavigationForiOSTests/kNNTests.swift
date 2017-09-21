@@ -250,21 +250,21 @@ class kNNTests: XCTestCase {
     //route id 2にいるとき(交差点到達)
     func testGetCurrentPoint1(){
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -84, 2: -79, 3:-79, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100]
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 2)
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: 2)
         XCTAssertEqual(retval, POINT.CROSSROAD)
     }
     
     //route id 2にいるとき（交差点到達前）
     func testGetCurrentPoint(){
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -95, 2: -92, 3:-93, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100]
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 2)
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: 2)
         XCTAssertEqual(retval, POINT.OTHER)
     }
     
     //route id 6にいるとき(目的地到達)
     func testGetCurrentPoint3(){
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-87, 5:-87, 6:-87, 7:-71, 8:-70, 9:-70]
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: 6)
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: 6)
         XCTAssertEqual(retval, POINT.GOAL)
     }
 

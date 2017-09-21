@@ -261,7 +261,7 @@ class NavigationServiceTests: XCTestCase {
         navigationService.beaconManager = MocBeaconManager()
         
         //現在の状態をセット
-        navigationService.navigationState = None()
+        navigationService.navigationState = None(currentRouteId: 1)
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -270,8 +270,8 @@ class NavigationServiceTests: XCTestCase {
 
     }
 
-    //None状態からGoFowardへの遷移
-    func testUpdateNavigations_None_to_GoFoward_ByKNN(){
+    //None状態からRoadへの遷移
+    func testUpdateNavigations_None_to_Road_ByKNN(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -283,7 +283,7 @@ class NavigationServiceTests: XCTestCase {
         navigationService.beaconManager = MocBeaconManager()
 
         //現在の状態をセット
-        navigationService.navigationState = None()
+        navigationService.navigationState = None(currentRouteId: 1)
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
@@ -291,8 +291,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 1)
     }
 
-    //GoFoward状態からOnThePointへの遷移
-    func testUpdateNavigations_GoFoward_to_OnThePoint_ByKNN(){
+    //Road状態からCrossroadへの遷移
+    func testUpdateNavigations_Road_to_Crossroad_ByKNN(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -303,8 +303,7 @@ class NavigationServiceTests: XCTestCase {
         //NavigationServiceのBeaconManagerをモックに差し替え
         navigationService.beaconManager = MocBeaconManager()
         //現在の状態をセット
-        navigationService.navigationState = GoFoward()
-        navigationService.expectedRouteId = 2
+        navigationService.navigationState = Road(currentRouteId: 2)
 
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -313,8 +312,8 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(retval.mode, 1)
     }
     
-    //GoFoward状態からGoFowardへの遷移
-    func testUpdateNavigations_GoFoward_to_GoFoward_ByKNN(){
+    //Road状態からRoadへの遷移
+    func testUpdateNavigations_Road_to_Road_ByKNN(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -325,8 +324,7 @@ class NavigationServiceTests: XCTestCase {
         //NavigationServiceのBeaconManagerをモックに差し替え
         navigationService.beaconManager = MocBeaconManager()
         //現在の状態をセット
-        navigationService.navigationState = GoFoward()
-        navigationService.expectedRouteId = 2
+        navigationService.navigationState = Road(currentRouteId: 2)
         
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -348,7 +346,7 @@ class NavigationServiceTests: XCTestCase {
         navigationService.beaconManager = MocBeaconManager()
 
         //現在の状態をセット
-        navigationService.navigationState = Goal()
+        navigationService.navigationState = Goal(currentRouteId: 6)
 
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
@@ -407,8 +405,8 @@ class NavigationServiceTests: XCTestCase {
 //    }
 
 //
-//    //None状態からGoFowardへの遷移
-//    func testUpdateNavigations_None_to_GoFoward_ByLPF(){
+//    //None状態からRoadへの遷移
+//    func testUpdateNavigations_None_to_Road_ByLPF(){
 //        //テスト用にNavigationServiceのモックを作成
 //        class MocBeaconManager : BeaconManager{
 //            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -428,8 +426,8 @@ class NavigationServiceTests: XCTestCase {
 //        XCTAssertEqual(retval.mode, 1)
 //    }
 //    
-//    //GoFoward状態からOnThePointへの遷移
-//    func testUpdateNavigations_GoFoward_to_OnThePoint_ByLPF(){
+//    //Road状態からCrossroadへの遷移
+//    func testUpdateNavigations_Road_to_Crossroad_ByLPF(){
 //        //テスト用にNavigationServiceのモックを作成
 //        class MocBeaconManager : BeaconManager{
 //            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -440,7 +438,7 @@ class NavigationServiceTests: XCTestCase {
 //        //NavigationServiceのBeaconManagerをモックに差し替え
 //        navigationService.beaconManager = MocBeaconManager()
 //        //現在の状態をセット
-//        navigationService.navigationState = GoFoward()
+//        navigationService.navigationState = Road()
 //        
 //        //状態遷移を起こす
 //        let retval = navigationService.updateNavigation(navigations: navigations)
@@ -449,8 +447,8 @@ class NavigationServiceTests: XCTestCase {
 //        XCTAssertEqual(retval.mode, 1)
 //    }
 //
-//    //OnThePoint状態からGoFowardへの遷移
-//    func testUpdateNavigations_OnThePoint_to_GoFoward_ByLPF(){
+//    //Crossroad状態からRoadへの遷移
+//    func testUpdateNavigations_Crossroad_to_Road_ByLPF(){
 //        //テスト用にNavigationServiceのモックを作成
 //        class MocBeaconManager : BeaconManager{
 //            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -462,7 +460,7 @@ class NavigationServiceTests: XCTestCase {
 //        navigationService.beaconManager = MocBeaconManager()
 //        
 //        //現在の状態をセット
-//        navigationService.navigationState = OnThePoint()
+//        navigationService.navigationState = Crossroad()
 //        
 //        //状態遷移を起こす
 //        let retval = navigationService.updateNavigation(navigations: navigations)
@@ -471,8 +469,8 @@ class NavigationServiceTests: XCTestCase {
 //        XCTAssertEqual(retval.mode, 1)
 //    }
 //    
-//    //OnThePoint状態からGoalへの遷移
-//    func testUpdateNavigations_OnThePoint_to_Goal_ByLPF(){
+//    //Crossroad状態からGoalへの遷移
+//    func testUpdateNavigations_Crossroad_to_Goal_ByLPF(){
 //        //テスト用にNavigationServiceのモックを作成
 //        class MocBeaconManager : BeaconManager{
 //            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -484,7 +482,7 @@ class NavigationServiceTests: XCTestCase {
 //        navigationService.beaconManager = MocBeaconManager()
 //        
 //        //現在の状態をセット
-//        navigationService.navigationState = OnThePoint()
+//        navigationService.navigationState = Crossroad()
 //        
 //        //状態遷移を起こす
 //        let retval = navigationService.updateNavigation(navigations: navigations)
@@ -493,8 +491,8 @@ class NavigationServiceTests: XCTestCase {
 //        XCTAssertEqual(retval.mode, 2)
 //    }
 //
-//    //GoFoward状態からGoalへの遷移
-//    func testUpdateNavigations_GoFoward_to_Goal_ByLPF(){
+//    //Road状態からGoalへの遷移
+//    func testUpdateNavigations_Road_to_Goal_ByLPF(){
 //        //テスト用にNavigationServiceのモックを作成
 //        class MocBeaconManager : BeaconManager{
 //            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
@@ -505,7 +503,7 @@ class NavigationServiceTests: XCTestCase {
 //        //NavigationServiceのBeaconManagerをモックに差し替え
 //        navigationService.beaconManager = MocBeaconManager()
 //        //現在の状態をセット
-//        navigationService.navigationState = GoFoward()
+//        navigationService.navigationState = Road()
 //        
 //        //状態遷移を起こす
 //        let retval = navigationService.updateNavigation(navigations: navigations)

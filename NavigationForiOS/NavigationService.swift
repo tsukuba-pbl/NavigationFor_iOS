@@ -28,7 +28,7 @@ class NavigationService {
     let speechService = SpeechService()
     
     init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
-        navigationState = None(expectedRouteId: initRouteId)
+        navigationState = None(currentRouteId: initRouteId)
         self.beaconManager = beaconManager
         self.algorithm = algorithm
     }
@@ -105,7 +105,7 @@ class NavigationService {
 //            expectedRouteId = navigationStateMachineProperty.expectedRouteId
 //        }
         
-        return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
+        return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.currentRouteId)
     }
     
     

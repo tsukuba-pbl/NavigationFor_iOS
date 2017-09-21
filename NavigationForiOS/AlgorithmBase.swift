@@ -10,7 +10,7 @@ import Foundation
 
 class AlgorithmBase: AlgorithmBaseProtocol {
     
-    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
+    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, currentRouteId: Int) -> POINT {
         return POINT.OTHER
     }
     
