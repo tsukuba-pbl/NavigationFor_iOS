@@ -13,13 +13,19 @@ import SwiftyJSON
 class NavigationService {
     //初期値のroute id
     var initRouteId = 1
-
+    
+    //ステートマシンの状態
+    var expectedRouteId = 0
+    
     //初期状態を設定
     var navigationState: NavigationState
     
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム
     var beaconManager : BeaconManager!
+    
+    //音声用
+    let speechService = SpeechService()
     
     init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
         navigationState = None(expectedRouteId: initRouteId)
@@ -92,6 +98,12 @@ class NavigationService {
         
         //ステートマシンの状態を取得
         let navigationStateMachineProperty = navigationState.getNavigationState()
+        
+        //音声案内(ステートマシンの状態が遷移したら)
+        if(navigationStateMachineProperty.state == "OnThePoint" && navigationStateMachineProperty.expectedRouteId != expectedRouteId){
+            speechService.textToSpeech(str: navigation_text)
+            expectedRouteId = navigationStateMachineProperty.expectedRouteId
+        }
         
         return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
     }
