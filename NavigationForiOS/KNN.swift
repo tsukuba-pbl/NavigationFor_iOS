@@ -128,8 +128,8 @@ class KNN: AlgorithmBase{
             }
         }
         
-        let accuracy = getKnnAccuracy(trainData: trainData)
-        print(accuracy)
+        //let accuracy = getKnnAccuracy(trainData: trainData)
+        //print(accuracy)
         
         return status
     }

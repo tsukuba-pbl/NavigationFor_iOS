@@ -77,7 +77,7 @@ class NavigationService {
     
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
-    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, navigation_text : String){
+    func updateNavigation(navigations: NavigationEntity) -> (mode : Int, navigation_text : String, navigation_state: String, expected_routeId: Int){
         var navigation_text : String!
         var mode = 1
         let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
@@ -88,9 +88,12 @@ class NavigationService {
         //ナビゲーションテキストの取得
         navigation_text = navigationState.getNavigation(navigations: navigations)
         //モードの取得
-        mode = navigationState.getMode()
+        mode = navigationState.getMode(navigations: navigations)
         
-        return (mode, navigation_text)
+        //ステートマシンの状態を取得
+        let navigationStateMachineProperty = navigationState.getNavigationState()
+        
+        return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
     }
     
     
