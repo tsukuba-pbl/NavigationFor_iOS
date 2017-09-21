@@ -13,13 +13,7 @@ import Swinject
 class NavigationViewController: UIViewController{
     
     @IBOutlet weak var stateMachineLabel: UILabel!
-    @IBOutlet weak var uuid: UILabel!
-    @IBOutlet weak var minor: UILabel!
-    @IBOutlet weak var rssi: UILabel!
     @IBOutlet weak var navigation: UILabel!
-    
-    @IBOutlet weak var stepLabel: UILabel!
-    @IBOutlet weak var yawLabel: UILabel!
 
     var pedoswitch = false
     
@@ -59,9 +53,6 @@ class NavigationViewController: UIViewController{
     }
     
     func reset(){
-        self.uuid.text     = "none"
-        self.minor.text    = "none"
-        self.rssi.text     = "none"
         self.navigation.text = "none"
         self.stateMachineLabel.text = "none"
     }
@@ -69,13 +60,10 @@ class NavigationViewController: UIViewController{
     //ナビゲーションの更新
     func updateNavigation(){
         let navigation = navigationService?.updateNavigation(navigations: self.navigations!)
-        let maxRssiBeacon = navigationService?.getMaxRssiBeacon()
         
         if(navigation?.mode == -1){
             reset()
         }else{
-            self.minor.text = "minor id : \(maxRssiBeacon?.minorId ?? 0)"
-            self.rssi.text = "RSSI : \(maxRssiBeacon?.rssi ?? 0)dB"
             self.navigation.text = navigation?.navigation_text
             self.stateMachineLabel.text = "State: \(navigation?.navigation_state ?? ""), Id: \(navigation?.expected_routeId ?? -1)"
             
@@ -93,13 +81,6 @@ class NavigationViewController: UIViewController{
             }
         }
         
-        //歩数取得
-        let steps = pedometerService?.get_steps()
-        self.stepLabel.text = "\(steps ?? 0)"
-        
-        //ヨー取得
-        let direction_text = motionService?.getDirection()
-        self.yawLabel.text = direction_text
     }
     
     //ゴール時にアラートを表示する
@@ -119,26 +100,6 @@ class NavigationViewController: UIViewController{
         
         //④ アラートの表示
         present(alertController, animated: true, completion: nil)
-    }
-
-    //歩数計測のON/OFF切り替えボタン
-    @IBAction func pedoMeterSwitch(_ sender: Any) {
-        pedoswitch = !pedoswitch
-        
-        if(pedoswitch) {
-            pedometerService?.start_pedometer()
-        }
-        else {
-            pedometerService?.stop_pedometer()
-        }
-    }
-
-    @IBAction func motionStart(_ sender: Any) {
-        motionService?.startMotionManager()
-    }
-    
-    @IBAction func motionStop(_ sender: Any) {
-        motionService?.stopMotionManager()
     }
     
     override func didReceiveMemoryWarning() {
