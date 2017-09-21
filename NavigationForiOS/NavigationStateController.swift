@@ -137,7 +137,7 @@ class Goal: NavigationState{
     }
     
     func getNavigation(navigations: NavigationEntity) -> String {
-        return "Goal"
+        return navigations.getNavigationText(route_id: expectedRouteId)
     }
     
     func getMode(navigations: NavigationEntity) -> Int {
