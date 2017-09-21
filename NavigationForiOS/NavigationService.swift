@@ -100,10 +100,10 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //音声案内(ステートマシンの状態が遷移したら)
-        if(navigationStateMachineProperty.state == "OnThePoint" && navigationStateMachineProperty.expectedRouteId != expectedRouteId){
-            speechService.textToSpeech(str: navigation_text)
-            expectedRouteId = navigationStateMachineProperty.expectedRouteId
-        }
+//        if(navigationStateMachineProperty.state == "OnThePoint" && navigationStateMachineProperty.expectedRouteId != expectedRouteId){
+//            speechService.textToSpeech(str: navigation_text)
+//            expectedRouteId = navigationStateMachineProperty.expectedRouteId
+//        }
         
         return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
     }
