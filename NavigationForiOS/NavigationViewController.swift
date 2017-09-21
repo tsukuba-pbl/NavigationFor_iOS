@@ -10,8 +10,9 @@ import UIKit
 import CoreLocation
 import Swinject
 
-class NavigationViewController: UIViewController{
+class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
+    @IBOutlet weak var textField: UILabel!
     @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var navigation: UILabel!
 
@@ -32,6 +33,8 @@ class NavigationViewController: UIViewController{
     var imgRight: UIImage!
     @IBOutlet weak var navigationImg: UIImageView!
     
+    var locationManager: CLLocationManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,6 +53,19 @@ class NavigationViewController: UIViewController{
         
         //表示をリセット
         reset()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            
+            // Specifies the minimum amount of change in degrees needed for a heading service update (default: 1 degree)
+            locationManager.headingFilter = kCLHeadingFilterNone
+            
+            // Specifies a physical device orientation from which heading calculation should be referenced
+            locationManager.headingOrientation = .portrait
+            
+            locationManager.startUpdatingHeading()
+        }
     }
     
     func reset(){
@@ -104,5 +120,31 @@ class NavigationViewController: UIViewController{
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.stopUpdatingHeading()
+        }
+    }
+    
+    // MARK: - CLLocationManager delegate
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            break
+        case .authorizedAlways, .authorizedWhenInUse:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        self.textField.text = "".appendingFormat("%.2f", newHeading.magneticHeading)
+        print(newHeading.magneticHeading)
     }
 }
