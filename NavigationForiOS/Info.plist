@@ -22,6 +22,10 @@
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>位置情報取得用のビーコン電波を観測するために使用します</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>磁気による角度を取得するために利用します</string>
+	<key>NSMotionUsageDescription</key>
+	<string>歩数取得のために利用します</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-peripheral</string>
@@ -57,8 +61,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-  </array>
-  <key>NSMotionUsageDescription</key>
-  <string>歩数取得のために利用します</string>
+	</array>
 </dict>
 </plist>
