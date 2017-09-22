@@ -15,7 +15,7 @@ class NavigationService {
     var initRouteId = 1
     
     //ステートマシンの状態
-    var expectedRouteId = 0
+    var state = "OnThePoint"
     
     //初期状態を設定
     var navigationState: NavigationState
@@ -38,7 +38,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/d4d5bc555ce9ff34e42242d8c1a8fd317e2219ab/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/691cf8f18632d1627a395e615713ed91a56eb2ba/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -100,10 +100,16 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //音声案内(ステートマシンの状態が遷移したら)
-        if(navigationStateMachineProperty.state == "OnThePoint" && navigationStateMachineProperty.expectedRouteId != expectedRouteId){
-            speechService.textToSpeech(str: navigation_text)
-            expectedRouteId = navigationStateMachineProperty.expectedRouteId
+        //GoFoward → OnThePointのとき、交差点で設定したナビゲーションを発話
+        if(state == "GoFoward" && navigationStateMachineProperty.state == "OnThePoint"){
+            speechService.announce(str: navigation_text)
+        //OnThePoint → GoFowardのとき、「直進です」を発話
+        }else if((state == "OnThePoint" && navigationStateMachineProperty.state == "GoFoward")){
+            speechService.announce(str: "直進です")
         }
+        
+        //ステートマシンの状態を更新
+        state = navigationStateMachineProperty.state
         
         return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
     }

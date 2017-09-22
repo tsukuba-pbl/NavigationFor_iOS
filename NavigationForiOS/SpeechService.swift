@@ -10,17 +10,39 @@ import Foundation
 import AVFoundation
 
 class SpeechService : NSObject, AVSpeechSynthesizerDelegate{
-    let speech = AVSpeechSynthesizer()
+    let talker = AVSpeechSynthesizer()
+    var audioPlayerInstance : AVAudioPlayer! = nil  // 再生するサウンドのインスタンス
+    
+    override init() {
+        // サウンドファイルのパスを生成
+        let soundFilePath = Bundle.main.path(forResource: "se1", ofType: "wav")!
+        let sound:URL = URL(fileURLWithPath: soundFilePath)
+        // AVAudioPlayerのインスタンスを作成
+        do {
+            audioPlayerInstance = try AVAudioPlayer(contentsOf: sound, fileTypeHint:nil)
+        } catch {
+            print("AVAudioPlayerインスタンス作成失敗")
+        }
+        // バッファに保持していつでも再生できるようにする
+        audioPlayerInstance.prepareToPlay()
+    }
+    
+    func announce(str: String){
+        //効果音
+        audioPlayerInstance.play()
+        //アナウンス内容
+        textToSpeech(str: str)
+    }
     
     func textToSpeech(str : String){
         let utterance = AVSpeechUtterance(string: str)//読み上げる文字
         utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")//読み上げの言語
-        utterance.rate = 0.8 //読み上げの速度
+        utterance.rate = 0.6 //読み上げの速度
         utterance.pitchMultiplier = 1.2 //声の高さ
-        utterance.preUtteranceDelay = 0 //読み上げまでの待機時間
+        utterance.preUtteranceDelay = 1 //読み上げまでの待機時間
         utterance.postUtteranceDelay = 0 //読んだあとの待機時間
-        speech.delegate = self
-        speech.speak(utterance) //発話
+        talker.delegate = self
+        talker.speak(utterance) //発話
     }
 
 }
