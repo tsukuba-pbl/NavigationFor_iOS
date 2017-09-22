@@ -5,7 +5,6 @@
 //  Created by みなじゅん on 2017/09/11.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 struct knnData{
@@ -21,8 +20,7 @@ struct EuclidData {
 enum POINT {
     case GOAL
     case START
-    case CROSSROAD
-    case ROAD
+    case ON_POINT
     case OTHER
 }
 
@@ -36,96 +34,52 @@ class KNN: AlgorithmBase{
     ///   - expectedRouteId: 到達するか判定する場所のroute id
     /// - Returns: return 現在の場所のENUM
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
-        var status: POINT = POINT.OTHER
+        var status: POINT
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
         var trainData = [knnData]()
         
-//        navigations.routes.forEach { (navigationPoint) in
-//            //種別を取得
-//            var routeId : Int!
-//            if(navigationPoint.route_id == expectedRouteId){
-//                routeId = 1
-//            }else{
-//                routeId = 0
-//            }
-//            //対応するroute idのトレーニングデータを取得
-//            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
-//            routeTrainData.forEach { (routeTrainDataList) in
-//                var logData = [Double]()
-//                routeTrainDataList.forEach{ (routeTrainData) in
-//                    logData.append(Double(routeTrainData.rssi))
-//                }
-//                trainData.append(knnData(X: logData, routeId: routeId))
-//            }
-//        }
-//
-//        //入力データの作成(現在取得しているビーコン)
-//        var beaconRssiData = [Double]()
-//        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
-//        expectedTrainData.first?.forEach({ (beacon) in
-//            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
-//        })
-//        let inputData = knnData(X: beaconRssiData, routeId: 1)
-//        
         navigations.routes.forEach { (navigationPoint) in
+            //種別を取得
+            var routeId : Int!
+            if(navigationPoint.route_id == expectedRouteId){
+                routeId = 1
+            }else{
+                routeId = 0
+            }
+            //対応するroute idのトレーニングデータを取得
             let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
             routeTrainData.forEach { (routeTrainDataList) in
-                var x = [Double]()
-                routeTrainDataList.forEach { (BeaconRssi) in
-                    x.append(Double(BeaconRssi.rssi))
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.rssi))
                 }
-                trainData.append(knnData(X: x, routeId: navigationPoint.route_id))
+                trainData.append(knnData(X: logData, routeId: routeId))
             }
         }
         
-        var inputBeaconRssiList = [Double]()
-        let minorIdList = navigations.getMinorIdList()
-        minorIdList.forEach { (minorId) in
-            inputBeaconRssiList.append(Double(receivedBeaconsRssi[minorId]!))
-        }
-        let inputData = knnData(X: inputBeaconRssiList, routeId: -1)
+        //入力データの作成(現在取得しているビーコン)
+        var beaconRssiData = [Double]()
+        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
+        expectedTrainData.first?.forEach({ (beacon) in
+            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
+        })
+        let inputData = knnData(X: beaconRssiData, routeId: 1)
+        
         //k近傍によって判定
         //return 1:いる 0:いない
-//        let ans = knn(trainData: trainData, inputData: inputData)
-//        
-//        if(ans == 1){
-//            //目的地に到達したか判定
-//            if(expectedRouteId == navigations.getGoalRouteId()){
-//                status = POINT.GOAL
-//            } else if (navigations.isCrossroad(routeId: expectedRouteId)){
-//                status = POINT.CROSSROAD
-//            } else if (navigations.isRoad(routeId: expectedRouteId)) {
-//                status = POINT.ROAD
-//            }
-//        }else{
-//            status = POINT.OTHER
-//        }
-        let knnExpectedRouteId = knn(trainData: trainData, inputData: inputData)
+        let ans = knn(trainData: trainData, inputData: inputData)
         
-        // 想定の場所が交差点の場合は，そのまま交差点，次が道，その他の場合がある．
-        if (navigations.isCrossroad(routeId: expectedRouteId)) {
-            if (knnExpectedRouteId == expectedRouteId) {
-                status = POINT.CROSSROAD
-            } else if (knnExpectedRouteId == expectedRouteId + 1) {
-                status = POINT.ROAD
-            } else {
-                status = POINT.OTHER
+        if(ans == 1){
+            //目的地に到達したか判定
+            if(expectedRouteId == navigations.getGoalRouteId()){
+                status = POINT.GOAL
+            }else{
+                status = POINT.ON_POINT
             }
-        // 想定の場所が道の場合は，そのまま道，次が交差点またはゴール，その他の場合がある．
-        } else if (navigations.isRoad(routeId: expectedRouteId)) {
-            if (knnExpectedRouteId == expectedRouteId) {
-                status = POINT.ROAD
-            } else if (knnExpectedRouteId == expectedRouteId + 1) {
-                if (navigations.isGoal(routeId: knnExpectedRouteId)) {
-                    status = POINT.GOAL
-                } else {
-                    status = POINT.CROSSROAD
-                }
-            } else {
-                status = POINT.OTHER
-            }
+        }else{
+            status = POINT.OTHER
         }
         
         //let accuracy = getKnnAccuracy(trainData: trainData)
@@ -140,39 +94,6 @@ class KNN: AlgorithmBase{
     ///   - trainData: 教師データ
     ///   - inputData: 入力データ
     /// - Returns: クラスid 取れない時は-1
-//    func knn(trainData: [knnData], inputData: knnData) -> Int{
-//        var dist = [EuclidData]()
-//        //ユークリッド距離を求める
-//        for i in trainData{
-//            dist.append(EuclidData(routeId: i.routeId, euclidResult: getEuclidDist(trainData: i, inputData: inputData)))
-//        }
-//        //距離が短い順にソーティング
-//        let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
-//        //上位3つのデータを取得する
-//        let target = sortedDist[0...4]
-//        
-//        //上位3つのデータで多数決を取る
-//        var targetTop3 = Dictionary<Int, Int>()
-//        for i in target {
-//            if ((targetTop3[i.routeId]) != nil) {
-//                targetTop3[i.routeId] = targetTop3[i.routeId]! + 1
-//            } else {
-//                targetTop3[i.routeId] = 1
-//            }
-//        }
-//        //SlackService.postError(error: "\(targetTop3)", tag: "top5")
-//        //最も多いデータを返す
-//        let result = targetTop3.sorted { $0.1 > $1.1 }
-//        return (result.first?.key)!
-//    }
-    
-    
-    /// おれおれknn
-    ///
-    /// - Parameters:
-    ///   - trainData: <#trainData description#>
-    ///   - inputData: <#inputData description#>
-    /// - Returns: クラスID
     func knn(trainData: [knnData], inputData: knnData) -> Int{
         var dist = [EuclidData]()
         //ユークリッド距離を求める
@@ -182,7 +103,7 @@ class KNN: AlgorithmBase{
         //距離が短い順にソーティング
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
         //上位3つのデータを取得する
-        let target = sortedDist[0...4]
+        let target = sortedDist[0...2]
         
         //上位3つのデータで多数決を取る
         var targetTop3 = Dictionary<Int, Int>()
@@ -193,7 +114,7 @@ class KNN: AlgorithmBase{
                 targetTop3[i.routeId] = 1
             }
         }
-        //SlackService.postError(error: "\(targetTop3)", tag: "top5")
+        
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!

@@ -88,8 +88,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
         
         self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
-
-        
     }
     
     //ゴール時にアラートを表示する

@@ -5,7 +5,6 @@
 //  Created by みなじゅん on 2017/08/31.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 protocol NavigationState {
@@ -20,7 +19,7 @@ class None: NavigationState{
     func getNavigationState() -> (state: String, expectedRouteId: Int) {
         return ("None", expectedRouteId)
     }
-
+    
     private let expectedRouteId: Int
     
     init(expectedRouteId: Int){
@@ -36,7 +35,7 @@ class None: NavigationState{
     }
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
-
+        
         //受信できた場合、前進状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
@@ -49,7 +48,7 @@ class GoFoward: NavigationState{
     func getNavigationState() -> (state: String, expectedRouteId: Int) {
         return ("GoFoward", expectedRouteId)
     }
-
+    
     private let expectedRouteId: Int
     
     init(expectedRouteId: Int){
@@ -67,18 +66,15 @@ class GoFoward: NavigationState{
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, expectedRouteId: expectedRouteId) {
-        case .CROSSROAD :
-            //SlackService.postError(error: "GoFoward: CROSSROAD", tag: "State")
-            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId+1)
-        case .ROAD :
-            //SlackService.postError(error: "GoFoward: OTHER", tag: "State")
+        case .ON_POINT :
+            navigationService.navigationState = OnThePoint(expectedRouteId: expectedRouteId)
+        case .OTHER :
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId)
         case .START : break
         case .GOAL :
-            navigationService.navigationState = Goal(expectedRouteId: expectedRouteId+1)
-        case .OTHER: break
+            navigationService.navigationState = Goal(expectedRouteId: expectedRouteId)
         }
-
+        
     }
     
 }
@@ -89,7 +85,7 @@ class OnThePoint: NavigationState{
     func getNavigationState() -> (state: String, expectedRouteId: Int) {
         return ("OnThePoint", expectedRouteId)
     }
-
+    
     let motionService: MotionService
     private let expectedRouteId: Int
     private let allowableDegree: Int = 10
@@ -119,7 +115,7 @@ class OnThePoint: NavigationState{
     
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         let rotateDegree = navigations.getNavigationDegree(route_id: expectedRouteId)
-
+        
         if (rotateDegree - allowableDegree < motionService.getYaw() && rotateDegree + allowableDegree > motionService.getYaw()) {
             motionService.stopMotionManager()
             navigationService.navigationState = GoFoward(expectedRouteId: expectedRouteId + 1)
@@ -132,7 +128,7 @@ class Goal: NavigationState{
     func getNavigationState() -> (state: String, expectedRouteId: Int) {
         return ("Goal", expectedRouteId)
     }
-
+    
     private let expectedRouteId: Int
     
     init(expectedRouteId: Int){

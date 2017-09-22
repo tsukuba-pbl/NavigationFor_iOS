@@ -15,7 +15,7 @@ class NavigationService {
     var initRouteId = 1
     
     //ステートマシンの状態
-    var state = "OnThePoint"
+    var state = "None"
     
     //初期状態を設定
     var navigationState: NavigationState
@@ -106,6 +106,8 @@ class NavigationService {
         //OnThePoint → GoFowardのとき、「直進です」を発話
         }else if((state == "OnThePoint" && navigationStateMachineProperty.state == "GoFoward")){
             speechService.announce(str: "直進です")
+        }else if(navigationStateMachineProperty.state == "Goal" && state != "Goal"){
+            speechService.announce(str: "目的地に到着しました")
         }
         
         //ステートマシンの状態を更新
