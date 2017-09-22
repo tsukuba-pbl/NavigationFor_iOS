@@ -50,6 +50,8 @@ class MagneticSensorSerivce: NSObject, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManager delegate
     
+    //ユーザが位置情報の使用を許可しているか確認する
+    //初回は NotDetermined ステータスが返るので、requestWhenInUseAuthorization() メソッドでユーザに許可を取る
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
