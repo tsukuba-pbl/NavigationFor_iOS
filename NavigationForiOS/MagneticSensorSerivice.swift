@@ -27,8 +27,6 @@ class MagneticSensorSerivce: NSObject, CLLocationManagerDelegate {
             
             // Specifies a physical device orientation from which heading calculation should be referenced
             locationManager.headingOrientation = .portrait
-            
-            locationManager.startUpdatingHeading()
         }
     }
     
