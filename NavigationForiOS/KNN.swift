@@ -26,14 +26,14 @@ enum POINT {
 
 class KNN: AlgorithmBase{
     
-    /// k近傍で現在いる場所を取得する関数
+    /// k近傍で指定目的地に到達したかどうかを判定し、その結果を返す
     ///
     /// - Parameters:
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
     ///   - expectedRouteId: 到達するか判定する場所のroute id
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
+    override func isOnPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
         var status: POINT
         
         //交差点にいるかいないかをk近傍で判定する
@@ -82,11 +82,10 @@ class KNN: AlgorithmBase{
             status = POINT.OTHER
         }
         
-        //let accuracy = getKnnAccuracy(trainData: trainData)
-        //print(accuracy)
-        
         return status
     }
+    
+    
     
     /// k近傍法
     ///
