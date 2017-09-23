@@ -16,6 +16,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var navigation: UILabel!
 
+    @IBOutlet weak var currentPointLabel: UILabel!
     var pedoswitch = false
     
     var navigationDic = [Int: String]()
@@ -88,6 +89,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
         
         self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
+        
+        //現在位置の表示
+        let currentRouteId = navigationService?.getCurrentPoint(navigations: navigations!)
+        currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
     }
     
     //ゴール時にアラートを表示する

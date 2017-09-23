@@ -116,6 +116,10 @@ class NavigationService {
         return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
     }
     
+    //現在いる場所のroute idを取得する
+    func getCurrentPoint(navigations: NavigationEntity) -> Int{
+        return algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
+    }
     
     /// 現在の最大RSSIのビーコン情報を取得
     ///
