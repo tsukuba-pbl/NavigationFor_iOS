@@ -95,6 +95,17 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
     }
     
+    //スタッフにヘルプボタンが押された時
+    @IBAction func didTouchHelp(_ sender: Any) {
+        var message = ""
+        //現在位置を取得
+        let currentRouteId = navigationService?.getCurrentPoint(navigations: navigations!)
+        message += "Help要請\n"
+        message += "〇〇さんがヘルプボタンを押しました"
+        message += "Route ID \(currentRouteId ?? -1) に向かってください"
+        SlackService.postError(error: message, tag: "Helper")
+    }
+    
     //ゴール時にアラートを表示する
     func goalAlert(){
         //① コントローラーの実装

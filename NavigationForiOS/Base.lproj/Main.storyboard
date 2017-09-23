@@ -129,6 +129,9 @@
                                 <state key="normal" title="スタッフにヘルプ">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="didTouchHelp:" destination="plz-Sp-jBe" eventType="touchDown" id="hYZ-DE-0LB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8eE-aa-t0g">
                                 <rect key="frame" x="0.0" y="470" width="375" height="101"/>
