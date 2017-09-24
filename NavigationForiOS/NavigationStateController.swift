@@ -181,7 +181,7 @@ class Start: NavigationState{
     }
     
     func getMode(navigations: NavigationEntity) -> Int {
-        return 4
+        return 1
     }
     
     /// ナビゲーション状態の更新をする関数
