@@ -162,7 +162,7 @@ class NavigationEntityTests: XCTestCase {
         beacons1.append(beaconThresholdList2)
         beacons1.append(beaconThresholdList3)
 
-        navigations.addNavigationPoint(route_id: 4, navigation_text: "turn left", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 90)
+        navigations.addNavigationPoint(route_id: 4, navigation_text: "turn left", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 90)
         
         //ポイント5
         beaconThresholdList1 = []
@@ -255,13 +255,13 @@ class NavigationEntityTests: XCTestCase {
         XCTAssertEqual(navigations.getGoalRouteId(), 6)
     }
     
-    func testGetUsingUUID_成功するとき（黒いビーコンの識別子）() {
+    func testGetUsingUUID_成功するとき黒いビーコンの識別子() {
         let uuidlist = navigations.getUUIDList()
         let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
         XCTAssertTrue(retval)
     }
     
-    func testGetUsingUUID_（失敗するとき）() {
+    func testGetUsingUUID_失敗するとき() {
         let uuidlist = navigations.getUUIDList()
         let retval = uuidlist.contains("B9407F30-F5F8-466E-AFF9-25556B57FE6B")
         XCTAssertFalse(retval)
@@ -329,6 +329,26 @@ class NavigationEntityTests: XCTestCase {
     func testGetMinorList(){
         let expectedVal = [1,2,3,4,5,6,7,8,9]
         XCTAssertEqual(navigations.getMinorList(), expectedVal)
+    }
+    
+    func testIsStart() {
+        XCTAssertEqual(navigations.isStart(routeId: 1), true)
+        XCTAssertEqual(navigations.isStart(routeId: 2), false)
+    }
+    
+    func testIsGoal() {
+        XCTAssertEqual(navigations.isGoal(routeId: 6), true)
+        XCTAssertEqual(navigations.isGoal(routeId: 2), false)
+    }
+    
+    func testIsRoad() {
+        XCTAssertEqual(navigations.isRoad(routeId: 3), true)
+        XCTAssertEqual(navigations.isRoad(routeId: 4), false)
+    }
+    
+    func testIsCrossroad() {
+        XCTAssertEqual(navigations.isCrossroad(routeId: 4), true)
+        XCTAssertEqual(navigations.isCrossroad(routeId: 3), false)
     }
     
     func testPerformanceExample() {
