@@ -43,7 +43,7 @@ class KNN: AlgorithmBase{
         //トレーニングデータを作成
         var trainData = [knnData]()
 
-        // 各ルートの教師データを扱える形に変更
+        // 各ルートの教師データをknnが扱える形に変更
         navigations.routes.forEach { (navigationPoint) in
             // 指定されたルートIDの教師データを取得
             let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
