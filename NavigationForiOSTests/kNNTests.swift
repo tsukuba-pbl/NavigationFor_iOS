@@ -352,26 +352,70 @@ class kNNTests: XCTestCase {
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-78, 5:-84, 6:-81, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
         let currentRouteId = 2
         let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
-        XCTAssertEqual(navigations.isStart(routeId: currentRouteId), false)
-        XCTAssertEqual(navigations.isStart(routeId: 3), false)
-        XCTAssertEqual(navigations.isStart(routeId: 4), false)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
         XCTAssertEqual(retval, POINT.CROSSROAD)
     }
     
     //routeId=2のROADで歩いた時，ROADのままの場合
     func testGetCurrentPoint_ROAD(){
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: 2)
+        let currentRouteId = 2
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
         XCTAssertEqual(retval, POINT.ROAD)
     }
     
     //routeId=6のROADで歩いている時，交差点に来て，GOALになった場合
     func testGetCurrentPoint_GOAL(){
         let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: 6)
+        let currentRouteId = 6
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
         XCTAssertEqual(retval, POINT.GOAL)
     }
 
+    //routeId=7のGOALで歩いている時，またGOALになった場合
+    func testGetCurrentPoint_GOALからGOAL(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+        let currentRouteId = 7
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isGoal(routeId: currentRouteId))
+        
+        XCTAssertEqual(retval, POINT.GOAL)
+    }
+    
+    //routeId=2からrouteId=7など，順序どおりにならなかった場合
+    func testGetCurrentPoint_OTHER(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+        let currentRouteId = 2
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
+        XCTAssertEqual(retval, POINT.OTHER)
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

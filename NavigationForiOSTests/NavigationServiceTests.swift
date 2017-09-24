@@ -436,7 +436,7 @@ class NavigationServiceTests: XCTestCase {
     }
     
     //Goal状態からGoalへの遷移
-    func testUpdateNavigations_Goal_to_Goal_ByLPF(){
+    func testUpdateNavigations_Goal_to_Goal_ByKNN(){
         //テスト用にNavigationServiceのモックを作成
         class MocBeaconManager : BeaconManager{
             //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
