@@ -87,7 +87,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             }
         }
         
-        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
+        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagneticDirection())!)
 
         
     }

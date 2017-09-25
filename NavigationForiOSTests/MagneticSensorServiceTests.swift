@@ -11,6 +11,7 @@ import XCTest
 
 class MagneticSensorServiceTests: XCTestCase {
     
+
     let magneticsensorservice = MagneticSensorSerivce()
     
     override func setUp() {
@@ -27,9 +28,9 @@ class MagneticSensorServiceTests: XCTestCase {
         XCTAssertEqual(magneticsensorservice.magineticValue, 0.0)
     }
     
-    func getMagneticTests() {
+    func getMagneticDirectionTests() {
         magneticsensorservice.magineticValue = 3.0
-        XCTAssertEqual(magneticsensorservice.getMagnetic(), 3.0)
+        XCTAssertEqual(magneticsensorservice.getMagneticDirection(), 3.0)
     }
     
     func testPerformanceExample() {

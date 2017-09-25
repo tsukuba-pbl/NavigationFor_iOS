@@ -42,7 +42,7 @@ class MagneticSensorSerivce: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func getMagnetic() -> Double{
+    func getMagneticDirection() -> Double{
         return magineticValue
     }
     
