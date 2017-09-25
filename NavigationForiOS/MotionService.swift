@@ -35,7 +35,6 @@ class MotionService {
             let direction: String
             if (self.yaw < 0) {
                 direction = "右"
-                //self.yaw *= -1
             }
             else {
                 direction = "左"

@@ -41,11 +41,6 @@ class NavigationEntity{
         routes.append(NavigationPoint(route_id: route_id, navigation_text: navigation_text, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, expectedBeacons: expectedBeacons, rotate_degree: rotate_degree))
     }
     
-    //スタートのIDを取得する
-    func getStartRouteId() -> Int{
-        return (routes.first?.route_id)!
-    }
-    
     func isStart(routeId: Int) -> Bool {
         let targetRoute = routes.filter({ (NavigationPoint) -> Bool in
             NavigationPoint.route_id == routeId
@@ -92,11 +87,6 @@ class NavigationEntity{
             minorIdList.append(beacon.minor_id)
         }
         return minorIdList
-    }
-    
-    //ゴールのIDを取得する
-    func getGoalRouteId() -> Int{
-        return (routes.last?.route_id)!
     }
     
     //指定したroute idのナビゲーション内容を返す

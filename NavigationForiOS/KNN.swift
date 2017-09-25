@@ -134,45 +134,12 @@ class KNN: AlgorithmBase{
         return nextState
     }
     
-    /// k近傍法
+    /// k近傍法によるrouteIdの取得
     ///
     /// - Parameters:
     ///   - trainData: 教師データ
     ///   - inputData: 入力データ
-    /// - Returns: クラスid 取れない時は-1
-//    func knn(trainData: [knnData], inputData: knnData) -> Int{
-//        var dist = [EuclidData]()
-//        //ユークリッド距離を求める
-//        for i in trainData{
-//            dist.append(EuclidData(routeId: i.routeId, euclidResult: getEuclidDist(trainData: i, inputData: inputData)))
-//        }
-//        //距離が短い順にソーティング
-//        let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
-//        //上位3つのデータを取得する
-//        let target = sortedDist[0...4]
-//        
-//        //上位3つのデータで多数決を取る
-//        var targetTop3 = Dictionary<Int, Int>()
-//        for i in target {
-//            if ((targetTop3[i.routeId]) != nil) {
-//                targetTop3[i.routeId] = targetTop3[i.routeId]! + 1
-//            } else {
-//                targetTop3[i.routeId] = 1
-//            }
-//        }
-//        //SlackService.postError(error: "\(targetTop3)", tag: "top5")
-//        //最も多いデータを返す
-//        let result = targetTop3.sorted { $0.1 > $1.1 }
-//        return (result.first?.key)!
-//    }
-    
-    
-    /// おれおれknn
-    ///
-    /// - Parameters:
-    ///   - trainData: <#trainData description#>
-    ///   - inputData: <#inputData description#>
-    /// - Returns: クラスID
+    /// - Returns: routeId
     func knn(trainData: [knnData], inputData: knnData) -> Int{
         var dist = [EuclidData]()
         //ユークリッド距離を求める
@@ -193,7 +160,6 @@ class KNN: AlgorithmBase{
                 targetTop3[i.routeId] = 1
             }
         }
-        //SlackService.postError(error: "\(targetTop3)", tag: "top5")
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!
