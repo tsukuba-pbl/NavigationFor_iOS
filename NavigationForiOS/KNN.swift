@@ -51,7 +51,12 @@ class KNN: AlgorithmBase{
                 routeTrainDataList.forEach { (BeaconRssi) in
                     x.append(Double(BeaconRssi.rssi))
                 }
-                trainData.append(knnData(X: x, routeId: navigationPoint.route_id))
+                // 2値で考える
+                if (navigationPoint.route_id == currentRouteId + 1) {
+                    trainData.append(knnData(X: x, routeId: navigationPoint.route_id))
+                } else {
+                    trainData.append(knnData(X: x, routeId: currentRouteId))
+                }
             }
         }
         

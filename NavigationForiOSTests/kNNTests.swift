@@ -404,18 +404,18 @@ class kNNTests: XCTestCase {
     }
     
     //routeId=2からrouteId=7など，順序どおりにならなかった場合
-    func testGetCurrentPoint_OTHER(){
-        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
-        let currentRouteId = 2
-        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+//    func testGetCurrentPoint_OTHER(){
+//        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+//        let currentRouteId = 2
+//        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
         
-        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
-        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
-        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
-        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+//        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+//        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+//        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+//        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
         
-        XCTAssertEqual(retval, POINT.OTHER)
-    }
+//        XCTAssertEqual(retval, POINT.OTHER)
+//    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
