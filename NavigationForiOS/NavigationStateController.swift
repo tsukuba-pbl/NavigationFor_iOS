@@ -48,9 +48,14 @@ class None: NavigationState{
     ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
 
+//        //受信できた場合、Start状態へ遷移
+//        if(!receivedBeaconsRssi.isEmpty){
+//            navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
+//        }
+        
         //受信できた場合、Start状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
-            navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
+            navigationService.navigationState = Road(currentRouteId: self.currentRouteId)
         }
     }
 }
