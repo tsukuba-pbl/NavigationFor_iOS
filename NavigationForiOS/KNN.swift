@@ -37,7 +37,6 @@ class KNN: AlgorithmBase{
     /// - Returns: return 現在の場所のENUM
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, currentRouteId: Int) -> POINT {
         var nextState: POINT = POINT.OTHER
-        let nextRouteId: Int = currentRouteId + 1   // 予期する次のrouteId
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
@@ -67,13 +66,32 @@ class KNN: AlgorithmBase{
         // knnで計算した予測した現在のRouteId
         let knnExpectedRouteId = knn(trainData: trainData, inputData: inputData)
         
+        nextState = self.getNextState(navigations: navigations, currentRouteId: currentRouteId, knnRouteId: knnExpectedRouteId)
+        
+        //let accuracy = getKnnAccuracy(trainData: trainData)
+        //print(accuracy)
+        
+        return nextState
+    }
+    
+    
+    /// k近傍で取得したルートIDから次の状態を計算し返す関数
+    ///
+    /// - Parameters:
+    ///   - navigations: ナビゲーションのルートなどの情報を含む変数
+    ///   - currentRouteId: 現在のルートID
+    ///   - knnRouteId: k近傍で取得したルートID
+    /// - Returns: return 現在の場所のENUM
+    func getNextState(navigations: NavigationEntity, currentRouteId: Int, knnRouteId: Int) -> POINT {
+        let nextRouteId = currentRouteId + 1
+        var nextState: POINT = POINT.OTHER
         // 現在の場所がstart地点の場合
         if (navigations.isStart(routeId: currentRouteId)) {
             // 同じ場所の場合
-            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+            if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.START
-            // 次の場所の場合
-            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
                 } else {
@@ -83,22 +101,22 @@ class KNN: AlgorithmBase{
                 nextState = POINT.OTHER
             }
             
-        // 現在の場所がgoal地点の場合
+            // 現在の場所がgoal地点の場合
         } else if (navigations.isGoal(routeId: currentRouteId)) {
             // 同じ場所の場合
-            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+            if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.GOAL
             } else {
                 nextState = POINT.OTHER
             }
             
-        // 現在の場所が交差点の場合は，そのまま交差点，次が道，その他の場合がある．
+            // 現在の場所が交差点の場合は，そのまま交差点，次が道，その他の場合がある．
         } else if (navigations.isCrossroad(routeId: currentRouteId)) {
             // 同じ場所の場合
-            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+            if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.CROSSROAD
-            // 次の場所の場合
-            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
                 } else {
@@ -108,13 +126,13 @@ class KNN: AlgorithmBase{
                 nextState = POINT.OTHER
             }
             
-        // 現在の場所が道の場合は，そのまま道，次が交差点またはゴール，その他の場合がある．
+            // 現在の場所が道の場合は，そのまま道，次が交差点またはゴール，その他の場合がある．
         } else if (navigations.isRoad(routeId: currentRouteId)) {
             // 同じ場所の場合
-            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+            if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.ROAD
-            // 次の場所の場合
-            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 // 次の場所がgoalの場合
                 if (navigations.isGoal(routeId: nextRouteId)) {
                     nextState = POINT.GOAL
@@ -127,10 +145,6 @@ class KNN: AlgorithmBase{
                 nextState = POINT.OTHER
             }
         }
-        
-        //let accuracy = getKnnAccuracy(trainData: trainData)
-        //print(accuracy)
-        
         return nextState
     }
     
