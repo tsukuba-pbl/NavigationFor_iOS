@@ -389,7 +389,7 @@ class NavigationServiceTests: XCTestCase {
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
         XCTAssertEqual(retval.navigation_text, "Start")
-        XCTAssertEqual(retval.mode, 4)
+        XCTAssertEqual(retval.mode, 1)
     }
 
     //Road状態からCrossroadへの遷移
