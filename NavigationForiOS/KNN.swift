@@ -35,41 +35,17 @@ class KNN: AlgorithmBase{
     ///   - receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）
     ///   - expectedRouteId: 到達するか判定する場所のroute id
     /// - Returns: return 現在の場所のENUM
-    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, expectedRouteId: Int) -> POINT {
-        var status: POINT = POINT.OTHER
+    override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, currentRouteId: Int) -> POINT {
+        var nextState: POINT = POINT.OTHER
+        let nextRouteId: Int = currentRouteId + 1   // 予期する次のrouteId
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
         var trainData = [knnData]()
-        
-//        navigations.routes.forEach { (navigationPoint) in
-//            //種別を取得
-//            var routeId : Int!
-//            if(navigationPoint.route_id == expectedRouteId){
-//                routeId = 1
-//            }else{
-//                routeId = 0
-//            }
-//            //対応するroute idのトレーニングデータを取得
-//            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
-//            routeTrainData.forEach { (routeTrainDataList) in
-//                var logData = [Double]()
-//                routeTrainDataList.forEach{ (routeTrainData) in
-//                    logData.append(Double(routeTrainData.rssi))
-//                }
-//                trainData.append(knnData(X: logData, routeId: routeId))
-//            }
-//        }
-//
-//        //入力データの作成(現在取得しているビーコン)
-//        var beaconRssiData = [Double]()
-//        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: expectedRouteId)
-//        expectedTrainData.first?.forEach({ (beacon) in
-//            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
-//        })
-//        let inputData = knnData(X: beaconRssiData, routeId: 1)
-//        
+
+        // 各ルートの教師データをknnが扱える形に変更
         navigations.routes.forEach { (navigationPoint) in
+            // 指定されたルートIDの教師データを取得
             let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
             routeTrainData.forEach { (routeTrainDataList) in
                 var x = [Double]()
@@ -80,58 +56,82 @@ class KNN: AlgorithmBase{
             }
         }
         
+        // 入力のビーコンデータ
         var inputBeaconRssiList = [Double]()
         let minorIdList = navigations.getMinorIdList()
         minorIdList.forEach { (minorId) in
             inputBeaconRssiList.append(Double(receivedBeaconsRssi[minorId]!))
         }
         let inputData = knnData(X: inputBeaconRssiList, routeId: -1)
-        //k近傍によって判定
-        //return 1:いる 0:いない
-//        let ans = knn(trainData: trainData, inputData: inputData)
-//        
-//        if(ans == 1){
-//            //目的地に到達したか判定
-//            if(expectedRouteId == navigations.getGoalRouteId()){
-//                status = POINT.GOAL
-//            } else if (navigations.isCrossroad(routeId: expectedRouteId)){
-//                status = POINT.CROSSROAD
-//            } else if (navigations.isRoad(routeId: expectedRouteId)) {
-//                status = POINT.ROAD
-//            }
-//        }else{
-//            status = POINT.OTHER
-//        }
+        
+        // knnで計算した予測した現在のRouteId
         let knnExpectedRouteId = knn(trainData: trainData, inputData: inputData)
         
-        // 想定の場所が交差点の場合は，そのまま交差点，次が道，その他の場合がある．
-        if (navigations.isCrossroad(routeId: expectedRouteId)) {
-            if (knnExpectedRouteId == expectedRouteId) {
-                status = POINT.CROSSROAD
-            } else if (knnExpectedRouteId == expectedRouteId + 1) {
-                status = POINT.ROAD
-            } else {
-                status = POINT.OTHER
-            }
-        // 想定の場所が道の場合は，そのまま道，次が交差点またはゴール，その他の場合がある．
-        } else if (navigations.isRoad(routeId: expectedRouteId)) {
-            if (knnExpectedRouteId == expectedRouteId) {
-                status = POINT.ROAD
-            } else if (knnExpectedRouteId == expectedRouteId + 1) {
-                if (navigations.isGoal(routeId: knnExpectedRouteId)) {
-                    status = POINT.GOAL
+        // 現在の場所がstart地点の場合
+        if (navigations.isStart(routeId: currentRouteId)) {
+            // 同じ場所の場合
+            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+                nextState = POINT.START
+            // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                if (navigations.isRoad(routeId: nextRouteId)) {
+                    nextState = POINT.ROAD
                 } else {
-                    status = POINT.CROSSROAD
+                    nextState = POINT.OTHER
                 }
             } else {
-                status = POINT.OTHER
+                nextState = POINT.OTHER
+            }
+            
+        // 現在の場所がgoal地点の場合
+        } else if (navigations.isGoal(routeId: currentRouteId)) {
+            // 同じ場所の場合
+            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+                nextState = POINT.GOAL
+            } else {
+                nextState = POINT.OTHER
+            }
+            
+        // 現在の場所が交差点の場合は，そのまま交差点，次が道，その他の場合がある．
+        } else if (navigations.isCrossroad(routeId: currentRouteId)) {
+            // 同じ場所の場合
+            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+                nextState = POINT.CROSSROAD
+            // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                if (navigations.isRoad(routeId: nextRouteId)) {
+                    nextState = POINT.ROAD
+                } else {
+                    nextState = POINT.OTHER
+                }
+            } else {
+                nextState = POINT.OTHER
+            }
+            
+        // 現在の場所が道の場合は，そのまま道，次が交差点またはゴール，その他の場合がある．
+        } else if (navigations.isRoad(routeId: currentRouteId)) {
+            // 同じ場所の場合
+            if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: currentRouteId)) {
+                nextState = POINT.ROAD
+            // 次の場所の場合
+            } else if (self.isSameRoute(actualRouteId: knnExpectedRouteId, expectedRouteId: nextRouteId)) {
+                // 次の場所がgoalの場合
+                if (navigations.isGoal(routeId: nextRouteId)) {
+                    nextState = POINT.GOAL
+                } else if (navigations.isCrossroad(routeId: nextRouteId)){
+                    nextState = POINT.CROSSROAD
+                } else {
+                    nextState = POINT.OTHER
+                }
+            } else {
+                nextState = POINT.OTHER
             }
         }
         
         //let accuracy = getKnnAccuracy(trainData: trainData)
         //print(accuracy)
         
-        return status
+        return nextState
     }
     
     /// k近傍法
@@ -241,5 +241,9 @@ class KNN: AlgorithmBase{
         accuracy = Double(nCorrect) / Double(trainData.count)
         
         return accuracy
+    }
+    
+    func isSameRoute(actualRouteId: Int, expectedRouteId: Int) -> Bool {
+        return actualRouteId == expectedRouteId
     }
 }

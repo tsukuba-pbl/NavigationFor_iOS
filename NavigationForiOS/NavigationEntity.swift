@@ -51,7 +51,7 @@ class NavigationEntity{
             NavigationPoint.route_id == routeId
         })
         if targetRoute.count > 0 {
-            return ((targetRoute.first?.isStart) != nil) as Bool
+            return targetRoute.first?.isStart == 1
         }
         return false
     }
@@ -61,7 +61,7 @@ class NavigationEntity{
             NavigationPoint.route_id == routeId
         })
         if targetRoute.count > 0 {
-            return ((targetRoute.first?.isGoal) != nil) as Bool
+            return targetRoute.first?.isGoal == 1
         }
         return false
     }
@@ -71,7 +71,7 @@ class NavigationEntity{
             NavigationPoint.route_id == routeId
         })
         if targetRoute.count > 0 {
-            return ((targetRoute.first?.isCrossroad) != nil) as Bool
+            return targetRoute.first?.isCrossroad == 1
         }
         return false
     }
@@ -81,7 +81,7 @@ class NavigationEntity{
             NavigationPoint.route_id == routeId
         })
         if targetRoute.count > 0 {
-            return ((targetRoute.first?.isRoad) != nil) as Bool
+            return targetRoute.first?.isRoad == 1
         }
         return false
     }
