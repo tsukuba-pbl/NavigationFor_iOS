@@ -1,19 +1,18 @@
 //
-//  NavigationViewControllerTests.swift
+//  kNNTests.swift
 //  NavigationForiOS
 //
-//  Created by みなじゅん on 2017/08/17.
+//  Created by みなじゅん on 2017/09/12.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
 
 import XCTest
 @testable import NavigationForiOS
 
-class NavigationServiceTests: XCTestCase {
-    
-    let navigationService = NavigationService(beaconManager: BeaconManager(), algorithm: KNN())
+class kNNTests: XCTestCase {
     let navigations = NavigationEntity()
-
+    let kNN = KNN()
+    
     override func setUp() {
         super.setUp()
         
@@ -342,133 +341,82 @@ class NavigationServiceTests: XCTestCase {
         
         navigations.addNavigationPoint(route_id: 7, navigation_text: "Goal", expectedBeacons: beacons7, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, rotate_degree: 0)
     }
-
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    //NoneからNone状態への遷移
-    func testNoneState(){
+    //routeId=2のROADで歩いた時，routeId=3の交差点に来た時
+    func testGetCurrentPoint_CROSSROAD(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-78, 5:-84, 6:-81, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 2
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
         
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [:]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
         
-        //現在の状態をセット
-        navigationService.navigationState = None(currentRouteId: 1)
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "None")
-        XCTAssertEqual(retval.mode, -1)
-
-    }
-
-    //None状態からStartへの遷移
-    func testUpdateNavigations_None_to_Start_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-
-        //現在の状態をセット
-        navigationService.navigationState = None(currentRouteId: 1)
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "Start")
-        XCTAssertEqual(retval.mode, 1)
-    }
-
-    //Road状態からCrossroadへの遷移
-    func testUpdateNavigations_Road_to_Crossroad_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -99, 3:-99, 4:-78, 5:-79, 6:-80, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
-        
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-        //現在の状態をセット
-        navigationService.navigationState = Road(currentRouteId: 2)
-
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "turn left")
-        XCTAssertEqual(retval.mode, 3)
+        XCTAssertEqual(retval, POINT.CROSSROAD)
     }
     
-    //Road状態からRoadへの遷移
-    func testUpdateNavigations_Road_to_Road_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -87, 2: -81, 3:-83, 4:-84, 5:-85, 6:-87, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-        //現在の状態をセット
-        navigationService.navigationState = Road(currentRouteId: 2)
+    //routeId=2のROADで歩いた時，ROADのままの場合
+    func testGetCurrentPoint_ROAD(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 2
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
         
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "straight")
-        XCTAssertEqual(retval.mode, 1)
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
+        XCTAssertEqual(retval, POINT.ROAD)
     }
     
-    //Goal状態からGoalへの遷移
-    func testUpdateNavigations_Goal_to_Goal_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-78, 11:-84, 12:-79]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
+    //routeId=6のROADで歩いている時，交差点に来て，GOALになった場合
+    func testGetCurrentPoint_GOAL(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+        let currentRouteId = 6
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
+        XCTAssertEqual(retval, POINT.GOAL)
+    }
 
-        //現在の状態をセット
-        navigationService.navigationState = Goal(currentRouteId: 7)
-
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "Goal")
-        XCTAssertEqual(retval.mode, 4)
+    //routeId=7のGOALで歩いている時，またGOALになった場合
+    func testGetCurrentPoint_GOALからGOAL(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+        let currentRouteId = 7
+        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
+        
+        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isCrossroad(routeId: currentRouteId))
+        XCTAssertFalse(navigations.isRoad(routeId: currentRouteId))
+        XCTAssertTrue(navigations.isGoal(routeId: currentRouteId))
+        
+        XCTAssertEqual(retval, POINT.GOAL)
     }
     
-    func testGetMaxRssiBeacon() {
-        class MocBeaconManager: BeaconManager {
-            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
-                return (true, BeaconEntity(minorId: 1, rssi: -70))
-            }
-        }
-        navigationService.beaconManager = MocBeaconManager()
+    //routeId=2からrouteId=7など，順序どおりにならなかった場合
+//    func testGetCurrentPoint_OTHER(){
+//        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
+//        let currentRouteId = 2
+//        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
         
-        XCTAssertEqual(navigationService.getMaxRssiBeacon().minorId , 1)
-        XCTAssertEqual(navigationService.getMaxRssiBeacon().rssi , -70)
-    }
-
+//        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
+//        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
+//        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
+//        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
+        
+//        XCTAssertEqual(retval, POINT.OTHER)
+//    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
@@ -477,3 +425,4 @@ class NavigationServiceTests: XCTestCase {
     }
     
 }
+
