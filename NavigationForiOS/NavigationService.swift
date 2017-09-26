@@ -15,7 +15,7 @@ class NavigationService {
     var initRouteId = 1
     
     //ステートマシンの状態
-    var state = "None"
+    var currentRouteId = 1
     
     //初期状態を設定
     var navigationState: NavigationState
@@ -28,7 +28,7 @@ class NavigationService {
     let speechService = SpeechService()
     
     init(beaconManager: BeaconManager, algorithm: AlgorithmBase) {
-        navigationState = None(expectedRouteId: initRouteId)
+        navigationState = None(currentRouteId: initRouteId)
         self.beaconManager = beaconManager
         self.algorithm = algorithm
     }
@@ -100,20 +100,15 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //音声案内(ステートマシンの状態が遷移したら)
-        //GoFoward → OnThePointのとき、交差点で設定したナビゲーションを発話
-        if(state == "GoFoward" && navigationStateMachineProperty.state == "OnThePoint"){
+        if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
             speechService.announce(str: navigation_text)
-        //OnThePoint → GoFowardのとき、「直進です」を発話
-        }else if((state == "OnThePoint" && navigationStateMachineProperty.state == "GoFoward")){
-            speechService.announce(str: "直進です")
-        }else if(navigationStateMachineProperty.state == "Goal" && state != "Goal"){
-            speechService.announce(str: "目的地に到着しました")
+            self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
-        
+
         //ステートマシンの状態を更新
         state = navigationStateMachineProperty.state
         
-        return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.expectedRouteId)
+        return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.currentRouteId)
     }
     
     //現在いる場所のroute idを取得する
