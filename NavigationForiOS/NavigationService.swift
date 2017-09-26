@@ -115,7 +115,7 @@ class NavigationService {
     
     //現在いる場所のroute idを取得する
     func getCurrentRouteId(navigations: NavigationEntity) -> Int{
-        return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconRssi: beaconManager.getReceivedBeaconsRssi())
+        return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
     }
     
     /// 現在の最大RSSIのビーコン情報を取得

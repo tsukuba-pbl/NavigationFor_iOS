@@ -152,7 +152,7 @@ class KNN: AlgorithmBase{
         return nextState
     }
     
-    override func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconRssi receivedBeaconsRssi : Dictionary<Int, Int>) -> Int {
+    override func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> Int {
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
         var trainData = [knnData]()
