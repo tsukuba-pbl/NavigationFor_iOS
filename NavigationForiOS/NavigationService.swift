@@ -20,6 +20,8 @@ class NavigationService {
     //初期状態を設定
     var navigationState: NavigationState
     
+    var state = "None"
+    
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム
     var beaconManager : BeaconManager!
@@ -38,7 +40,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/ferretdayo/9ae8f4fda61dfea5e0ddf38b1783460a/raw/d4d5bc555ce9ff34e42242d8c1a8fd317e2219ab/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/eada47f5d08aebad696f1c4b9e70c1153d258491/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -100,14 +102,21 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //音声案内(ステートマシンの状態が遷移したら)
-        if(navigationStateMachineProperty.currentRouteId != self.currentRouteId){
-            speechService.textToSpeech(str: navigation_text)
+        if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
+            speechService.announce(str: navigation_text)
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
+
+        //ステートマシンの状態を更新
+        state = navigationStateMachineProperty.state
         
         return (mode, navigation_text, navigationStateMachineProperty.state, navigationStateMachineProperty.currentRouteId)
     }
     
+    //現在いる場所のroute idを取得する
+    func getCurrentRouteId(navigations: NavigationEntity) -> Int{
+        return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
+    }
     
     /// 現在の最大RSSIのビーコン情報を取得
     ///

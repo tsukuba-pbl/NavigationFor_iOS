@@ -36,4 +36,29 @@ class SlackService {
         ]
         Alamofire.request(targetUrl, method: .post, parameters: params, encoding: JSONEncoding.default)
     }
+    
+    static let helpChannelUrl = "https://hooks.slack.com/services/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"
+    
+    static func postHelp(name: String, routeId: Int) {
+        var message = ""
+        message += "Help要請\n"
+        message += name + "さんがヘルプボタンを押しました"
+        message += "Route ID \(routeId) に向かってください"
+        
+        requestHelp(message: message, tag: "Helper")
+    }
+    
+    private static func requestHelp(message: String, tag: String) {
+        let params: Parameters = [
+            "attachments": [
+                [
+                    "fallback": tag,
+                    "pretext": tag,
+                    "color": "#d06800",
+                    "text": message
+                ],
+            ],
+            ]
+        Alamofire.request(helpChannelUrl, method: .post, parameters: params, encoding: JSONEncoding.default)
+    }
 }

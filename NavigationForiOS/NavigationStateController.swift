@@ -5,7 +5,6 @@
 //  Created by みなじゅん on 2017/08/31.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 protocol NavigationState {
@@ -98,7 +97,7 @@ class Road: NavigationState{
             case .OTHER: break
             default: break
         }
-
+        
     }
     
 }
@@ -109,7 +108,7 @@ class Crossroad: NavigationState{
     func getNavigationState() -> (state: String, currentRouteId: Int) {
         return ("Crossroad", self.currentRouteId)
     }
-
+    
     let motionService: MotionService
     private let currentRouteId: Int
     private let allowableDegree: Int = 10

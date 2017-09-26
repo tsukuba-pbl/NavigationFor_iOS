@@ -10,11 +10,13 @@ import UIKit
 import CoreLocation
 import Swinject
 
-class NavigationViewController: UIViewController{
+class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
+    @IBOutlet weak var textField: UILabel!
     @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var navigation: UILabel!
 
+    @IBOutlet weak var currentPointLabel: UILabel!
     var pedoswitch = false
     
     var navigationDic = [Int: String]()
@@ -23,6 +25,7 @@ class NavigationViewController: UIViewController{
     var pedometerService : PedometerService?
     var navigationService: NavigationService?
     var motionService : MotionService? = MotionService()
+    var magneticSensorSerivce: MagneticSensorSerivce? = MagneticSensorSerivce()
     
     var navigations : NavigationEntity? //ナビゲーション情報
     
@@ -31,6 +34,8 @@ class NavigationViewController: UIViewController{
     var imgLeft: UIImage!
     var imgRight: UIImage!
     @IBOutlet weak var navigationImg: UIImageView!
+    
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +55,8 @@ class NavigationViewController: UIViewController{
         
         //表示をリセット
         reset()
+        
+        magneticSensorSerivce?.startMagneticSensorService()
     }
     
     func reset(){
@@ -81,6 +88,19 @@ class NavigationViewController: UIViewController{
             }
         }
         
+        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
+        
+        //現在位置の表示
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
+        currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
+    }
+    
+    //スタッフにヘルプボタンが押された時
+    @IBAction func didTouchHelp(_ sender: Any) {
+        //現在位置を取得
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
+
+        SlackService.postHelp(name: "Minajun", routeId: currentRouteId!)
     }
     
     //ゴール時にアラートを表示する
@@ -104,5 +124,11 @@ class NavigationViewController: UIViewController{
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        magneticSensorSerivce?.stopMagineticSensorService()
     }
 }

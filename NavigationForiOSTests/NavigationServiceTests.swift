@@ -468,6 +468,21 @@ class NavigationServiceTests: XCTestCase {
         XCTAssertEqual(navigationService.getMaxRssiBeacon().minorId , 1)
         XCTAssertEqual(navigationService.getMaxRssiBeacon().rssi , -70)
     }
+    
+    func testGetCurrentRouteId(){
+        //テスト用にNavigationServiceのモックを作成
+        class MocBeaconManager : BeaconManager{
+            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
+            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
+                return [1: -100, 2: -99, 3:-99, 4:-78, 5:-79, 6:-80, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
+            }
+        }
+        //NavigationServiceのBeaconManagerをモックに差し替え
+        navigationService.beaconManager = MocBeaconManager()
+
+        let routeId = navigationService.getCurrentRouteId(navigations: navigations)
+        XCTAssertEqual(routeId, 3)
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
