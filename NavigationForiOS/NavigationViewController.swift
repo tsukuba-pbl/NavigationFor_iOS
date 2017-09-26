@@ -91,7 +91,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
         
         //現在位置の表示
-        let currentRouteId = navigationService?.getCurrentPoint(navigations: navigations!)
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
         currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
     }
     
@@ -99,7 +99,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBAction func didTouchHelp(_ sender: Any) {
         var message = ""
         //現在位置を取得
-        let currentRouteId = navigationService?.getCurrentPoint(navigations: navigations!)
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
         message += "Help要請\n"
         message += "〇〇さんがヘルプボタンを押しました"
         message += "Route ID \(currentRouteId ?? -1) に向かってください"

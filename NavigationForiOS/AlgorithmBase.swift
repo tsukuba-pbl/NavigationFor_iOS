@@ -14,7 +14,7 @@ class AlgorithmBase: AlgorithmBaseProtocol {
         return POINT.OTHER
     }
     
-    func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> Int{
+    func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconRssi receivedBeaconsRssi : Dictionary<Int, Int>) -> Int{
         return -1
     }
     

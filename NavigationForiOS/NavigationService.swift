@@ -20,6 +20,8 @@ class NavigationService {
     //初期状態を設定
     var navigationState: NavigationState
     
+    var state = "None"
+    
     // DI
     var algorithm: AlgorithmBase!       // 適用アルゴリズム
     var beaconManager : BeaconManager!
@@ -38,7 +40,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/691cf8f18632d1627a395e615713ed91a56eb2ba/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/eada47f5d08aebad696f1c4b9e70c1153d258491/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -112,8 +114,8 @@ class NavigationService {
     }
     
     //現在いる場所のroute idを取得する
-    func getCurrentPoint(navigations: NavigationEntity) -> Int{
-        return algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
+    func getCurrentRouteId(navigations: NavigationEntity) -> Int{
+        return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconRssi: beaconManager.getReceivedBeaconsRssi())
     }
     
     /// 現在の最大RSSIのビーコン情報を取得

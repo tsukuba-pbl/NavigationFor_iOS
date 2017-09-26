@@ -20,7 +20,8 @@ struct EuclidData {
 enum POINT {
     case GOAL
     case START
-    case ON_POINT
+    case ROAD
+    case CROSSROAD
     case OTHER
 }
 
@@ -51,9 +52,9 @@ class KNN: AlgorithmBase{
                 }
                 // 2値で考える
                 if (navigationPoint.route_id == currentRouteId + 1) {
-                    trainData.append(knnData(X: x, routeId: navigationPoint.route_id))
+                    trainData.append(knnData(X: logData, routeId: navigationPoint.route_id))
                 } else {
-                    trainData.append(knnData(X: x, routeId: currentRouteId))
+                    trainData.append(knnData(X: logData, routeId: currentRouteId))
                 }
             }
         }
@@ -149,6 +150,38 @@ class KNN: AlgorithmBase{
             }
         }
         return nextState
+    }
+    
+    override func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconRssi receivedBeaconsRssi : Dictionary<Int, Int>) -> Int {
+        //交差点にいるかいないかをk近傍で判定する
+        //トレーニングデータを作成
+        var trainData = [knnData]()
+        
+        navigations.routes.forEach { (navigationPoint) in
+            //対応するroute idのトレーニングデータを取得
+            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
+            routeTrainData.forEach { (routeTrainDataList) in
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.rssi))
+                }
+                trainData.append(knnData(X: logData, routeId: navigationPoint.route_id))
+            }
+        }
+        
+        //入力データの作成(現在取得しているビーコン)
+        var beaconRssiData = [Double]()
+        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: 1)
+        expectedTrainData.first?.forEach({ (beacon) in
+            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
+        })
+        let inputData = knnData(X: beaconRssiData, routeId: 1)
+        
+        //k近傍によって判定
+        //return 1:いる 0:いない
+        let ans = knn(trainData: trainData, inputData: inputData)
+        
+        return ans
     }
     
     /// k近傍法によるrouteIdの取得
