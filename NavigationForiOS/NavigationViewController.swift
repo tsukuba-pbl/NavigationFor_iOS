@@ -97,13 +97,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     //スタッフにヘルプボタンが押された時
     @IBAction func didTouchHelp(_ sender: Any) {
-        var message = ""
         //現在位置を取得
         let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
-        message += "Help要請\n"
-        message += "〇〇さんがヘルプボタンを押しました"
-        message += "Route ID \(currentRouteId ?? -1) に向かってください"
-        SlackService.postError(error: message, tag: "Helper")
+
+        SlackService.postHelp(name: "Minajun", routeId: currentRouteId!)
     }
     
     //ゴール時にアラートを表示する

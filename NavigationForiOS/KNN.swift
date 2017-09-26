@@ -178,7 +178,7 @@ class KNN: AlgorithmBase{
         let inputData = knnData(X: beaconRssiData, routeId: 1)
         
         //k近傍によって判定
-        //return 1:いる 0:いない
+        // return route id
         let ans = knn(trainData: trainData, inputData: inputData)
         
         return ans

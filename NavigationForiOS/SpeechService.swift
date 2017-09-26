@@ -21,7 +21,7 @@ class SpeechService : NSObject, AVSpeechSynthesizerDelegate{
         do {
             audioPlayerInstance = try AVAudioPlayer(contentsOf: sound, fileTypeHint:nil)
         } catch {
-            print("AVAudioPlayerインスタンス作成失敗")
+            SlackService.postError(error: "AVAudioPlayerインスタンス作成失敗", tag: "SpeechService")
         }
         // バッファに保持していつでも再生できるようにする
         audioPlayerInstance.prepareToPlay()
