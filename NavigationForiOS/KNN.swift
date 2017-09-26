@@ -5,7 +5,6 @@
 //  Created by みなじゅん on 2017/09/11.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 struct knnData{
@@ -21,14 +20,14 @@ struct EuclidData {
 enum POINT {
     case GOAL
     case START
-    case CROSSROAD
     case ROAD
+    case CROSSROAD
     case OTHER
 }
 
 class KNN: AlgorithmBase{
     
-    /// k近傍で現在いる場所を取得する関数
+    /// k近傍で指定目的地に到達したかどうかを判定し、その結果を返す
     ///
     /// - Parameters:
     ///   - navigations: ナビゲーションのルートなどの情報を含む変数
@@ -47,15 +46,15 @@ class KNN: AlgorithmBase{
             // 指定されたルートIDの教師データを取得
             let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
             routeTrainData.forEach { (routeTrainDataList) in
-                var x = [Double]()
-                routeTrainDataList.forEach { (BeaconRssi) in
-                    x.append(Double(BeaconRssi.rssi))
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.rssi))
                 }
                 // 2値で考える
                 if (navigationPoint.route_id == currentRouteId + 1) {
-                    trainData.append(knnData(X: x, routeId: navigationPoint.route_id))
+                    trainData.append(knnData(X: logData, routeId: navigationPoint.route_id))
                 } else {
-                    trainData.append(knnData(X: x, routeId: currentRouteId))
+                    trainData.append(knnData(X: logData, routeId: currentRouteId))
                 }
             }
         }
@@ -153,6 +152,38 @@ class KNN: AlgorithmBase{
         return nextState
     }
     
+    override func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> Int {
+        //交差点にいるかいないかをk近傍で判定する
+        //トレーニングデータを作成
+        var trainData = [knnData]()
+        
+        navigations.routes.forEach { (navigationPoint) in
+            //対応するroute idのトレーニングデータを取得
+            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
+            routeTrainData.forEach { (routeTrainDataList) in
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.rssi))
+                }
+                trainData.append(knnData(X: logData, routeId: navigationPoint.route_id))
+            }
+        }
+        
+        //入力データの作成(現在取得しているビーコン)
+        var beaconRssiData = [Double]()
+        let expectedTrainData = navigations.getRouteExpectedBeacons(route_id: 1)
+        expectedTrainData.first?.forEach({ (beacon) in
+            beaconRssiData.append(Double(receivedBeaconsRssi[beacon.minor_id]!))
+        })
+        let inputData = knnData(X: beaconRssiData, routeId: 1)
+        
+        //k近傍によって判定
+        // return route id
+        let ans = knn(trainData: trainData, inputData: inputData)
+        
+        return ans
+    }
+    
     /// k近傍法によるrouteIdの取得
     ///
     /// - Parameters:
@@ -168,7 +199,7 @@ class KNN: AlgorithmBase{
         //距離が短い順にソーティング
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
         //上位3つのデータを取得する
-        let target = sortedDist[0...4]
+        let target = sortedDist[0...2]
         
         //上位3つのデータで多数決を取る
         var targetTop3 = Dictionary<Int, Int>()

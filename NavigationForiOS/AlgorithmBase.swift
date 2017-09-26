@@ -14,6 +14,10 @@ class AlgorithmBase: AlgorithmBaseProtocol {
         return POINT.OTHER
     }
     
+    func getCurrentRouteId(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>) -> Int{
+        return -1
+    }
+    
     /// 最大値のRSSIを取得する関数
     ///
     /// - Parameter receivedBeaconsRssi: 現在のビーコンのRSSIの値（平滑化済み）

@@ -42,6 +42,8 @@
 		C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B261F4D6557001098DE /* NavigationEntity.swift */; };
 		C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */; };
 		C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */; };
+		C20B11911F74B3A8004915B4 /* se1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C20B11901F74B3A8004915B4 /* se1.wav */; };
+		C20B11931F74B76D004915B4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20B11921F74B76D004915B4 /* AVFoundation.framework */; };
 		C21301841F66780B00D966A9 /* KNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301831F66780B00D966A9 /* KNN.swift */; };
 		C21301861F67815700D966A9 /* kNNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301851F67815700D966A9 /* kNNTests.swift */; };
 		C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */; };
@@ -132,6 +134,8 @@
 		B160F4A71F53496700169231 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
 		C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntityTests.swift; sourceTree = "<group>"; };
+		C20B11901F74B3A8004915B4 /* se1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = se1.wav; sourceTree = "<group>"; };
+		C20B11921F74B76D004915B4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationServiceTests.swift; sourceTree = "<group>"; };
 		C21301831F66780B00D966A9 /* KNN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNN.swift; sourceTree = "<group>"; };
 		C21301851F67815700D966A9 /* kNNTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kNNTests.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C20B11931F74B76D004915B4 /* AVFoundation.framework in Frameworks */,
 				B160F49C1F5286AF00169231 /* SwinjectStoryboard.framework in Frameworks */,
 				EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */,
 				C2B26B8B1F43EC7E00E4B785 /* CoreLocation.framework in Frameworks */,
@@ -212,6 +217,7 @@
 		B14883411F3C4D32007A9E2E /* NavigationForiOS */ = {
 			isa = PBXGroup;
 			children = (
+				C20B11901F74B3A8004915B4 /* se1.wav */,
 				B14883911F455CE0007A9E2E /* services */,
 				B14883901F455CB3007A9E2E /* models */,
 				B148838E1F455C22007A9E2E /* controllers */,
@@ -249,6 +255,7 @@
 		B14883811F4353DA007A9E2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C20B11921F74B76D004915B4 /* AVFoundation.framework */,
 				B160F4991F5286AF00169231 /* Swinject.framework */,
 				B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */,
 				EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */,
@@ -451,6 +458,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C20B11911F74B3A8004915B4 /* se1.wav in Resources */,
 				B148834F1F3C4D32007A9E2E /* LaunchScreen.storyboard in Resources */,
 				B148834C1F3C4D32007A9E2E /* Assets.xcassets in Resources */,
 				B148834A1F3C4D32007A9E2E /* Main.storyboard in Resources */,

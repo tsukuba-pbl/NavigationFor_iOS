@@ -16,6 +16,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var stateMachineLabel: UILabel!
     @IBOutlet weak var navigation: UILabel!
 
+    @IBOutlet weak var currentPointLabel: UILabel!
     var pedoswitch = false
     
     var navigationDic = [Int: String]()
@@ -88,8 +89,18 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         }
         
         self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagneticDirection())!)
-
         
+        //現在位置の表示
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
+        currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
+    }
+    
+    //スタッフにヘルプボタンが押された時
+    @IBAction func didTouchHelp(_ sender: Any) {
+        //現在位置を取得
+        let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
+
+        SlackService.postHelp(name: "Minajun", routeId: currentRouteId!)
     }
     
     //ゴール時にアラートを表示する
