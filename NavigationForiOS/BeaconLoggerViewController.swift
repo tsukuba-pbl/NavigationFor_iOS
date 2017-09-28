@@ -38,7 +38,7 @@ class BeaconLoggerViewController: UIViewController, BeaconLoggerVCDelegate {
         //使用するビーコンのMinor Idを設定
         BeaconLoggerService.getBeaconMinorIdList { response in
             //JSONで取得
-            self.navigations.MinorIdList = response
+            self.navigations.setReceiveMinorIdList(minorIdList: response)
             //受信するビーコンの情報を与え、受信を開始する
             self.beaconLogger = BeaconLoggerController(navigations : self.navigations, delegate: self)
         }

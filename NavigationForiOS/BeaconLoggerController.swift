@@ -120,7 +120,7 @@ class BeaconLoggerController : NSObject{
         
         for (key, i) in trainData.enumerated(){
             tmpMessage += "\t[\n"
-            for j in navigations.getMinorList(){
+            for j in navigations.getMinorIdList(){
                 tmpMessage += "\t\t{\"minorId\": \(j), \"rssi\": \(i[j] ?? -100)},\n"
             }
             tmpMessage += "\t],\n"
