@@ -248,7 +248,7 @@ class BeaconManagerTests: XCTestCase {
     
     
     func testIsAvailableBeaconId_成功するとき(){
-        for i in 1...navigations.getMinorList().count{
+        for i in 1...navigations.getMinorIdList().count{
             let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
             XCTAssertTrue(retval)
         }
@@ -266,15 +266,15 @@ class BeaconManagerTests: XCTestCase {
 
     
     func testInitBeaconRssiList(){
-        XCTAssertEqual(navigations.getMinorList().count, 9)
-        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        XCTAssertEqual(navigations.getMinorIdList().count, 9)
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorIdList())
         for i in beaconManager.availableBeaconRssiList{
             XCTAssertEqual(i.value, -100)
         }
     }
     
     func testGetMaxRssiBeacon1(){
-        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorIdList())
         beaconManager.availableBeaconRssiList[1] = -74
         beaconManager.availableBeaconRssiList[2] = -100
         beaconManager.availableBeaconRssiList[3] = -80
@@ -288,7 +288,7 @@ class BeaconManagerTests: XCTestCase {
     }
     
     func testGetMaxRssiBeacon2(){
-        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        beaconManager.initBeaconRssiList(minor_id_list: navigations.getMinorIdList())
         beaconManager.availableBeaconRssiList[1] = -100
         beaconManager.availableBeaconRssiList[2] = -100
         beaconManager.availableBeaconRssiList[3] = -100

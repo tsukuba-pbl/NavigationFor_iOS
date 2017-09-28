@@ -31,7 +31,7 @@ class BeaconManager: NSObject, CLLocationManagerDelegate {
         self.navigations = navigations
         
         //使用するビーコンのminor idのリストを取得するして、電波強度の表を作成する
-        initBeaconRssiList(minor_id_list: navigations.getMinorList())
+        initBeaconRssiList(minor_id_list: navigations.getMinorIdList())
         oldAvailableBeaconRssiList = availableBeaconRssiList
         
         //使用するUUIDのリストを取得
@@ -236,7 +236,7 @@ class BeaconManager: NSObject, CLLocationManagerDelegate {
     // 自身が設置していないビーコンの情報も取得してしまうため，この関数で自身が設置したビーコンかを判定する
     func isAvailableBeaconId(navigations: NavigationEntity, uuid : String, minor_id : Int) -> Bool{
         var available = false
-        if(navigations.getMinorList().contains(minor_id) && navigations.getUUIDList().contains(uuid)){
+        if(navigations.getMinorIdList().contains(minor_id) && navigations.getUUIDList().contains(uuid)){
             available = true
         }else{
             available = false

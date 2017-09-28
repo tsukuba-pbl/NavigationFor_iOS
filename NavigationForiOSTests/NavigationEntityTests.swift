@@ -320,7 +320,7 @@ class NavigationEntityTests: XCTestCase {
     
     func testGetMinorList(){
         let expectedVal = [1,2,3,4,5,6,7,8,9]
-        XCTAssertEqual(navigations.getMinorList(), expectedVal)
+        XCTAssertEqual(navigations.getMinorIdList(), expectedVal)
     }
     
     func testIsStart() {
