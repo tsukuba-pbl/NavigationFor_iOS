@@ -19,9 +19,8 @@ class BeaconLoggerControllerTests: XCTestCase {
         super.setUp()
         navigations = NavigationEntity()
         //使用するビーコンを登録
-        for i in 1...9{
-            navigations.MinorIdList.append(i)
-        }
+        let minorIdList = [1,2,3,4,5,6,7,8,9]
+        navigations.setReceiveMinorIdList(minorIdList: minorIdList)
         beaconLoggerController = BeaconLoggerController(navigations: navigations, delegate: beaconLoggerVC)
     }
     
@@ -32,7 +31,7 @@ class BeaconLoggerControllerTests: XCTestCase {
     
     func testInit(){
         let expected = [1,2,3,4,5,6,7,8,9]
-        XCTAssertEqual(beaconLoggerController.navigations.getMinorList(), expected)
+        XCTAssertEqual(beaconLoggerController.navigations.getMinorIdList(), expected)
         XCTAssertEqual(beaconLoggerController.state, false)
     }
     
