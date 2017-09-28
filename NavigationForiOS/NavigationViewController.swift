@@ -88,7 +88,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             }
         }
         
-        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagnetic())!)
+        self.textField.text = "".appendingFormat("%.2f", (magneticSensorSerivce?.getMagneticDirection())!)
         
         //現在位置の表示
         let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)

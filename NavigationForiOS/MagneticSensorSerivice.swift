@@ -27,8 +27,6 @@ class MagneticSensorSerivce: NSObject, CLLocationManagerDelegate {
             
             // Specifies a physical device orientation from which heading calculation should be referenced
             locationManager.headingOrientation = .portrait
-            
-            locationManager.startUpdatingHeading()
         }
     }
     
@@ -44,12 +42,14 @@ class MagneticSensorSerivce: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func getMagnetic() -> Double{
+    func getMagneticDirection() -> Double{
         return magineticValue
     }
     
     // MARK: - CLLocationManager delegate
     
+    //ユーザが位置情報の使用を許可しているか確認する
+    //初回は NotDetermined ステータスが返るので、requestWhenInUseAuthorization() メソッドでユーザに許可を取る
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
