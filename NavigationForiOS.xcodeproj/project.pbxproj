@@ -39,13 +39,18 @@
 		B160F4A21F528A5100169231 /* Swinject.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B160F4991F5286AF00169231 /* Swinject.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B160F4A41F528A6B00169231 /* SwinjectStoryboard.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B160F4A81F53496700169231 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B160F4A71F53496700169231 /* HomeViewControllerTests.swift */; };
+		C20352B41F6A401100891AF9 /* BeaconLoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20352B31F6A401100891AF9 /* BeaconLoggerService.swift */; };
 		C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B261F4D6557001098DE /* NavigationEntity.swift */; };
 		C2052B2B1F4DCC55001098DE /* NavigationEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */; };
 		C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */; };
 		C20B11911F74B3A8004915B4 /* se1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C20B11901F74B3A8004915B4 /* se1.wav */; };
+		C283C34C1F62C78F009D2723 /* BeaconLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */; };
+		C283C34E1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */; };
+		C283C3501F62EF27009D2723 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283C34F1F62EF27009D2723 /* TestService.swift */; };
 		C20B11931F74B76D004915B4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20B11921F74B76D004915B4 /* AVFoundation.framework */; };
 		C21301841F66780B00D966A9 /* KNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301831F66780B00D966A9 /* KNN.swift */; };
 		C21301861F67815700D966A9 /* kNNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301851F67815700D966A9 /* kNNTests.swift */; };
+		C2962D5F1F603496004629CD /* BeaconLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */; };
 		C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */; };
 		C288D2361F566A9B00A3DBE1 /* BeaconEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C288D2351F566A9B00A3DBE1 /* BeaconEntity.swift */; };
 		C288D2381F5677CB00A3DBE1 /* BeaconEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C288D2371F5677CB00A3DBE1 /* BeaconEntityTests.swift */; };
@@ -126,13 +131,18 @@
 		B1533ED91F5FE14200776036 /* AlgorithmBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmBase.swift; sourceTree = "<group>"; };
 		B15B71561F5E699200B56551 /* AlgorithmBaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmBaseProtocol.swift; sourceTree = "<group>"; };
 		B15B71581F5E69C600B56551 /* Lpf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lpf.swift; sourceTree = "<group>"; };
+		C20352B31F6A401100891AF9 /* BeaconLoggerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerService.swift; sourceTree = "<group>"; };
 		B15B715A1F5E6A3900B56551 /* LpfEucild.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfEucild.swift; sourceTree = "<group>"; };
 		B15B715C1F5E832100B56551 /* LpfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfTests.swift; sourceTree = "<group>"; };
 		B160F4991F5286AF00169231 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
 		B160F49A1F5286AF00169231 /* SwinjectStoryboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwinjectStoryboard.framework; path = Carthage/Build/iOS/SwinjectStoryboard.framework; sourceTree = "<group>"; };
+		C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerController.swift; sourceTree = "<group>"; };
+		C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerControllerTests.swift; sourceTree = "<group>"; };
+		C283C34F1F62EF27009D2723 /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
 		B160F49D1F5286BA00169231 /* SwinjectStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwinjectStoryboard.swift; sourceTree = "<group>"; };
 		B160F4A71F53496700169231 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
+		C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLoggerViewController.swift; sourceTree = "<group>"; };
 		C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntityTests.swift; sourceTree = "<group>"; };
 		C20B11901F74B3A8004915B4 /* se1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = se1.wav; sourceTree = "<group>"; };
 		C20B11921F74B76D004915B4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -274,6 +284,8 @@
 				B148837F1F43538B007A9E2E /* RouteViewController.swift */,
 				B14883441F3C4D32007A9E2E /* HomeViewController.swift */,
 				C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */,
+				C2962D5E1F603496004629CD /* BeaconLoggerViewController.swift */,
+				C283C34B1F62C78F009D2723 /* BeaconLoggerController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -284,6 +296,7 @@
 				C2B26B8D1F45A54800E4B785 /* NavigationViewControllerTests.swift */,
 				B14883891F44996B007A9E2E /* RouteViewControllerTests.swift */,
 				B160F4A71F53496700169231 /* HomeViewControllerTests.swift */,
+				C283C34D1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -311,6 +324,8 @@
 				B15B71581F5E69C600B56551 /* Lpf.swift */,
 				B15B715A1F5E6A3900B56551 /* LpfEucild.swift */,
 				B1533ED91F5FE14200776036 /* AlgorithmBase.swift */,
+				C283C34F1F62EF27009D2723 /* TestService.swift */,
+				C20352B31F6A401100891AF9 /* BeaconLoggerService.swift */,
 				C21301831F66780B00D966A9 /* KNN.swift */,
 				C2C22FD01F722133007FCD27 /* SpeechService.swift */,
 				EB19270D1F73EF3F008C92FB /* MagneticSensorSerivice.swift */,
@@ -489,6 +504,8 @@
 				B1533EDA1F5FE14200776036 /* AlgorithmBase.swift in Sources */,
 				B15B71571F5E699200B56551 /* AlgorithmBaseProtocol.swift in Sources */,
 				C2052B271F4D6557001098DE /* NavigationEntity.swift in Sources */,
+				C283C34C1F62C78F009D2723 /* BeaconLoggerController.swift in Sources */,
+				C20352B41F6A401100891AF9 /* BeaconLoggerService.swift in Sources */,
 				B15B715B1F5E6A3900B56551 /* LpfEucild.swift in Sources */,
 				B160F49E1F5286BA00169231 /* SwinjectStoryboard.swift in Sources */,
 				B148839F1F4592B5007A9E2E /* EventService.swift in Sources */,
@@ -500,11 +517,13 @@
 				C2C22FD11F722133007FCD27 /* SpeechService.swift in Sources */,
 				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,
 				B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */,
+				C2962D5F1F603496004629CD /* BeaconLoggerViewController.swift in Sources */,
 				B15B71591F5E69C600B56551 /* Lpf.swift in Sources */,
 				B14883451F3C4D32007A9E2E /* HomeViewController.swift in Sources */,
 				EBF3FC0B1F57F30E00A26C2A /* MotionService.swift in Sources */,
 				C288D2361F566A9B00A3DBE1 /* BeaconEntity.swift in Sources */,
 				B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */,
+				C283C3501F62EF27009D2723 /* TestService.swift in Sources */,
 				EB19270E1F73EF3F008C92FB /* MagneticSensorSerivice.swift in Sources */,
 				C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */,
 				C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */,
@@ -520,6 +539,7 @@
 				B148838A1F44996B007A9E2E /* RouteViewControllerTests.swift in Sources */,
 				C21301861F67815700D966A9 /* kNNTests.swift in Sources */,
 				EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */,
+				C283C34E1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 				B15B715D1F5E832100B56551 /* LpfTests.swift in Sources */,
 				C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */,
