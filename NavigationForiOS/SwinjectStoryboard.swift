@@ -27,16 +27,12 @@ extension SwinjectStoryboard {
             EventService()
         }
         
-        container.register(Lpf.self) { _ in
-            Lpf()
-        }
-        
-        container.register(LpfEuclid.self) { _ in
-            LpfEuclid()
+        container.register(KNN.self) { _ in
+            KNN()
         }
         
         container.register(NavigationService.self) { r in
-            NavigationService(beaconManager: r.resolve(BeaconManager.self)!, algorithm: r.resolve(LpfEuclid.self)!)
+            NavigationService(beaconManager: r.resolve(BeaconManager.self)!, algorithm: r.resolve(KNN.self)!)
         }
         
         // NavigationViewControllerのDIの設定

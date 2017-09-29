@@ -5,120 +5,245 @@
 //  Created by みなじゅん on 2017/08/31.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
-
 import Foundation
 
 protocol NavigationState {
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase)
-    func getMode() -> Int
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String
-    
+    func getMode(navigations: NavigationEntity) -> Int
+    func getNavigation(navigations: NavigationEntity) -> String
+    func getNavigationState() -> (state: String, currentRouteId: Int)
 }
 
 //ビーコン受信不能状態
 class None: NavigationState{
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
+    func getNavigationState() -> (state: String, currentRouteId: Int) {
+        return ("None", self.currentRouteId)
+    }
+
+    private let currentRouteId: Int
+    
+    init(currentRouteId: Int){
+        self.currentRouteId = currentRouteId
+    }
+    
+    /// ナビゲーションテキストの取得
+    ///
+    /// - Parameter navigations: ナビゲーション情報
+    /// - Returns: ナビゲーションテキスト
+    func getNavigation(navigations: NavigationEntity) -> String {
         return "None"
     }
     
-    func getMode() -> Int {
+    func getMode(navigations: NavigationEntity) -> Int {
         return -1
     }
     
+    /// ナビゲーション状態の更新をする関数
+    ///
+    /// - Parameters:
+    ///   - navigationService: ナビゲーションサービス
+    ///   - navigations: ナビゲーション情報
+    ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
+    ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
 
-        //受信できた場合、前進状態へ遷移
+        //受信できた場合、Start状態へ遷移
         if(!receivedBeaconsRssi.isEmpty){
-            navigationService.navigationState = GoFoward()
+            navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
         }
     }
 }
 
 //前進状態
-class GoFoward: NavigationState{
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
-        return "進もう"
+class Road: NavigationState{
+    func getNavigationState() -> (state: String, currentRouteId: Int) {
+        return ("Road", self.currentRouteId)
+    }
+
+    private let currentRouteId: Int
+    
+    init(currentRouteId: Int){
+        self.currentRouteId = currentRouteId
     }
     
-    func getMode() -> Int {
+    /// ナビゲーションテキストの取得
+    ///
+    /// - Parameter navigations: ナビゲーション情報
+    /// - Returns: ナビゲーションテキスト
+    func getNavigation(navigations: NavigationEntity) -> String {
+        return navigations.getNavigationText(route_id: self.currentRouteId)
+    }
+    
+    func getMode(navigations: NavigationEntity) -> Int {
         return 1
     }
     
+    /// ナビゲーション状態の更新をする関数
+    ///
+    /// - Parameters:
+    ///   - navigationService: ナビゲーションサービス
+    ///   - navigations: ナビゲーション情報
+    ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
+    ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
-        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi) {
-        case .CROSSROAD :
-            navigationService.navigationState = OnThePoint()
-        case .OTHER :
-            navigationService.navigationState = GoFoward()
-        case .START : break
-        case .GOAL :
-            navigationService.navigationState = Goal()
-        default: break
+        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: self.currentRouteId) {
+            case .CROSSROAD :
+                navigationService.navigationState = Crossroad(currentRouteId: self.currentRouteId+1)
+            case .ROAD :
+                navigationService.navigationState = Road(currentRouteId: self.currentRouteId)
+            case .GOAL :
+                navigationService.navigationState = Goal(currentRouteId: self.currentRouteId+1)
+            case .OTHER: break
+            default: break
         }
-
+        
     }
     
 }
 
 //交差点到達状態
-class OnThePoint: NavigationState{
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
-        return navigations.getNavigationText(route_id: routeId)
+//指定方向に移動することで、次状態へ遷移
+class Crossroad: NavigationState{
+    func getNavigationState() -> (state: String, currentRouteId: Int) {
+        return ("Crossroad", self.currentRouteId)
     }
     
-    func getMode() -> Int {
+    let motionService: MotionService
+    private let currentRouteId: Int
+    private let allowableDegree: Int = 10
+    
+    init(currentRouteId: Int){
+        self.currentRouteId = currentRouteId
+        motionService = MotionService()
+        motionService.startMotionManager()
+    }
+    
+    /// ナビゲーションテキストの取得
+    ///
+    /// - Parameter navigations: ナビゲーション情報
+    /// - Returns: ナビゲーションテキスト
+    func getNavigation(navigations: NavigationEntity) -> String {
+        return navigations.getNavigationText(route_id: self.currentRouteId)
+    }
+    
+    func getMode(navigations: NavigationEntity) -> Int {
+        var retval = -1
+        let rotateDegree = navigations.getNavigationDegree(route_id: self.currentRouteId)
+        //右折のとき3,左折のとき2をリターン
+        if(rotateDegree == 0){
+            retval = 1
+        }else if(rotateDegree > 0){
+            retval = 2
+        }else{
+            retval = 3
+        }
+        return retval
+    }
+    
+    /// ナビゲーション状態の更新をする関数
+    ///
+    /// - Parameters:
+    ///   - navigationService: ナビゲーションサービス
+    ///   - navigations: ナビゲーション情報
+    ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
+    ///   - algorithm: 適用アルゴリズム
+    func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+        let rotateDegree = navigations.getNavigationDegree(route_id: self.currentRouteId)
+
+        if (rotateDegree - allowableDegree < motionService.getYaw() && rotateDegree + allowableDegree > motionService.getYaw()) {
+            motionService.stopMotionManager()
+            navigationService.navigationState = Road(currentRouteId: self.currentRouteId + 1)
+        }
+    }
+}
+
+//ナビゲーション開始地点状態
+class Start: NavigationState{
+    func getNavigationState() -> (state: String, currentRouteId: Int) {
+        return ("Start", self.currentRouteId)
+    }
+    
+    private let currentRouteId: Int
+    
+    init(currentRouteId: Int){
+        self.currentRouteId = currentRouteId
+    }
+    
+    
+    /// ナビゲーションテキストの取得
+    ///
+    /// - Parameter navigations: ナビゲーション情報
+    /// - Returns: ナビゲーションテキスト
+    func getNavigation(navigations: NavigationEntity) -> String {
+        return navigations.getNavigationText(route_id: self.currentRouteId)
+    }
+    
+    func getMode(navigations: NavigationEntity) -> Int {
         return 1
     }
     
+    /// ナビゲーション状態の更新をする関数
+    ///
+    /// - Parameters:
+    ///   - navigationService: ナビゲーションサービス
+    ///   - navigations: ナビゲーション情報
+    ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
+    ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
-        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi) {
-        case .CROSSROAD :
-            navigationService.navigationState = OnThePoint()
-        case .OTHER :
-            navigationService.navigationState = GoFoward()
-        case .START : break
-        case .GOAL :
-            navigationService.navigationState = Goal()
-        default: break
+        
+        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: self.currentRouteId) {
+            case .ROAD :
+                navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
+            case .START :
+                navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
+            case .OTHER: break
+            default: break
         }
     }
     
 }
-/*
- 
- //右左折待機状態
- class WaitTurn: NavigationState{
- func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
- return "待機中"
- }
- 
- func getMode() -> Int {
- return 1
- }
- 
- func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, available: Bool, maxRssiBeacon: BeaconEntity) {
- 
- }
- 
- 
- }
- 
- */
+
 
 //目的地到達状態
 class Goal: NavigationState{
-    func getNavigation(navigations: NavigationEntity, routeId: Int) -> String {
-        return "Goal"
+    func getNavigationState() -> (state: String, currentRouteId: Int) {
+        return ("Goal", self.currentRouteId)
+    }
+
+    private let currentRouteId: Int
+    
+    init(currentRouteId: Int){
+        self.currentRouteId = currentRouteId
     }
     
-    func getMode() -> Int {
-        return 2
+    /// ナビゲーションテキストの取得
+    ///
+    /// - Parameter navigations: ナビゲーション情報
+    /// - Returns: ナビゲーションテキスト
+    func getNavigation(navigations: NavigationEntity) -> String {
+        return navigations.getNavigationText(route_id: self.currentRouteId)
     }
     
-    //呼ばれない関数
+    func getMode(navigations: NavigationEntity) -> Int {
+        return 4
+    }
+    
+    /// ナビゲーション状態の更新をする関数
+    ///
+    /// - Parameters:
+    ///   - navigationService: ナビゲーションサービス
+    ///   - navigations: ナビゲーション情報
+    ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
+    ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         
+        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: self.currentRouteId) {
+            case .GOAL :
+                navigationService.navigationState = Goal(currentRouteId: self.currentRouteId)
+            case .OTHER: break
+            default: break
+        }
     }
     
 }

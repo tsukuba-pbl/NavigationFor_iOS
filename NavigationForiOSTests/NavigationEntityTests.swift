@@ -16,29 +16,230 @@ class NavigationEntityTests: XCTestCase {
         super.setUp()
         
         //ポイント1
-        var beaconThresholdList1: Array<BeaconThreshold>! = []
-        beaconThresholdList1.append(BeaconThreshold(minor_id: 1, threshold: -70))
-        beaconThresholdList1.append(BeaconThreshold(minor_id: 2, threshold: -75))
-        beaconThresholdList1.append(BeaconThreshold(minor_id: 3, threshold: -80))
-        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", expectedBeacons: beaconThresholdList1)
+        var beaconThresholdList1: [BeaconRssi] = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList2: [BeaconRssi] = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList3: [BeaconRssi] = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beacons1 = [[BeaconRssi]]()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", expectedBeacons: beacons1, isStart: 1, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        
         //ポイント2
-        var beaconThresholdList2: Array<BeaconThreshold>! = []
-        beaconThresholdList2.append(BeaconThreshold(minor_id: 4, threshold: -70))
-        beaconThresholdList2.append(BeaconThreshold(minor_id: 5, threshold: -75))
-        beaconThresholdList2.append(BeaconThreshold(minor_id: 6, threshold: -80))
-        navigations.addNavigationPoint(route_id: 2, navigation_text: "turn right", expectedBeacons: beaconThresholdList2)
+        beaconThresholdList1 = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList2 = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList3 = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beacons1.removeAll()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+        navigations.addNavigationPoint(route_id: 2, navigation_text: "turn right", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: -90)
+        
         //ポイント3
-        var beaconThresholdList3: Array<BeaconThreshold>! = []
-        beaconThresholdList3.append(BeaconThreshold(minor_id: 7, threshold: -70))
-        beaconThresholdList3.append(BeaconThreshold(minor_id: 8, threshold: -75))
-        beaconThresholdList3.append(BeaconThreshold(minor_id: 9, threshold: -80))
-        navigations.addNavigationPoint(route_id: 3, navigation_text: "turn left", expectedBeacons: beaconThresholdList3)
+        beaconThresholdList1 = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList2 = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList3 = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beacons1.removeAll()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+        navigations.addNavigationPoint(route_id: 3, navigation_text: "straight", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        
         //ポイント4
-        var beaconThresholdList4: Array<BeaconThreshold>! = []
-        beaconThresholdList4.append(BeaconThreshold(minor_id: 10, threshold: -70))
-        beaconThresholdList4.append(BeaconThreshold(minor_id: 11, threshold: -75))
-        beaconThresholdList4.append(BeaconThreshold(minor_id: 12, threshold: -80))
-        navigations.addNavigationPoint(route_id: 4, navigation_text: "Goal", expectedBeacons: beaconThresholdList4)
+        beaconThresholdList1 = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList2 = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList3 = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beacons1.removeAll()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+
+        navigations.addNavigationPoint(route_id: 4, navigation_text: "turn left", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 90)
+        
+        //ポイント5
+        beaconThresholdList1 = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList2 = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList3 = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beacons1.removeAll()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+        
+        navigations.addNavigationPoint(route_id: 5, navigation_text: "straight", expectedBeacons: beacons1, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        
+        //ポイント6
+        beaconThresholdList1 = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList2 = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beaconThresholdList3 = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        beacons1.removeAll()
+        beacons1.append(beaconThresholdList1)
+        beacons1.append(beaconThresholdList2)
+        beacons1.append(beaconThresholdList3)
+        
+        navigations.addNavigationPoint(route_id: 6, navigation_text: "Goal", expectedBeacons: beacons1, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, rotate_degree: 0)
+
     }
     
     override func tearDown() {
@@ -46,87 +247,100 @@ class NavigationEntityTests: XCTestCase {
         super.tearDown()
     }
     
-    func testGetStartRouteId(){
-        XCTAssertEqual(navigations.getStartRouteId(), 1)
-    }
-    
-    func testGetGoalRouteId(){
-        XCTAssertEqual(navigations.getGoalRouteId(), 4)
-    }
-    
-    func testGetUsingUUID_成功するとき（黒いビーコンの識別子）() {
+    func testGetUsingUUID_成功するとき黒いビーコンの識別子() {
         let uuidlist = navigations.getUUIDList()
         let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
         XCTAssertTrue(retval)
     }
     
-    func testGetUsingUUID_（失敗するとき）() {
+    func testGetUsingUUID_失敗するとき() {
         let uuidlist = navigations.getUUIDList()
         let retval = uuidlist.contains("B9407F30-F5F8-466E-AFF9-25556B57FE6B")
         XCTAssertFalse(retval)
     }
     
-    func testGetNavigationText_（成功するとき）(){
+    func testGetNavigationText(){
         let retval1 = navigations.getNavigationText(route_id: 1)
         XCTAssertEqual(retval1, "Start")
-        let retval2 = navigations.getNavigationText(route_id: 2)
-        XCTAssertEqual(retval2, "turn right")
+        let retval2 = navigations.getNavigationText(route_id: 3)
+        XCTAssertEqual(retval2, "straight")
     }
     
-    func testGetNavigationText_（失敗するとき）(){
-        let retval1 = navigations.getNavigationText(route_id: 3)
-        XCTAssertNotEqual(retval1, "turn right")
-        let retval2 = navigations.getNavigationText(route_id: 4)
-        XCTAssertNotEqual(retval2, "Start")
-    }
-    
-    func testGetBeaconsThreshold_成功するとき(){
-        let retval1 = navigations.getBeaconsThreshold(route_id: 1)
-        XCTAssertEqual(retval1[0].minor_id, 1)
-        XCTAssertEqual(retval1[1].minor_id, 2)
-        XCTAssertEqual(retval1[2].minor_id, 3)
-        XCTAssertEqual(retval1[0].threshold, -70)
-        XCTAssertEqual(retval1[1].threshold, -75)
-        XCTAssertEqual(retval1[2].threshold, -80)
-    }
-    
-    func testGetMinorList_成功するとき(){
-        let retval = navigations.getMinorList()
-        for i in 1...retval.count{
-            XCTAssertTrue(retval.contains(i))
-        }
-    }
-    
-    func testGetRouteIdFromMinorId(){
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 1), 1)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 2), 1)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 3), 1)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 4), 2)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 5), 2)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 6), 2)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 7), 3)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 8), 3)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 9), 3)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 10), 4)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 11), 4)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 12), 4)
-        XCTAssertEqual(navigations.getRouteIdFromMinorId(minor_id: 13), -1)
-    }
-    
-    func testGetBeaconThresholdFromMinorId(){
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 1), -70)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 2), -75)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 3), -80)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 4), -70)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 5), -75)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 6), -80)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 7), -70)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 8), -75)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 9), -80)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 10), -70)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 11), -75)
-        XCTAssertEqual(navigations.getBeaconThresholdFromMinorId(minor_id: 12), -80)
+    func testGetRouteExpectedBeacons(){
+        var beaconThresholdList1: [BeaconRssi] = []
+        beaconThresholdList1.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList1.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList2: [BeaconRssi] = []
+        beaconThresholdList2.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList2.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beaconThresholdList3: [BeaconRssi] = []
+        beaconThresholdList3.append(BeaconRssi(minor_id: 1, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 2, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 3, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 4, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 5, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 6, rssi: -80))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 7, rssi: -70))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 8, rssi: -75))
+        beaconThresholdList3.append(BeaconRssi(minor_id: 9, rssi: -80))
+        var beacons = [[BeaconRssi]]()
+        beacons.append(beaconThresholdList1)
+        beacons.append(beaconThresholdList2)
+        beacons.append(beaconThresholdList3)
         
+        let retval = navigations.getRouteExpectedBeacons(route_id: 1)
+        
+        for (i, element1) in beacons.enumerated(){
+            for (j, element2) in element1.enumerated(){
+                XCTAssertEqual(retval[i][j].minor_id, element2.minor_id)
+                XCTAssertEqual(retval[i][j].rssi, element2.rssi)
+            }
+        }
+
+    }
+    
+    func testGetNavigationDegree(){
+        XCTAssertEqual(navigations.getNavigationDegree(route_id: 2), -90)
+        XCTAssertEqual(navigations.getNavigationDegree(route_id: 4), 90)
+    }
+    
+    func testGetMinorList(){
+        let expectedVal = [1,2,3,4,5,6,7,8,9]
+        XCTAssertEqual(navigations.getMinorIdList(), expectedVal)
+    }
+    
+    func testIsStart() {
+        XCTAssertEqual(navigations.isStart(routeId: 1), true)
+        XCTAssertEqual(navigations.isStart(routeId: 2), false)
+    }
+    
+    func testIsGoal() {
+        XCTAssertEqual(navigations.isGoal(routeId: 6), true)
+        XCTAssertEqual(navigations.isGoal(routeId: 2), false)
+    }
+    
+    func testIsRoad() {
+        XCTAssertEqual(navigations.isRoad(routeId: 3), true)
+        XCTAssertEqual(navigations.isRoad(routeId: 4), false)
+    }
+    
+    func testIsCrossroad() {
+        XCTAssertEqual(navigations.isCrossroad(routeId: 4), true)
+        XCTAssertEqual(navigations.isCrossroad(routeId: 3), false)
     }
     
     func testPerformanceExample() {
