@@ -191,14 +191,20 @@ class Start: NavigationState{
     ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
     ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
+        let expectedDegree = 240.0
+        let allowableDegree = 10.0
         
         switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: self.currentRouteId) {
-            case .ROAD :
-                navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             case .START :
                 //地磁気情報を取得する
                 let magneticOrientation = navigationService.getMagneticOrientation()
-                navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
+                if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
+                    //指定方向の場合は次の状態に遷移
+                    navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
+                }else{
+                    //指定方向外の場合は、Start状態にとどまる
+                    navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
+                }
             case .OTHER: break
             default: break
         }
@@ -214,6 +220,7 @@ class Goal: NavigationState{
     }
 
     private let currentRouteId: Int
+
     
     init(currentRouteId: Int){
         self.currentRouteId = currentRouteId
