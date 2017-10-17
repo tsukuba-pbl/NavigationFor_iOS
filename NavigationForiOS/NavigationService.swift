@@ -132,7 +132,6 @@ class NavigationService {
         return beaconManager.getMaxRssiBeacon().maxRssiBeacon
     }
     
-    
     /// 地磁気方向の取得
     ///
     /// - Returns: 地磁気方向 N:0deg E:90deg S:180deg W:270deg
