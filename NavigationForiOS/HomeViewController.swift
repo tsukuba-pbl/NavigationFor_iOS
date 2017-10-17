@@ -41,6 +41,7 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
             return
         }
         
+        // リクエストして，対象のイベントIDが存在するかのチェック
         eventService?.searchEvents{ searchedEvent in
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             self.searchedEvent = searchedEvent
@@ -71,6 +72,7 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
 //    /// セルの個数を指定するデリゲートメソッド（必須）
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return self.events.count
