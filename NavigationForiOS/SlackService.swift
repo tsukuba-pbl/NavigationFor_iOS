@@ -81,4 +81,26 @@ class SlackService {
         Alamofire.request(helpChannelUrl, method: .post, parameters: params, encoding: JSONEncoding.default)
     }
     
+    static func postArrival(name: String, destination: String) {
+        var message = ""
+        message += name + "さんが"
+        message += destination + "に到着しました"
+        
+        requestArraival(message: message, tag: "Arraival")
+    }
+    
+    private static func requestArraival(message: String, tag: String) {
+        let params: Parameters = [
+            "attachments": [
+                [
+                    "fallback": tag,
+                    "pretext": tag,
+                    "color": "#4169E1",
+                    "text": message
+                ],
+            ],
+            ]
+        Alamofire.request(helpChannelUrl, method: .post, parameters: params, encoding: JSONEncoding.default)
+    }
+    
 }
