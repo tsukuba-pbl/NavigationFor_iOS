@@ -33,6 +33,10 @@ class EventService {
         }
     }
     
+    
+    /// 指定されたイベントIDを検索し，あればイベント情報を取得する．
+    ///
+    /// - Parameter responseEvents: イベント情報
     func searchEvents(responseEvents: @escaping (EventEntity) -> Void){
         Alamofire.request("https://gist.githubusercontent.com/ferretdayo/097f7baf8648770d345645cd9f4a3696/raw/43f634bd6248f9a72082b9b717a131844c4c8492/requestEventID.json")
         .responseJSON { response in
