@@ -46,8 +46,21 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
             if self.searchedEvent["id"] != nil {
                 // おｋ
                 self.errorLabel.text = ""
-                let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
-                self.present(next,animated: true, completion: nil)
+                
+                let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent["name"] as? String)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
+                
+                let ok = UIAlertAction(title: "YES", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
+                    let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
+                    self.present(next,animated: true, completion: nil)
+                })
+                
+                let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
+                    self.errorLabel.text = ""
+                })
+                
+                alert.addAction(ok)
+                alert.addAction(cancel)
+                self.present(alert, animated: true, completion: nil)
             } else {
                 self.errorLabel.text = "指定されたのイベントは存在しません"
             }

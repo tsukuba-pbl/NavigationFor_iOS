@@ -41,7 +41,7 @@
             </objects>
             <point key="canvasLocation" x="410" y="1032"/>
         </scene>
-        <!--Home View Controller-->
+        <!--Home-->
         <scene sceneID="Eyv-2Z-leQ">
             <objects>
                 <viewController id="8re-bL-Efa" customClass="HomeViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -93,7 +93,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="IiP-CT-fIP"/>
+                    <navigationItem key="navigationItem" title="Home" id="XP0-z6-buH"/>
                     <connections>
                         <outlet property="errorLabel" destination="yDr-BH-Nk9" id="ArN-yI-D9F"/>
                         <outlet property="eventIdInputForm" destination="Y3h-vK-1eR" id="u88-lu-1RT"/>
@@ -119,7 +119,7 @@
             </objects>
             <point key="canvasLocation" x="2410" y="881"/>
         </scene>
-        <!--View Controller-->
+        <!--Event Info-->
         <scene sceneID="TbY-s4-hGH">
             <objects>
                 <viewController id="p17-Mf-nzb" sceneMemberID="viewController">
@@ -149,7 +149,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="qh0-F4-Wv6"/>
+                    <navigationItem key="navigationItem" title="Event Info" id="Pa9-m9-nh3">
+                        <barButtonItem key="leftBarButtonItem" title="Home" id="BUd-8H-vBz">
+                            <connections>
+                                <segue destination="Cdy-wz-tpu" kind="show" id="Se3-6K-P0i"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oWT-42-RtO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -244,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oy3-xG-PCf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1484" y="-813.64317841079469"/>
+            <point key="canvasLocation" x="3063" y="-319"/>
         </scene>
         <!--Home-->
         <scene sceneID="skT-4g-rJC">
@@ -318,7 +324,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Route" id="g8F-Ky-Wjf">
-                        <barButtonItem key="leftBarButtonItem" title="Home" id="afj-Yx-ecW">
+                        <barButtonItem key="leftBarButtonItem" title="EventInfo" id="afj-Yx-ecW">
                             <connections>
                                 <segue destination="TCN-J1-lOI" kind="show" id="Bdz-82-WGe"/>
                             </connections>
