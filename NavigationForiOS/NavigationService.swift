@@ -110,7 +110,7 @@ class NavigationService {
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
-            announce(announceText: navigation_text)
+            announceWithSE(announceText: navigation_text)
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
 
@@ -126,7 +126,7 @@ class NavigationService {
     }
     
     //効果音付きで案内をする
-    func announce(announceText : String){
+    func announceWithSE(announceText : String){
         speechService.announce(str: announceText)
     }
     
