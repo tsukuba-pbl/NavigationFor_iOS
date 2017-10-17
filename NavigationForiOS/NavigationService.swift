@@ -34,13 +34,16 @@ class NavigationService {
         self.beaconManager = beaconManager
         self.algorithm = algorithm
     }
+    
+    //地磁気用
+    let magneticSensorService = MagneticSensorSerivce()
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/eada47f5d08aebad696f1c4b9e70c1153d258491/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/633d619a1844292e16f1e54f444eb9d7a1b26f18/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -79,8 +82,12 @@ class NavigationService {
         }
     }
     
+    //NavigationServiceの初期化処理
     func initNavigation(navigations: NavigationEntity) {
+        //ビーコンマネージャにナビゲーション情報を設定
         self.beaconManager.startBeaconReceiver(navigations: navigations)
+        //地磁気センサの取得開始
+        self.magneticSensorService.startMagneticSensorService()
     }
     
     //ナビゲーションの更新
@@ -103,7 +110,7 @@ class NavigationService {
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
-            speechService.announce(str: navigation_text)
+            announceWithSE(announceText: navigation_text)
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
 
@@ -118,11 +125,28 @@ class NavigationService {
         return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
     }
     
+    //効果音付きで案内をする
+    func announceWithSE(announceText : String){
+        speechService.announce(str: announceText)
+    }
+    
+    //効果音なしで読み上げをする
+    func speech(speechText: String){
+        speechService.textToSpeech(str: speechText)
+    }
+    
     /// 現在の最大RSSIのビーコン情報を取得
     ///
     /// - Returns: ビーコン情報
     func getMaxRssiBeacon() -> BeaconEntity {
         return beaconManager.getMaxRssiBeacon().maxRssiBeacon
+    }
+    
+    /// 地磁気方向の取得
+    ///
+    /// - Returns: 地磁気方向 N:0deg E:90deg S:180deg W:270deg
+    func getMagneticOrientation() -> Double{
+        return magneticSensorService.getMagneticDirection()
     }
 }
 
