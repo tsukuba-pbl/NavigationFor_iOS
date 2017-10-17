@@ -34,6 +34,9 @@ class NavigationService {
         self.beaconManager = beaconManager
         self.algorithm = algorithm
     }
+    
+    //地磁気用
+    let magneticSensorService = MagneticSensorSerivce()
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
@@ -79,8 +82,12 @@ class NavigationService {
         }
     }
     
+    //NavigationServiceの初期化処理
     func initNavigation(navigations: NavigationEntity) {
+        //ビーコンマネージャにナビゲーション情報を設定
         self.beaconManager.startBeaconReceiver(navigations: navigations)
+        //地磁気センサの取得開始
+        self.magneticSensorService.startMagneticSensorService()
     }
     
     //ナビゲーションの更新
@@ -123,6 +130,14 @@ class NavigationService {
     /// - Returns: ビーコン情報
     func getMaxRssiBeacon() -> BeaconEntity {
         return beaconManager.getMaxRssiBeacon().maxRssiBeacon
+    }
+    
+    
+    /// 地磁気方向の取得
+    ///
+    /// - Returns: 地磁気方向 N:0deg E:90deg S:180deg W:270deg
+    func getMagneticOrientation() -> Double{
+        return magneticSensorService.getMagneticDirection()
     }
 }
 

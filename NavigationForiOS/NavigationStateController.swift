@@ -196,6 +196,8 @@ class Start: NavigationState{
             case .ROAD :
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             case .START :
+                //地磁気情報を取得する
+                let magneticOrientation = navigationService.getMagneticOrientation()
                 navigationService.navigationState = Start(currentRouteId: self.currentRouteId)
             case .OTHER: break
             default: break
