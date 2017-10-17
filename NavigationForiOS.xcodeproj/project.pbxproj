@@ -28,6 +28,7 @@
 		B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14883A01F4B023E007A9E2E /* SlackService.swift */; };
 		B1533EDA1F5FE14200776036 /* AlgorithmBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1533ED91F5FE14200776036 /* AlgorithmBase.swift */; };
 		B1582FB31F963287006686CD /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1582FB21F963287006686CD /* EventInfoViewController.swift */; };
+		B1582FB51F963D87006686CD /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1582FB41F963D87006686CD /* EventEntity.swift */; };
 		B15B71571F5E699200B56551 /* AlgorithmBaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B71561F5E699200B56551 /* AlgorithmBaseProtocol.swift */; };
 		B15B71591F5E69C600B56551 /* Lpf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B71581F5E69C600B56551 /* Lpf.swift */; };
 		B15B715B1F5E6A3900B56551 /* LpfEucild.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15B715A1F5E6A3900B56551 /* LpfEucild.swift */; };
@@ -131,6 +132,7 @@
 		B14883A01F4B023E007A9E2E /* SlackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlackService.swift; sourceTree = "<group>"; };
 		B1533ED91F5FE14200776036 /* AlgorithmBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmBase.swift; sourceTree = "<group>"; };
 		B1582FB21F963287006686CD /* EventInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
+		B1582FB41F963D87006686CD /* EventEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
 		B15B71561F5E699200B56551 /* AlgorithmBaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmBaseProtocol.swift; sourceTree = "<group>"; };
 		B15B71581F5E69C600B56551 /* Lpf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lpf.swift; sourceTree = "<group>"; };
 		B15B715A1F5E6A3900B56551 /* LpfEucild.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LpfEucild.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			children = (
 				C2052B261F4D6557001098DE /* NavigationEntity.swift */,
 				C288D2351F566A9B00A3DBE1 /* BeaconEntity.swift */,
+				B1582FB41F963D87006686CD /* EventEntity.swift */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */,
 				B14883431F3C4D32007A9E2E /* AppDelegate.swift in Sources */,
 				C2C22FD11F722133007FCD27 /* SpeechService.swift in Sources */,
+				B1582FB51F963D87006686CD /* EventEntity.swift in Sources */,
 				B14883931F4560FD007A9E2E /* LocationService.swift in Sources */,
 				B14883A11F4B023E007A9E2E /* SlackService.swift in Sources */,
 				C2962D5F1F603496004629CD /* BeaconLoggerViewController.swift in Sources */,

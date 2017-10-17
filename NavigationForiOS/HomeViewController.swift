@@ -17,7 +17,7 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
     
     
     var events: [String] = []
-    var searchedEvent: Dictionary<String, Any> = [:]
+    var searchedEvent: EventEntity? = nil
     
     // DI
     var eventService: EventService?
@@ -43,11 +43,11 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
         
         eventService?.searchEvents{ searchedEvent in
             self.searchedEvent = searchedEvent
-            if self.searchedEvent["id"] != nil {
+            if self.searchedEvent != nil {
                 // おｋ
                 self.errorLabel.text = ""
                 
-                let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent["name"] as? String)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
+                let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent?.name)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
                 
                 let ok = UIAlertAction(title: "YES", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
                     let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
