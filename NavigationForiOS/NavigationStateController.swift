@@ -191,7 +191,7 @@ class Start: NavigationState{
     ///   - receivedBeaconsRssi: その地点で取得したビーコン情報
     ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
-        let expectedDegree = 240.0
+        let expectedDegree = Double(navigations.getNavigationDegree(route_id: self.currentRouteId))
         let allowableDegree = 10.0
         
         if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
