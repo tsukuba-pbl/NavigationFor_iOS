@@ -200,12 +200,6 @@ class Start: NavigationState{
             if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
                 //指定方向の場合は次の状態に遷移
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
-            }else{
-                if(magneticOrientation > expectedDegree){
-                    navigationService.announce(announceText: "右")
-                }else{
-                    navigationService.announce(announceText: "左")
-                }
             }
         }
     }
