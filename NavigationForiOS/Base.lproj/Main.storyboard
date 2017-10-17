@@ -78,6 +78,18 @@
                                 <color key="textColor" red="1" green="0.36996094709999999" blue="0.25477345219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osw-c0-zDw">
+                                <rect key="frame" x="0.0" y="571" width="375" height="96"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.42784552799999997" green="0.90377141500000002" blue="0.62558309639999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <state key="normal" title="計測">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <segue destination="AMJ-mc-yY0" kind="show" id="Q3u-Xe-NjK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -90,6 +102,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpH-PE-nRT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1476" y="1030.4347826086957"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4p5-SK-jYY">
+            <objects>
+                <navigationController storyboardIdentifier="EventViewStoryboard" id="TCN-J1-lOI" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JC7-zU-GOo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="p17-Mf-nzb" kind="relationship" relationship="rootViewController" id="3nA-Tm-j9S"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="duO-2Z-vWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2410" y="881"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="TbY-s4-hGH">
+            <objects>
+                <viewController id="p17-Mf-nzb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="902-fE-m4K"/>
+                        <viewControllerLayoutGuide type="bottom" id="xcZ-uc-CGJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WJn-qG-Z8f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kcu-Vp-K18">
+                                <rect key="frame" x="39" y="96" width="297" height="79"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z2w-Om-8Bk">
+                                <rect key="frame" x="53" y="401" width="268" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="ナビゲーションを開始する"/>
+                                <connections>
+                                    <segue destination="mCy-2i-rV8" kind="show" id="JWO-u6-o8P"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qh0-F4-Wv6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oWT-42-RtO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3234.4000000000001" y="887.40629685157433"/>
         </scene>
         <!--Beacon Logger View Controller-->
         <scene sceneID="FZn-0J-Glw">
@@ -256,7 +320,7 @@
                     <navigationItem key="navigationItem" title="Route" id="g8F-Ky-Wjf">
                         <barButtonItem key="leftBarButtonItem" title="Home" id="afj-Yx-ecW">
                             <connections>
-                                <segue destination="9XN-7b-jS2" kind="show" id="UHM-Hq-yIL"/>
+                                <segue destination="TCN-J1-lOI" kind="show" id="Bdz-82-WGe"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -401,6 +465,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="DOT-aP-u0p"/>
+        <segue reference="Q3u-Xe-NjK"/>
+        <segue reference="JWO-u6-o8P"/>
     </inferredMetricsTieBreakers>
 </document>

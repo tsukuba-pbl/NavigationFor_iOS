@@ -46,6 +46,8 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
             if self.searchedEvent["id"] != nil {
                 // おｋ
                 self.errorLabel.text = ""
+                let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
+                self.present(next,animated: true, completion: nil)
             } else {
                 self.errorLabel.text = "指定されたのイベントは存在しません"
             }
