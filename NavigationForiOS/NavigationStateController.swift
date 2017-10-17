@@ -194,16 +194,19 @@ class Start: NavigationState{
         let expectedDegree = 240.0
         let allowableDegree = 10.0
         
-        switch algorithm.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: self.currentRouteId) {
-            case .START :
-                //地磁気情報を取得する
-                let magneticOrientation = navigationService.getMagneticOrientation()
-                if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
-                    //指定方向の場合は次の状態に遷移
-                    navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
+        if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
+            //地磁気情報を取得する
+            let magneticOrientation = navigationService.getMagneticOrientation()
+            if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
+                //指定方向の場合は次の状態に遷移
+                navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
+            }else{
+                if(magneticOrientation > expectedDegree){
+                    navigationService.announce(announceText: "右")
+                }else{
+                    navigationService.announce(announceText: "左")
                 }
-            case .OTHER: break
-            default: break
+            }
         }
     }
     

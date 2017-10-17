@@ -43,7 +43,7 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/eada47f5d08aebad696f1c4b9e70c1153d258491/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/1ee2d45dcfeed0121548e0ab95af13cf05161d2c/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -110,7 +110,7 @@ class NavigationService {
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
-            speechService.announce(str: navigation_text)
+            announce(announceText: navigation_text)
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
 
@@ -123,6 +123,10 @@ class NavigationService {
     //現在いる場所のroute idを取得する
     func getCurrentRouteId(navigations: NavigationEntity) -> Int{
         return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
+    }
+    
+    func announce(announceText : String){
+        speechService.announce(str: announceText)
     }
     
     /// 現在の最大RSSIのビーコン情報を取得
