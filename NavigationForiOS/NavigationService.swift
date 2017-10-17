@@ -125,8 +125,14 @@ class NavigationService {
         return algorithm.getCurrentRouteId(navigations: navigations, receivedBeaconsRssi: beaconManager.getReceivedBeaconsRssi())
     }
     
+    //効果音付きで案内をする
     func announce(announceText : String){
         speechService.announce(str: announceText)
+    }
+    
+    //効果音なしで読み上げをする
+    func speech(speechText: String){
+        speechService.textToSpeech(str: speechText)
     }
     
     /// 現在の最大RSSIのビーコン情報を取得
