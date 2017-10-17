@@ -86,10 +86,10 @@ class SlackService {
         message += name + "さんが"
         message += destination + "に到着しました"
         
-        requestArraival(message: message, tag: "Arraival")
+        requestArrival(message: message, tag: "Arrival")
     }
     
-    private static func requestArraival(message: String, tag: String) {
+    private static func requestArrival(message: String, tag: String) {
         let params: Parameters = [
             "attachments": [
                 [
