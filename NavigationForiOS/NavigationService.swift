@@ -37,6 +37,9 @@ class NavigationService {
     
     //地磁気用
     let magneticSensorService = MagneticSensorSerivce()
+    
+    //迷っているかを判定する用
+    let lostDetectService = LostDetectService()
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
@@ -102,11 +105,15 @@ class NavigationService {
         
         //ナビゲーションテキストの取得
         navigation_text = navigationState.getNavigation(navigations: navigations)
+        
         //モードの取得
         mode = navigationState.getMode(navigations: navigations)
         
         //ステートマシンの状態を取得
         let navigationStateMachineProperty = navigationState.getNavigationState()
+        
+        //迷っているかどうかを判定する
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){

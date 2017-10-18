@@ -8,7 +8,15 @@
 
 import Foundation
 
+enum LOST_DETECT_STATE{
+    case IDLE
+    case CHECK
+}
+
 class LostDetectService{
+    //検知処理の状態
+    var state = LOST_DETECT_STATE.IDLE
+    
     //歩数計測用サービス
     let pedometerService = PedometerService()
     
@@ -20,10 +28,40 @@ class LostDetectService{
     ///   - currentRouteId: 現在のroute id
     ///   - statemachineState: ステートマシンの状態コード
     ///   - receivedBeaconRssiList: 受信しているビーコンのRSSIリスト
-    /// - Returns: チェックの結果
+    /// - Returns: チェックの結果(0:待機状態, 1:検出中, 2:迷ってるかも)
     func checkLost(navigations : NavigationEntity, currentRouteId: Int, statemachineState : Int, receivedBeaconRssiList : Dictionary<Int, Int>) -> Int{
         var retval = 0
         
+        if(state == LOST_DETECT_STATE.IDLE){ //待機状態
+            //現在のroute idが通路の場合、道から外れていないか確認を始める
+            if(navigations.isRoad(routeId: currentRouteId)){
+                state = LOST_DETECT_STATE.CHECK
+                //検出を始める
+                startLostDetect()
+            }
+        }else if(state == LOST_DETECT_STATE.CHECK){ //検出中状態（通路にいるとき）
+            //歩数の取得を行う
+            let expectedHosuu = 10
+            //現在の歩数が予定よりも大幅に上回っている場合、アラートを通知
+            if(pedometerService.get_steps() > expectedHosuu + 10){
+                retval = 2
+            }else{
+                retval = 1
+            }
+        }
+        
         return retval
+    }
+    
+    //検出が開始された時に呼ばれる関数
+    func startLostDetect(){
+        //歩数計測を開始する
+        pedometerService.start_pedometer()
+    }
+    
+    //検出を終了する時に呼ばれる関数
+    func destroyLostDetect(){
+        //歩数計測を終了する
+        pedometerService.stop_pedometer()
     }
 }
