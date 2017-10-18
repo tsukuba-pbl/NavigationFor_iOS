@@ -40,8 +40,8 @@ class LostDetectService{
                 startLostDetect()
             }
         }else if(state == LOST_DETECT_STATE.CHECK){ //検出中状態（通路にいるとき）
-            //歩数の取得を行う
-            let expectedHosuu = 10
+            //期待する歩数の取得
+            let expectedHosuu = navigations.getSteps(route_id: currentRouteId)
             //現在の歩数が予定よりも大幅に上回っている場合、アラートを通知
             if(pedometerService.get_steps() > expectedHosuu + 10){
                 retval = 2
