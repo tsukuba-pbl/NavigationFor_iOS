@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDataSource*/ {
+class HomeViewController: UIViewController, UITextFieldDelegate/*, UITableViewDelegate, UITableViewDataSource*/ {
 
 //    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var eventIdInputForm: UITextField!
@@ -29,10 +29,17 @@ class HomeViewController: UIViewController/*, UITableViewDelegate, UITableViewDa
 //            self.events = response
 //            self.tableView.reloadData()
 //        }
+        self.eventIdInputForm.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func textFieldShouldReturn(_ eventIdInputForm: UITextField) -> Bool {
+        // キーボードを閉じる
+        eventIdInputForm.resignFirstResponder()
+        return true
     }
 
     @IBAction func searchEvent(_ sender: Any) {
