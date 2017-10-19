@@ -40,6 +40,7 @@ class NavigationService {
     
     //迷っているかを判定する用
     let lostDetectService = LostDetectService()
+    var lostAnnounce = false
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
@@ -114,7 +115,11 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //迷っているかどうかを判定する
-        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
+        let lostStatus = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
+        if(lostStatus == 2 && lostAnnounce == false){
+            speech("迷ってませんか？")
+            lostAnnounce = true
+        }
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
