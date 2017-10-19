@@ -20,7 +20,6 @@ class LostDetectService{
     //歩数計測用サービス
     let pedometerService = PedometerService()
     
-    
     /// 迷っていることを検知する処理
     ///
     /// - Parameters:
