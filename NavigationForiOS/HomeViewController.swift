@@ -49,35 +49,39 @@ class HomeViewController: UIViewController, UITextFieldDelegate/*, UITableViewDe
         }
         
         // リクエストして，対象のイベントIDが存在するかのチェック
-        eventService?.searchEvents{ searchedEvent in
-            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            self.searchedEvent = searchedEvent
+        eventService?.searchEvents( eventIdInputFormText: self.eventIdInputForm.text!, responseEvents: { (searchedEvent, responseStatus) in
             
-            if self.searchedEvent != nil {
-                // おｋ
-                self.errorLabel.text = ""
-                
-                let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent?.name)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
-                
-                let ok = UIAlertAction(title: "YES", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-                    
-                    appDelegate.eventInfo = self.searchedEvent
-                    
-                    let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
-                    self.present(next,animated: true, completion: nil)
-                })
-                
-                let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
-                    self.errorLabel.text = ""
-                })
-                
-                alert.addAction(ok)
-                alert.addAction(cancel)
-                self.present(alert, animated: true, completion: nil)
-            } else {
+            if responseStatus == ResponseStatus.DontMatchEventId {
+                self.errorLabel.text = "内部的なエラー"
+            } else if responseStatus == ResponseStatus.NotFound {
                 self.errorLabel.text = "指定されたのイベントは存在しません"
+            } else if responseStatus == ResponseStatus.Success {
+                let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                self.searchedEvent = searchedEvent
+                if self.searchedEvent != nil {
+                    // おｋ
+                    self.errorLabel.text = ""
+                    
+                    let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent?.name)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
+                    
+                    let ok = UIAlertAction(title: "YES", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
+                        
+                        appDelegate.eventInfo = self.searchedEvent
+                        
+                        let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
+                        self.present(next,animated: true, completion: nil)
+                    })
+                    
+                    let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
+                        self.errorLabel.text = ""
+                    })
+                    
+                    alert.addAction(ok)
+                    alert.addAction(cancel)
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
-        }
+        })
     }
     
 //    /// セルの個数を指定するデリゲートメソッド（必須）
