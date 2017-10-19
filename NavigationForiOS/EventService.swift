@@ -37,21 +37,22 @@ class EventService {
     /// 指定されたイベントIDを検索し，あればイベント情報を取得する．
     ///
     /// - Parameter responseEvents: イベント情報
-    func searchEvents(responseEvents: @escaping (EventEntity) -> Void){
+    func searchEvents(responseEvents: @escaping (EventEntity?) -> Void){
         Alamofire.request("https://gist.githubusercontent.com/ferretdayo/097f7baf8648770d345645cd9f4a3696/raw/43f634bd6248f9a72082b9b717a131844c4c8492/requestEventID.json")
         .responseJSON { response in
             var events: EventEntity? = nil
             switch response.result {
             case .success(let response):
                 let eventJson = JSON(response)
-                if eventJson["id"].string != nil {
-                    events = EventEntity(id: eventJson["id"].string!, name: eventJson["name"].string!, info: eventJson["info"].string!, date: eventJson["date"].string!, location: eventJson["location"].string!)                }
+                if eventJson["id"].string != "" {
+                    events = EventEntity(id: eventJson["id"].string!, name: eventJson["name"].string!, info: eventJson["info"].string!, date: eventJson["date"].string!, location: eventJson["location"].string!)
+                }
                 break
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Event Service")
                 break
             }
-            responseEvents(events!)
+            responseEvents(events)
         }
     }
 }
