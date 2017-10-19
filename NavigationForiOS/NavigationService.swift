@@ -117,7 +117,7 @@ class NavigationService {
         //迷っているかどうかを判定する
         let lostStatus = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
         if(lostStatus == 2 && lostAnnounce == false){
-            speech("迷ってませんか？")
+            speech(speechText: "迷ってませんか？")
             lostAnnounce = true
         }
         
