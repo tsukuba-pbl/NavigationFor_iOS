@@ -12,7 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+
+    var eventInfo: EventEntity?
+  
     //RouteViewControllerでdestinationの値を保持するために利用する
     var destination: String?
 
