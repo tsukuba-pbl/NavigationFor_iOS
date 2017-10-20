@@ -415,7 +415,7 @@ class LostDetectServiceTests: XCTestCase {
         }
         lostDetectService.pedometerService = MocPedometerService()
         
-        //stateをIDLEに設定
+        //stateをCHECKに設定
         lostDetectService.state = LOST_DETECT_STATE.CHECK
         
         //結果を取得
@@ -441,7 +441,7 @@ class LostDetectServiceTests: XCTestCase {
         }
         lostDetectService.pedometerService = MocPedometerService()
         
-        //stateをIDLEに設定
+        //stateをCHECKに設定
         lostDetectService.state = LOST_DETECT_STATE.CHECK
         
         //結果を取得
@@ -467,7 +467,7 @@ class LostDetectServiceTests: XCTestCase {
         }
         lostDetectService.pedometerService = MocPedometerService()
         
-        //stateをIDLEに設定
+        //stateをCHECKに設定
         lostDetectService.state = LOST_DETECT_STATE.CHECK
         
         //結果を取得
@@ -476,6 +476,22 @@ class LostDetectServiceTests: XCTestCase {
         //期待値 retval = 0 state = IDLE
         XCTAssertEqual(retval, 0)
         XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.IDLE)
+    }
+    
+    func testGetStep(){
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 20
+            }
+        }
+        lostDetectService.pedometerService = MocPedometerService()
+        
+        //stateをCHECKに設定
+        lostDetectService.state = LOST_DETECT_STATE.CHECK
+        
+        XCTAssertEqual(lostDetectService.getStep(), 20)
     }
     
     func testPerformanceExample() {

@@ -72,4 +72,9 @@ class LostDetectService{
         //歩数計測を終了する
         pedometerService.stop_pedometer()
     }
+    
+    //現在カウントしている歩数を取得する
+    func getStep() -> Int{
+        return pedometerService.get_steps()
+    }
 }
