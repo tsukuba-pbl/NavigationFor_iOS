@@ -41,13 +41,14 @@ class NavigationService {
     //迷っているかを判定する用
     let lostDetectService = LostDetectService()
     var lostAnnounce = false
+    var lostStatus = 0
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/4c335b535b1e0f6c36144d0ece2bf4de79177f1a/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/6b8cd5341434fd6a5e8be6261bdaff1bc8ed7078/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -115,7 +116,7 @@ class NavigationService {
         let navigationStateMachineProperty = navigationState.getNavigationState()
         
         //迷っているかどうかを判定する
-        let lostStatus = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
+        lostStatus = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
         if(lostStatus == 2 && lostAnnounce == false){
             announceWithSE(announceText: "迷っている可能性があります。スタッフを呼ぶボタンを押すと、スタッフが駆けつけます。")
             lostAnnounce = true
@@ -167,7 +168,7 @@ class NavigationService {
     ///
     /// - Returns: LostDetectServiceの内容
     func getLostDetectProperty() -> String{
-        return "歩数 : \(lostDetectService.getStep())歩"
+        return "Status : \(lostStatus) 歩数 : \(lostDetectService.getStep())歩"
     }
 }
 
