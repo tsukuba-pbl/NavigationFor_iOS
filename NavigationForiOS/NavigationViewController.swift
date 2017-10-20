@@ -18,6 +18,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
 
     @IBOutlet weak var currentPointLabel: UILabel!
     
+    @IBOutlet weak var lostDetectLabel: UILabel!
+    
     var navigationDic = [Int: String]()
     
     // DI
@@ -101,6 +103,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //現在位置の表示
         let currentRouteId = navigationService?.getCurrentRouteId(navigations: navigations!)
         currentPointLabel.text = "KNN Route ID : \(currentRouteId ?? -1)"
+        
+        //LostDetectの内容を表示
+        let lostDetectProperty = navigationService?.getLostDetectProperty()
+        lostDetectLabel.text = lostDetectProperty
     }
     
     //スタッフにヘルプボタンが押された時

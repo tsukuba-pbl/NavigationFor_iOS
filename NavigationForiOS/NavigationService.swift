@@ -37,13 +37,18 @@ class NavigationService {
     
     //地磁気用
     let magneticSensorService = MagneticSensorSerivce()
+    
+    //迷っているかを判定する用
+    let lostDetectService = LostDetectService()
+    var lostAnnounce = false
+    var lostStatus = 0
         
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/633d619a1844292e16f1e54f444eb9d7a1b26f18/navigationsList.json"
+        let requestUrl = "https://gist.githubusercontent.com/Minajun/f59deb00034b21342ff79c26d3658fff/raw/6b8cd5341434fd6a5e8be6261bdaff1bc8ed7078/navigationsList.json"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -59,6 +64,7 @@ class NavigationService {
                     let isCrossroad = data["isCrossroad"].int!
                     let isRoad = data["isRoad"].int!
                     let rotateDegree = data["rotateDegree"].int!
+                    let steps = data["steps"].int!
                     
                     // 各地点のビーコンをbeaconThresholdList配列に格納
                     let beaconsJSON = data["beacons"].array
@@ -73,7 +79,7 @@ class NavigationService {
                         beacons.append(beaconRssiList)
                     }
                     //ナビゲーション情報を順番に格納
-                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, rotate_degree: rotateDegree)
+                    navigation_entity.addNavigationPoint(route_id: routeId, navigation_text: navigation, expectedBeacons: beacons, isStart: isStart, isGoal: isGoal, isCrossroad: isCrossroad, isRoad: isRoad, rotate_degree: rotateDegree, steps: steps)
                 }
             case .failure(let error):
                 SlackService.postError(error: error.localizedDescription, tag: "Nagivation Service")
@@ -102,11 +108,19 @@ class NavigationService {
         
         //ナビゲーションテキストの取得
         navigation_text = navigationState.getNavigation(navigations: navigations)
+        
         //モードの取得
         mode = navigationState.getMode(navigations: navigations)
         
         //ステートマシンの状態を取得
         let navigationStateMachineProperty = navigationState.getNavigationState()
+        
+        //迷っているかどうかを判定する
+        lostStatus = lostDetectService.checkLost(navigations: navigations, currentRouteId: navigationStateMachineProperty.currentRouteId, statemachineState: mode, receivedBeaconRssiList: receivedBeaconsRssi)
+        if(lostStatus == 2 && lostAnnounce == false){
+            announceWithSE(announceText: "迷っている可能性があります。スタッフを呼ぶボタンを押すと、スタッフが駆けつけます。")
+            lostAnnounce = true
+        }
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
@@ -147,6 +161,14 @@ class NavigationService {
     /// - Returns: 地磁気方向 N:0deg E:90deg S:180deg W:270deg
     func getMagneticOrientation() -> Double{
         return magneticSensorService.getMagneticDirection()
+    }
+    
+    
+    /// LostDetectServiveの内容を返す
+    ///
+    /// - Returns: LostDetectServiceの内容
+    func getLostDetectProperty() -> String{
+        return "Status : \(lostStatus) 歩数 : \(lostDetectService.getStep())歩"
     }
 }
 

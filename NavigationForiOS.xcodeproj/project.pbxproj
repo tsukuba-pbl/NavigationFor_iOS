@@ -47,6 +47,8 @@
 		C2052B2D1F4DCDB4001098DE /* NavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */; };
 		C20B11911F74B3A8004915B4 /* se1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C20B11901F74B3A8004915B4 /* se1.wav */; };
 		C20B11931F74B76D004915B4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20B11921F74B76D004915B4 /* AVFoundation.framework */; };
+		C26504D01F96F6E700F25BDC /* LostDetectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26504CF1F96F6E700F25BDC /* LostDetectService.swift */; };
+		C26504D21F9840B200F25BDC /* LostDetectServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26504D11F9840B200F25BDC /* LostDetectServiceTests.swift */; };
 		C21301841F66780B00D966A9 /* KNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301831F66780B00D966A9 /* KNN.swift */; };
 		C21301861F67815700D966A9 /* kNNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21301851F67815700D966A9 /* kNNTests.swift */; };
 		C27DDB711F57F6BF00A894C4 /* NavigationStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27DDB701F57F6BF00A894C4 /* NavigationStateController.swift */; };
@@ -145,6 +147,8 @@
 		C2052B261F4D6557001098DE /* NavigationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntity.swift; sourceTree = "<group>"; };
 		C2052B2A1F4DCC55001098DE /* NavigationEntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationEntityTests.swift; sourceTree = "<group>"; };
 		C2052B2C1F4DCDB4001098DE /* NavigationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationServiceTests.swift; sourceTree = "<group>"; };
+		C26504CF1F96F6E700F25BDC /* LostDetectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LostDetectService.swift; sourceTree = "<group>"; };
+		C26504D11F9840B200F25BDC /* LostDetectServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LostDetectServiceTests.swift; sourceTree = "<group>"; };
 		C20B11901F74B3A8004915B4 /* se1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = se1.wav; sourceTree = "<group>"; };
 		C20B11921F74B76D004915B4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C21301831F66780B00D966A9 /* KNN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNN.swift; sourceTree = "<group>"; };
@@ -335,6 +339,7 @@
 				C21301831F66780B00D966A9 /* KNN.swift */,
 				C2C22FD01F722133007FCD27 /* SpeechService.swift */,
 				EB19270D1F73EF3F008C92FB /* MagneticSensorSerivice.swift */,
+				C26504CF1F96F6E700F25BDC /* LostDetectService.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				C2962D561F5FC090004629CD /* LpfEuclidTests.swift */,
 				C21301851F67815700D966A9 /* kNNTests.swift */,
 				EB19270F1F74C82F008C92FB /* MagneticSensorServiceTests.swift */,
+				C26504D11F9840B200F25BDC /* LostDetectServiceTests.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				B14883801F43538B007A9E2E /* RouteViewController.swift in Sources */,
 				C283C3501F62EF27009D2723 /* TestService.swift in Sources */,
 				EB19270E1F73EF3F008C92FB /* MagneticSensorSerivice.swift in Sources */,
+				C26504D01F96F6E700F25BDC /* LostDetectService.swift in Sources */,
 				C2B26B901F47005200E4B785 /* NavigationService.swift in Sources */,
 				C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */,
 			);
@@ -548,6 +555,7 @@
 				C21301861F67815700D966A9 /* kNNTests.swift in Sources */,
 				EBF9022D1F512B44009EB4EA /* PedometerServiceTests.swift in Sources */,
 				C283C34E1F62C8D0009D2723 /* BeaconLoggerControllerTests.swift in Sources */,
+				C26504D21F9840B200F25BDC /* LostDetectServiceTests.swift in Sources */,
 				B148835A1F3C4D32007A9E2E /* NavigationForiOSTests.swift in Sources */,
 				B15B715D1F5E832100B56551 /* LpfTests.swift in Sources */,
 				C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */,

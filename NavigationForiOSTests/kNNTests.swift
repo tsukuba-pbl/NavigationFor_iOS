@@ -60,7 +60,7 @@ class kNNTests: XCTestCase {
         beacons1.append(beaconThresholdList1_1)
         beacons1.append(beaconThresholdList1_2)
         beacons1.append(beaconThresholdList1_3)
-        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", expectedBeacons: beacons1, isStart: 1, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 0)
+        navigations.addNavigationPoint(route_id: 1, navigation_text: "Start", expectedBeacons: beacons1, isStart: 1, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 0, steps: 0)
         
         //ポイント2
         var beaconThresholdList2_1: [BeaconRssi] = []
@@ -106,7 +106,7 @@ class kNNTests: XCTestCase {
         beacons2.append(beaconThresholdList2_1)
         beacons2.append(beaconThresholdList2_2)
         beacons2.append(beaconThresholdList2_3)
-        navigations.addNavigationPoint(route_id: 2, navigation_text: "straight", expectedBeacons: beacons2, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        navigations.addNavigationPoint(route_id: 2, navigation_text: "straight", expectedBeacons: beacons2, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0, steps: 20)
         
         //ポイント3
         var beaconThresholdList3_1: [BeaconRssi] = []
@@ -152,7 +152,7 @@ class kNNTests: XCTestCase {
         beacons3.append(beaconThresholdList3_1)
         beacons3.append(beaconThresholdList3_2)
         beacons3.append(beaconThresholdList3_3)
-        navigations.addNavigationPoint(route_id: 3, navigation_text: "turn left", expectedBeacons: beacons3, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: -90)
+        navigations.addNavigationPoint(route_id: 3, navigation_text: "turn left", expectedBeacons: beacons3, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: -90, steps: 0)
         
         //ポイント4
         var beaconThresholdList4_1: [BeaconRssi] = []
@@ -198,7 +198,7 @@ class kNNTests: XCTestCase {
         beacons4.append(beaconThresholdList4_1)
         beacons4.append(beaconThresholdList4_2)
         beacons4.append(beaconThresholdList4_3)
-        navigations.addNavigationPoint(route_id: 4, navigation_text: "straight", expectedBeacons: beacons4, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        navigations.addNavigationPoint(route_id: 4, navigation_text: "straight", expectedBeacons: beacons4, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0, steps: 60)
         
         //ポイント5
         var beaconThresholdList5_1: [BeaconRssi] = []
@@ -245,7 +245,7 @@ class kNNTests: XCTestCase {
         beacons5.append(beaconThresholdList5_2)
         beacons5.append(beaconThresholdList5_3)
         
-        navigations.addNavigationPoint(route_id: 5, navigation_text: "turn right", expectedBeacons: beacons5, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 90)
+        navigations.addNavigationPoint(route_id: 5, navigation_text: "turn right", expectedBeacons: beacons5, isStart: 0, isGoal: 0, isCrossroad: 1, isRoad: 0, rotate_degree: 90, steps: 0)
         
         //ポイント6
         var beaconThresholdList6_1: [BeaconRssi] = []
@@ -292,7 +292,7 @@ class kNNTests: XCTestCase {
         beacons6.append(beaconThresholdList6_2)
         beacons6.append(beaconThresholdList6_3)
         
-        navigations.addNavigationPoint(route_id: 6, navigation_text: "straight", expectedBeacons: beacons6, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0)
+        navigations.addNavigationPoint(route_id: 6, navigation_text: "straight", expectedBeacons: beacons6, isStart: 0, isGoal: 0, isCrossroad: 0, isRoad: 1, rotate_degree: 0, steps: 10)
         
         //ポイント7
         var beaconThresholdList7_1: [BeaconRssi] = []
@@ -339,7 +339,7 @@ class kNNTests: XCTestCase {
         beacons7.append(beaconThresholdList7_2)
         beacons7.append(beaconThresholdList7_3)
         
-        navigations.addNavigationPoint(route_id: 7, navigation_text: "Goal", expectedBeacons: beacons7, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, rotate_degree: 0)
+        navigations.addNavigationPoint(route_id: 7, navigation_text: "Goal", expectedBeacons: beacons7, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, rotate_degree: 0, steps: 0)
     }
     
     override func tearDown() {
@@ -402,20 +402,6 @@ class kNNTests: XCTestCase {
         
         XCTAssertEqual(retval, POINT.GOAL)
     }
-    
-    //routeId=2からrouteId=7など，順序どおりにならなかった場合
-//    func testGetCurrentPoint_OTHER(){
-//        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10: -80, 11: -78, 12: -77]
-//        let currentRouteId = 2
-//        let retval = kNN.getCurrentPoint(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, currentRouteId: currentRouteId)
-        
-//        XCTAssertFalse(navigations.isStart(routeId: currentRouteId))
-//        XCTAssertFalse(navigations.isCrossroad(routeId: currentRouteId))
-//        XCTAssertTrue(navigations.isRoad(routeId: currentRouteId))
-//        XCTAssertFalse(navigations.isGoal(routeId: currentRouteId))
-        
-//        XCTAssertEqual(retval, POINT.OTHER)
-//    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

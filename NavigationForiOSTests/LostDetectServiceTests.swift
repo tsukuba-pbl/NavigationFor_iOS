@@ -1,19 +1,19 @@
 //
-//  NavigationViewControllerTests.swift
+//  LostDetectServiceTests.swift
 //  NavigationForiOS
 //
-//  Created by みなじゅん on 2017/08/17.
+//  Created by みなじゅん on 2017/10/19.
 //  Copyright © 2017年 UmeSystems. All rights reserved.
 //
 
 import XCTest
 @testable import NavigationForiOS
 
-class NavigationServiceTests: XCTestCase {
-    
-    let navigationService = NavigationService(beaconManager: BeaconManager(), algorithm: KNN())
-    let navigations = NavigationEntity()
+class LostDetectServiceTests: XCTestCase {
 
+    let navigations = NavigationEntity()
+    let lostDetectService = LostDetectService()
+    
     override func setUp() {
         super.setUp()
         
@@ -342,148 +342,158 @@ class NavigationServiceTests: XCTestCase {
         
         navigations.addNavigationPoint(route_id: 7, navigation_text: "Goal", expectedBeacons: beacons7, isStart: 0, isGoal: 1, isCrossroad: 1, isRoad: 0, rotate_degree: 0, steps: 0)
     }
-
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    //NoneからNone状態への遷移
-    func testNoneState(){
+    //IDLE状態からIDLE状態への遷移
+    func testCheckLost_IDLE_IDLE(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 1
+        let stateMachineState = 1
         
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [:]
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 0
             }
         }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
+        lostDetectService.pedometerService = MocPedometerService()
         
-        //現在の状態をセット
-        navigationService.navigationState = None(currentRouteId: 1)
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "None")
-        XCTAssertEqual(retval.mode, -1)
-
-    }
-
-    //None状態からStartへの遷移
-    func testUpdateNavigations_None_to_Start_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -100, 3:-90, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-
-        //現在の状態をセット
-        navigationService.navigationState = None(currentRouteId: 1)
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "Start")
-        XCTAssertEqual(retval.mode, 1)
-    }
-
-    //Road状態からCrossroadへの遷移
-    func testUpdateNavigations_Road_to_Crossroad_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -99, 3:-99, 4:-78, 5:-79, 6:-80, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
+        //stateをIDLEに設定
+        lostDetectService.state = LOST_DETECT_STATE.IDLE
         
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-        //現在の状態をセット
-        navigationService.navigationState = Road(currentRouteId: 2)
-
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "turn left")
-        XCTAssertEqual(retval.mode, 3)
+        //結果を取得
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: currentRouteId, statemachineState: stateMachineState, receivedBeaconRssiList: receivedBeaconsRssi)
+        
+        //期待値 retval = 0 state = IDLE
+        XCTAssertEqual(retval, 0)
+        XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.IDLE)
     }
     
-    //Road状態からRoadへの遷移
-    func testUpdateNavigations_Road_to_Road_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -87, 2: -81, 3:-83, 4:-84, 5:-85, 6:-87, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
-            }
-        }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-        //現在の状態をセット
-        navigationService.navigationState = Road(currentRouteId: 2)
+    //IDLE状態からCHECK状態への遷移
+    func testCheckLost_IDLE_CHECK(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 2
+        let stateMachineState = 1
         
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "straight")
-        XCTAssertEqual(retval.mode, 1)
-    }
-    
-    //Goal状態からGoalへの遷移
-    func testUpdateNavigations_Goal_to_Goal_ByKNN(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -100, 3:-100, 4:-100, 5:-100, 6:-100, 7:-100, 8:-100, 9:-100, 10:-78, 11:-84, 12:-79]
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 0
             }
         }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-
-        //現在の状態をセット
-        navigationService.navigationState = Goal(currentRouteId: 7)
-
-        //状態遷移を起こす
-        let retval = navigationService.updateNavigation(navigations: navigations)
-        //テスト
-        XCTAssertEqual(retval.navigation_text, "Goal")
-        XCTAssertEqual(retval.mode, 4)
-    }
-    
-    func testGetMaxRssiBeacon() {
-        class MocBeaconManager: BeaconManager {
-            public override func getMaxRssiBeacon() -> (available : Bool, maxRssiBeacon: BeaconEntity) {
-                return (true, BeaconEntity(minorId: 1, rssi: -70))
-            }
-        }
-        navigationService.beaconManager = MocBeaconManager()
+        lostDetectService.pedometerService = MocPedometerService()
         
-        XCTAssertEqual(navigationService.getMaxRssiBeacon().minorId , 1)
-        XCTAssertEqual(navigationService.getMaxRssiBeacon().rssi , -70)
+        //stateをIDLEに設定
+        lostDetectService.state = LOST_DETECT_STATE.IDLE
+        
+        //結果を取得
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: currentRouteId, statemachineState: stateMachineState, receivedBeaconRssiList: receivedBeaconsRssi)
+        
+        //期待値 retval = 0 state = IDLE
+        XCTAssertEqual(retval, 1)
+        XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.CHECK)
     }
     
-    func testGetCurrentRouteId(){
-        //テスト用にNavigationServiceのモックを作成
-        class MocBeaconManager : BeaconManager{
-            //getReceivedBeaconsRssiが指定した値を返すようにオーバーライド
-            public override func getReceivedBeaconsRssi() -> Dictionary<Int, Int> {
-                return [1: -100, 2: -99, 3:-99, 4:-78, 5:-79, 6:-80, 7:-100, 8:-100, 9:-100, 10:-100, 11:-100, 12:-100]
+    //CHECK状態で、歩数が規定以内のとき
+    func testCheckLost_CHECK1(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 2
+        let stateMachineState = 1
+        
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 10
             }
         }
-        //NavigationServiceのBeaconManagerをモックに差し替え
-        navigationService.beaconManager = MocBeaconManager()
-
-        let routeId = navigationService.getCurrentRouteId(navigations: navigations)
-        XCTAssertEqual(routeId, 3)
+        lostDetectService.pedometerService = MocPedometerService()
+        
+        //stateをCHECKに設定
+        lostDetectService.state = LOST_DETECT_STATE.CHECK
+        
+        //結果を取得
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: currentRouteId, statemachineState: stateMachineState, receivedBeaconRssiList: receivedBeaconsRssi)
+        
+        //期待値 retval = 0 state = IDLE
+        XCTAssertEqual(retval, 1)
+        XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.CHECK)
+    }
+    
+    //CHECK状態で、歩数が規定範囲外のとき
+    func testCheckLost_CHECK2(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 2
+        let stateMachineState = 1
+        
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 50
+            }
+        }
+        lostDetectService.pedometerService = MocPedometerService()
+        
+        //stateをCHECKに設定
+        lostDetectService.state = LOST_DETECT_STATE.CHECK
+        
+        //結果を取得
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: currentRouteId, statemachineState: stateMachineState, receivedBeaconRssiList: receivedBeaconsRssi)
+        
+        //期待値 retval = 0 state = IDLE
+        XCTAssertEqual(retval, 2)
+        XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.CHECK)
     }
 
+    //CHECK状態で、規定歩数内で目的地に到達したとき
+    func testCheckLost_CHECK3(){
+        let receivedBeaconsRssi: Dictionary<Int, Int> = [1: -85, 2: -82, 3:-83, 4:-83, 5:-85, 6:-83, 7:-100, 8:-100, 9:-100, 10: -100, 11: -100, 12: -100]
+        let currentRouteId = 3
+        let stateMachineState = 1
+        
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 20
+            }
+        }
+        lostDetectService.pedometerService = MocPedometerService()
+        
+        //stateをCHECKに設定
+        lostDetectService.state = LOST_DETECT_STATE.CHECK
+        
+        //結果を取得
+        let retval = lostDetectService.checkLost(navigations: navigations, currentRouteId: currentRouteId, statemachineState: stateMachineState, receivedBeaconRssiList: receivedBeaconsRssi)
+        
+        //期待値 retval = 0 state = IDLE
+        XCTAssertEqual(retval, 0)
+        XCTAssertEqual(lostDetectService.state, LOST_DETECT_STATE.IDLE)
+    }
+    
+    func testGetStep(){
+        //pedometerServiceのモックを作成し、差し替える
+        class MocPedometerService : PedometerService{
+            //指定の歩数が返るように設定
+            public override func get_steps() -> Int {
+                return 20
+            }
+        }
+        lostDetectService.pedometerService = MocPedometerService()
+        
+        //stateをCHECKに設定
+        lostDetectService.state = LOST_DETECT_STATE.CHECK
+        
+        XCTAssertEqual(lostDetectService.getStep(), 20)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
@@ -492,3 +502,4 @@ class NavigationServiceTests: XCTestCase {
     }
     
 }
+
