@@ -162,5 +162,12 @@ class NavigationService {
         return magneticSensorService.getMagneticDirection()
     }
     
+    
+    /// LostDetectServiveの内容を返す
+    ///
+    /// - Returns: LostDetectServiceの内容
+    func getLostDetectProperty() -> String{
+        return "歩数 : \(lostDetectService.getStep())歩"
+    }
 }
 
