@@ -9,3 +9,7 @@ script:
     - fastlane test
 cache:
     carthage: true
+branches:
+    only:
+        - master
+        - develop
