@@ -25,21 +25,21 @@ class HomeViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testViewDidLoad_eventsにちゃんと代入されているかのテスト() {
-        //テスト用にNavigationServiceのモックを作成
-        class MocEventService : EventService{
-            //getEventsが指定した値を返すようにオーバーライド
-            public override func getEvents(responseEvents: @escaping ([String]) -> Void) {
-                return responseEvents(["enPiT", "アクセシビリティ研究会"])
-            }
-        }
-        
-        //NavigationServiceのEventServiceをモックに差し替え
-        let eventService = MocEventService()
-        self.homeViewController?.eventService = eventService
-        self.homeViewController?.viewDidLoad()
-        XCTAssertEqual((self.homeViewController?.events)!, ["enPiT", "アクセシビリティ研究会"])
-    }
+//    func testViewDidLoad_eventsにちゃんと代入されているかのテスト() {
+//        //テスト用にNavigationServiceのモックを作成
+//        class MocEventService : EventService{
+//            //getEventsが指定した値を返すようにオーバーライド
+//            public override func getEvents(responseEvents: @escaping ([String]) -> Void) {
+//                return responseEvents(["enPiT", "アクセシビリティ研究会"])
+//            }
+//        }
+//        
+//        //NavigationServiceのEventServiceをモックに差し替え
+//        let eventService = MocEventService()
+//        self.homeViewController?.eventService = eventService
+//        self.homeViewController?.viewDidLoad()
+//        XCTAssertEqual((self.homeViewController?.events)!, ["enPiT", "アクセシビリティ研究会"])
+//    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

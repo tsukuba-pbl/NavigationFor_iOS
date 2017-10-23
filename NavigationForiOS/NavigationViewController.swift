@@ -17,7 +17,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet weak var navigation: UILabel!
 
     @IBOutlet weak var currentPointLabel: UILabel!
-    var pedoswitch = false
     
     var navigationDic = [Int: String]()
     
@@ -37,8 +36,15 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var locationManager: CLLocationManager!
     
+    var routeDestination: String! //目的地
+    var arrivalFlag = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //RouteViewControllerで設定した目的地をAppDelegateから取得
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        routeDestination = appDelegate.destination!
         
         navigationService?.getNavigationData{response in
             self.navigations = response
@@ -82,9 +88,11 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             case 3: //右折
                 navigationImg.image = imgRight
             case 4: //目的地に到達
+                if (arrivalFlag) {
+                    arrivalToSlack()
+                }
                 goalAlert()
             default: break //その他
-                
             }
         }
         
@@ -120,6 +128,11 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //④ アラートの表示
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func arrivalToSlack() {
+        arrivalFlag = false
+        SlackService.postArrival(name: "A", destination: routeDestination)
     }
     
     override func didReceiveMemoryWarning() {
