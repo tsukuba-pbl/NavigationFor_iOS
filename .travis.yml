@@ -6,3 +6,5 @@ before_script:
     - gem install danger-xcov
 script:
     - fastlane test
+cache:
+    carthage: true
