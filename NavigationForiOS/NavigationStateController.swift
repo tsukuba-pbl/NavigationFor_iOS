@@ -194,7 +194,8 @@ class Start: NavigationState{
         let expectedDegree = Double(navigations.getNavigationDegree(route_id: self.currentRouteId))
         let allowableDegree = 10.0
         
-        if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
+//       if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
+        if(true){
             //地磁気情報を取得する
             let magneticOrientation = navigationService.getMagneticOrientation()
             if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
