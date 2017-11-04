@@ -44,7 +44,7 @@ class EventService {
     ///
     /// - Parameter responseEvents: イベント情報
     func searchEvents(eventIdInputFormText: String, responseEvents: @escaping (EventEntity?, ResponseStatus) -> Void){
-        Alamofire.request("https://gist.githubusercontent.com/ferretdayo/097f7baf8648770d345645cd9f4a3696/raw/43f634bd6248f9a72082b9b717a131844c4c8492/requestEventID.json")
+        Alamofire.request("https://gist.githubusercontent.com/ferretdayo/097f7baf8648770d345645cd9f4a3696/raw/0b3b81e2b7e55f481ffce9f4fbbc73c7250a750e/requestEventID.json")
         .responseJSON { response in
             var events: EventEntity? = nil
             var responseStatus: ResponseStatus = ResponseStatus.Success
