@@ -62,6 +62,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //表示をリセット
         reset()
         
+        navigation.adjustsFontSizeToFitWidth = true
+        
         magneticSensorSerivce?.startMagneticSensorService()
     }
     

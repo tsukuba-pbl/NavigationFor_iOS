@@ -198,7 +198,7 @@ class KNN: AlgorithmBase{
         //距離が短い順にソーティング
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
         //上位3つのデータを取得する
-        let target = sortedDist[0...9]
+        let target = sortedDist[0...2]
 
         //上位3つのデータで多数決を取る
         var targetTop3 = Dictionary<Int, Int>()
