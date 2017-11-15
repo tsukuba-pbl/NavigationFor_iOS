@@ -51,7 +51,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             self.navigationService?.initNavigation(navigations: self.navigations!)
             self.updateNavigation()
             // 1秒ごとにビーコンの情報を取得する
-            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
         }
         
         //画像の読み込み
@@ -61,6 +61,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         //表示をリセット
         reset()
+        
+        navigation.adjustsFontSizeToFitWidth = true
         
         magneticSensorSerivce?.startMagneticSensorService()
     }

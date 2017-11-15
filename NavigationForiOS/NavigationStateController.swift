@@ -160,6 +160,8 @@ class Crossroad: NavigationState{
 
 //ナビゲーション開始地点状態
 class Start: NavigationState{
+    var cnt = 0
+    
     func getNavigationState() -> (state: String, currentRouteId: Int) {
         return ("Start", self.currentRouteId)
     }
@@ -192,19 +194,25 @@ class Start: NavigationState{
     ///   - algorithm: 適用アルゴリズム
     func updateNavigation(navigationService: NavigationService, navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, algorithm: AlgorithmBase) {
         let expectedDegree = Double(navigations.getNavigationDegree(route_id: self.currentRouteId))
-        let allowableDegree = 10.0
+        let allowableDegree = 20.0
         
-        if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
+        //if(navigationService.getCurrentRouteId(navigations: navigations) == 1){
+        if(true){
             //地磁気情報を取得する
             let magneticOrientation = navigationService.getMagneticOrientation()
             if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
                 //指定方向の場合は次の状態に遷移
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             }else{
-                if(magneticOrientation > expectedDegree){
-                    navigationService.speech(speechText: "左")
+                if(cnt == 10){
+                    if(magneticOrientation > expectedDegree){
+                        navigationService.speech(speechText: "左")
+                    }else{
+                        navigationService.speech(speechText: "右")
+                    }
+                    cnt = 0
                 }else{
-                    navigationService.speech(speechText: "右")
+                    cnt += 1
                 }
             }
         }

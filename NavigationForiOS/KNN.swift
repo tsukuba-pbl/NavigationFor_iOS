@@ -72,8 +72,7 @@ class KNN: AlgorithmBase{
         
         nextState = self.getNextState(navigations: navigations, currentRouteId: currentRouteId, knnRouteId: knnExpectedRouteId)
         
-        //let accuracy = getKnnAccuracy(trainData: trainData)
-        //print(accuracy)
+        print(getKnnAccuracy2(navigations: navigations))
         
         return nextState
     }
@@ -200,7 +199,7 @@ class KNN: AlgorithmBase{
         let sortedDist: [EuclidData] = dist.sorted(){ $0.euclidResult < $1.euclidResult }
         //上位3つのデータを取得する
         let target = sortedDist[0...2]
-        
+
         //上位3つのデータで多数決を取る
         var targetTop3 = Dictionary<Int, Int>()
         for i in target {
@@ -210,6 +209,9 @@ class KNN: AlgorithmBase{
                 targetTop3[i.routeId] = 1
             }
         }
+        
+        //精度を出す
+        //print(getKnnAccuracy(trainData: trainData))
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!
@@ -255,6 +257,60 @@ class KNN: AlgorithmBase{
         }
         
         accuracy = Double(nCorrect) / Double(trainData.count)
+        
+        return accuracy
+    }
+    
+    func getKnnAccuracy2(navigations : NavigationEntity) -> Double{
+        let currentRouteId = 7
+        //トレーニングデータを作成
+        var trainData = [knnData]()
+        var nCorrect = 0   //正答数をカウント
+        var sum = 0
+        
+        var a = [Int]()
+        
+        // 各ルートの教師データをknnが扱える形に変更
+        navigations.routes.forEach { (navigationPoint) in
+            // 指定されたルートIDの教師データを取得
+            let routeTrainData = navigations.getRouteExpectedBeacons(route_id: navigationPoint.route_id)
+            routeTrainData.forEach { (routeTrainDataList) in
+                var logData = [Double]()
+                routeTrainDataList.forEach{ (routeTrainData) in
+                    logData.append(Double(routeTrainData.rssi))
+                }
+                // 2値で考える
+                if (navigationPoint.route_id == currentRouteId) {
+                    trainData.append(knnData(X: logData, routeId: 1))
+                } else {
+                    trainData.append(knnData(X: logData, routeId: 0))
+                }
+                a.append(navigationPoint.route_id)
+            }
+        }
+        
+        for (i,inputData) in trainData.enumerated(){
+            //入力する教師データを教師データ群から削除する
+            var targetTrainData = [knnData]()
+            for(j,element2) in trainData.enumerated(){
+                if(i != j){
+                    targetTrainData.append(element2)
+                }
+            }
+            if(a[i] == 6){
+                let answer = knn(trainData: targetTrainData, inputData: inputData)
+                sum += 1
+                if(answer == 0){
+                    nCorrect += 1
+                }else{
+                    print(inputData)
+                }
+            }
+        }
+        
+        let accuracy = Double(nCorrect) / Double(sum)
+        print("\(sum)中，\(nCorrect)")
+        print(accuracy)
         
         return accuracy
     }

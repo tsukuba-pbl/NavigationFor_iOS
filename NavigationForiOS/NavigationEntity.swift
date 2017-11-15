@@ -32,8 +32,12 @@ class NavigationEntity{
     var goal_id : Int!
     private var receiveMinorIdList = [Int]() //minor idのリスト
     
+//    let UUIDList = [
+//        "12345678-1234-1234-1234-123456789ABC"
+//    ]
+    
     let UUIDList = [
-        "12345678-1234-1234-1234-123456789ABC"
+        "00000000-0E91-1001-B000-001C4D4D633E"
     ]
     
     //ルート上のポイントを追加する
