@@ -14,7 +14,7 @@ class BeaconLoggerService{
     
     /// 使用するビーコンのMinor Idのリストを取得する
     static func getBeaconMinorIdList(responseLocations: @escaping ([Int]) -> Void){
-        Alamofire.request("https://gist.githubusercontent.com/Minajun/8b85ac73b686cfa036dfcb1fd56a1c83/raw/d11286c2be2ed8de0eee47f4c7604fcbe96381c9/beacons.json")
+        Alamofire.request("https://gist.githubusercontent.com/Minajun/8b85ac73b686cfa036dfcb1fd56a1c83/raw/d3c870401030118dbd3f5dc1ebd6ddc85cc738ab/beacons.json")
             .responseJSON { response in
                 var minorIdList: [Int] = []
                 switch response.result {
