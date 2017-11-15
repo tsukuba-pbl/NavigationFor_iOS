@@ -249,7 +249,7 @@ class NavigationEntityTests: XCTestCase {
     
     func testGetUsingUUID_成功するとき黒いビーコンの識別子() {
         let uuidlist = navigations.getUUIDList()
-        let retval = uuidlist.contains("12345678-1234-1234-1234-123456789ABC")
+        let retval = uuidlist.contains("00000000-0E91-1001-B000-001C4D4D633E")
         XCTAssertTrue(retval)
     }
     
