@@ -249,7 +249,7 @@ class BeaconManagerTests: XCTestCase {
     
     func testIsAvailableBeaconId_成功するとき(){
         for i in 1...navigations.getMinorIdList().count{
-            let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: i)
+            let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "00000000-0E91-1001-B000-001C4D4D633E", minor_id: i)
             XCTAssertTrue(retval)
         }
     }
@@ -260,7 +260,7 @@ class BeaconManagerTests: XCTestCase {
     }
     
     func testIsAvailableBeaconId_失敗するとき1_minorが違う(){
-        let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "12345678-1234-1234-1234-123456789ABC", minor_id: 20)
+        let retval = beaconManager.isAvailableBeaconId(navigations: navigations, uuid: "00000000-0E91-1001-B000-001C4D4D633E", minor_id: 20)
         XCTAssertFalse(retval)
     }
 
