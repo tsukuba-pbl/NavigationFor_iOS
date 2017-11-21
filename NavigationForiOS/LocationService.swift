@@ -27,6 +27,7 @@ class LocationService {
                         let locationJson = JSON(response)
                         locationJson["locations"].forEach{(_, data) in
                             locations.append(data["name"].string!)
+                            
                         }
                         break
                     case .failure(let error):
