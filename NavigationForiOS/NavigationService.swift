@@ -38,12 +38,12 @@ class NavigationService {
     //地磁気用
     let magneticSensorService = MagneticSensorSerivce()
         
-    /// ナビゲーvarョン情報をサーバからJSON形式で取得
+    /// 指定されたイベントのdepartureからdestinationのナビゲーション情報を取得する．
     ///
     /// - Returns: NavigationEntity
     func getNavigationData(eventId: String, departure: String, destination: String, responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        var requestUrl = "http://localhost/api/routes/\(eventId)?departure=\(departure)&destination=\(destination)"
+        var requestUrl = "\(Const().URL_API)/routes/\(eventId)?departure=\(departure)&destination=\(destination)"
         requestUrl = requestUrl.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
@@ -52,12 +52,13 @@ class NavigationService {
                 let navJson = JSON(value)
                 let route = navJson["data"]
                 let status = navJson["status"].int!
+                // ナビゲーション情報を取得できなかった場合．
                 if status != 200 {
                     SlackService.postError(error: navJson["message"].string!, tag: "Nagivation Service")
                     break;
                 }
+                // ナビゲーション情報が取得できた場合は，レスポンスからナビゲーション情報を取得する
                 route["routes"].forEach{(_, data) in
-                    debugPrint(data)
                     var beacons = [[BeaconRssi]]()
                     let routeId = data["areaId"].int!
                     let navigation = data["navigationText"].string!

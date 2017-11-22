@@ -48,6 +48,8 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         routeDestination = appDelegate.destination!
         routeDeparture = appDelegate.departure!
         let eventId = appDelegate.eventInfo!.id
+        
+        // ナビゲーションの情報の取得
         navigationService?.getNavigationData(eventId: eventId!, departure: routeDeparture, destination: routeDestination, responseNavigations: {response in
             if response.hasNavigation() {
                 self.navigations = response
@@ -63,8 +65,6 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 
             }
         })
-        
-        
         
         //画像の読み込み
         imgFoward = UIImage(named: "foward.png")
