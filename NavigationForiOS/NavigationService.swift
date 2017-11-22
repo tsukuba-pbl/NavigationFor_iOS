@@ -41,10 +41,10 @@ class NavigationService {
     /// ナビゲーvarョン情報をサーバからJSON形式で取得
     ///
     /// - Returns: NavigationEntity
-    func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
+    func getNavigationData(eventId: String, departure: String, destination: String, responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "http://localhost/api/routes/0kzrV?departure=%E4%BC%9A%E5%A0%B4B&destination=%E4%BC%9A%E5%A0%B4A"
-        
+        var requestUrl = "http://localhost/api/routes/\(eventId)?departure=\(departure)&destination=\(destination)"
+        requestUrl = requestUrl.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {

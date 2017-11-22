@@ -40,6 +40,10 @@ class NavigationEntity{
         "00000000-0E91-1001-B000-001C4D4D633E"
     ]
     
+    func hasNavigation() -> Bool {
+        return routes.count > 0
+    }
+    
     //ルート上のポイントを追加する
     // minor_id : ビーコンのminor threshold : 閾値
     func addNavigationPoint(route_id: Int, navigation_text : String, expectedBeacons: [[BeaconRssi]], isStart: Int, isGoal: Int, isCrossroad: Int, isRoad: Int, rotate_degree: Int){
