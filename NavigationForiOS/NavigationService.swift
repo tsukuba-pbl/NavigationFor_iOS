@@ -43,17 +43,24 @@ class NavigationService {
     /// - Returns: NavigationEntity
     func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/1d9f2e3900dc4b19aeafc071ed33a19b/raw/110774c46270117e9a590b5a5ca54a92b090c0d9/NavData_F836toF817.json"
+        let requestUrl = "http://localhost/api/routes/0kzrV?departure=%E4%BC%9A%E5%A0%B4B&destination=%E4%BC%9A%E5%A0%B4A"
         
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
-                navJson["routes"].forEach{(_, data) in
+                let route = navJson["data"]
+                let status = navJson["status"].int!
+                if status != 200 {
+                    SlackService.postError(error: navJson["message"].string!, tag: "Nagivation Service")
+                    break;
+                }
+                route["routes"].forEach{(_, data) in
+                    debugPrint(data)
                     var beacons = [[BeaconRssi]]()
-                    let routeId = data["routeId"].int!
-                    let navigation = data["navigation"].string!
+                    let routeId = data["areaId"].int!
+                    let navigation = data["navigationText"].string!
                     let isStart = data["isStart"].int!
                     let isGoal = data["isGoal"].int!
                     let isCrossroad = data["isCrossroad"].int!
