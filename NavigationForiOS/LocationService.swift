@@ -18,7 +18,7 @@ class LocationService {
     static func getLocations(responseLocations: @escaping ([String]) -> Void){
 
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.eventInfo != nil{
+        if appDelegate.eventInfo != nil {
             let eventInfo = appDelegate.eventInfo!
             if let eventId = eventInfo.id {
                 Alamofire.request("\(Const().URL_API)/events/\(eventId)/locations")
