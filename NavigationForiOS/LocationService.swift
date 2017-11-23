@@ -18,25 +18,27 @@ class LocationService {
     static func getLocations(responseLocations: @escaping ([String]) -> Void){
 
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let eventInfo = appDelegate.eventInfo!
-        if let eventId = eventInfo.id {
-            Alamofire.request("\(Const().URL_API)/events/\(eventId)/locations")
-                .responseJSON { response in
-                    debugPrint(response)
-                    var locations: [String] = []
-                    switch response.result {
-                    case .success(let response):
-                        let locationJson = JSON(response)
-                        locationJson["locations"].forEach{(_, data) in
-                            locations.append(data["name"].string!)
-                            
+        if appDelegate.eventInfo != nil{
+            let eventInfo = appDelegate.eventInfo!
+            if let eventId = eventInfo.id {
+                Alamofire.request("\(Const().URL_API)/events/\(eventId)/locations")
+                    .responseJSON { response in
+                        debugPrint(response)
+                        var locations: [String] = []
+                        switch response.result {
+                        case .success(let response):
+                            let locationJson = JSON(response)
+                            locationJson["locations"].forEach{(_, data) in
+                                locations.append(data["name"].string!)
+                                
+                            }
+                            break
+                        case .failure(let error):
+                            SlackService.postError(error: error.localizedDescription, tag: "Location Service")
+                            break
                         }
-                        break
-                    case .failure(let error):
-                        SlackService.postError(error: error.localizedDescription, tag: "Location Service")
-                        break
-                    }
-                    responseLocations(locations)
+                        responseLocations(locations)
+                }
             }
         }
     }
