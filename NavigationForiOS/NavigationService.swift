@@ -38,22 +38,30 @@ class NavigationService {
     //地磁気用
     let magneticSensorService = MagneticSensorSerivce()
         
-    /// ナビゲーvarョン情報をサーバからJSON形式で取得
+    /// 指定されたイベントのdepartureからdestinationのナビゲーション情報を取得する．
     ///
     /// - Returns: NavigationEntity
-    func getNavigationData(responseNavigations: @escaping (NavigationEntity) -> Void){
+    func getNavigationData(eventId: String, departure: String, destination: String, responseNavigations: @escaping (NavigationEntity) -> Void){
         let navigation_entity = NavigationEntity()
-        let requestUrl = "https://gist.githubusercontent.com/Minajun/1d9f2e3900dc4b19aeafc071ed33a19b/raw/110774c46270117e9a590b5a5ca54a92b090c0d9/NavData_F836toF817.json"
-        
+        var requestUrl = "\(Const().URL_API)/routes/\(eventId)?departure=\(departure)&destination=\(destination)"
+        requestUrl = requestUrl.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
         //JSONを取得
         Alamofire.request(requestUrl).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let navJson = JSON(value)
-                navJson["routes"].forEach{(_, data) in
+                let route = navJson["data"]
+                let status = navJson["status"].int!
+                // ナビゲーション情報を取得できなかった場合．
+                if status != 200 {
+                    SlackService.postError(error: navJson["message"].string!, tag: "Nagivation Service")
+                    break;
+                }
+                // ナビゲーション情報が取得できた場合は，レスポンスからナビゲーション情報を取得する
+                route["routes"].forEach{(_, data) in
                     var beacons = [[BeaconRssi]]()
-                    let routeId = data["routeId"].int!
-                    let navigation = data["navigation"].string!
+                    let routeId = data["areaId"].int!
+                    let navigation = data["navigationText"].string!
                     let isStart = data["isStart"].int!
                     let isGoal = data["isGoal"].int!
                     let isCrossroad = data["isCrossroad"].int!

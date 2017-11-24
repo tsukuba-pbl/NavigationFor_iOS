@@ -36,6 +36,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var locationManager: CLLocationManager!
     
+    var routeDeparture: String! //出発地
     var routeDestination: String! //目的地
     var arrivalFlag = true
     
@@ -45,14 +46,25 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //RouteViewControllerで設定した目的地をAppDelegateから取得
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         routeDestination = appDelegate.destination!
+        routeDeparture = appDelegate.departure!
+        let eventId = appDelegate.eventInfo!.id
         
-        navigationService?.getNavigationData{response in
-            self.navigations = response
-            self.navigationService?.initNavigation(navigations: self.navigations!)
-            self.updateNavigation()
-            // 1秒ごとにビーコンの情報を取得する
-            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
-        }
+        // ナビゲーションの情報の取得
+        navigationService?.getNavigationData(eventId: eventId!, departure: routeDeparture, destination: routeDestination, responseNavigations: {response in
+            if response.hasNavigation() {
+                self.navigations = response
+                self.navigationService?.initNavigation(navigations: self.navigations!)
+                self.updateNavigation()
+                // 1秒ごとにビーコンの情報を取得する
+                Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+            } else {
+                self.toast(message: "ルート情報がありません．．．") {
+                    let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
+                    self.present(next,animated: true, completion: nil)
+                }
+                
+            }
+        })
         
         //画像の読み込み
         imgFoward = UIImage(named: "foward.png")
@@ -145,5 +157,18 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         super.viewDidDisappear(animated)
         
         magneticSensorSerivce?.stopMagineticSensorService()
+    }
+}
+
+extension UIViewController {
+    func toast(message: String, callback: @escaping () -> Void) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: {
+            // アラートを閉じる
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                alert.dismiss(animated: true, completion: nil)
+                callback()
+            })
+        })
     }
 }

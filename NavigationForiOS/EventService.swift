@@ -44,20 +44,26 @@ class EventService {
     ///
     /// - Parameter responseEvents: イベント情報
     func searchEvents(eventIdInputFormText: String, responseEvents: @escaping (EventEntity?, ResponseStatus) -> Void){
-        Alamofire.request("https://gist.githubusercontent.com/Minajun/30c94dbb377a691a1b513242eaea5260/raw/2fbd1f39b1ccce8f451b91a8636d7a9a4e76da7a/requestEventID.json")
+        Alamofire.request("\(Const().URL_API)/events/\(eventIdInputFormText)")
         .responseJSON { response in
             var events: EventEntity? = nil
             var responseStatus: ResponseStatus = ResponseStatus.Success
             switch response.result {
             case .success(let response):
                 let eventJson = JSON(response)
-                
-                if eventJson["id"].string == "" {
+                if eventJson["status"].int! != 200 {
+                    SlackService.postError(error: "イベントがありません", tag: "Event Service")
                     responseStatus = ResponseStatus.NotFound
-                } else if eventJson["id"].string != eventIdInputFormText {
+                    break;
+                }
+                let data = eventJson["data"]
+                if data["id"].string != eventIdInputFormText {
                     responseStatus = ResponseStatus.DontMatchEventId
                 } else {
-                    events = EventEntity(id: eventJson["id"].string!, name: eventJson["name"].string!, info: eventJson["info"].string!, date: eventJson["date"].string!, location: eventJson["location"].string!)
+                    let formatter = DateFormatter()
+                    formatter.timeZone = NSTimeZone(name: "GMT")! as TimeZone!
+                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    events = EventEntity(id: data["id"].string!, name: data["name"].string!, info: data["description"].string!, startDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["startDate"].int!)/1000)), endDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["endDate"].int!)/1000)), location: data["location"].string!)
                     responseStatus = ResponseStatus.Success
                 }
                 break

@@ -9,7 +9,7 @@
 import Foundation
 
 class Const : NSObject {
-
+  
     /* API URLs */
     #if DEBUG
     let URL_API = "http://localhost/api"
