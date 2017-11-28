@@ -40,6 +40,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     var routeDestination: String! //目的地
     var arrivalFlag = true
     
+    //スレッド処理用
+    var navigationTimer : Timer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +59,7 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 self.navigationService?.initNavigation(navigations: self.navigations!)
                 self.updateNavigation()
                 // 1秒ごとにビーコンの情報を取得する
-                Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+                self.navigationTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
             } else {
                 self.toast(message: "ルート情報がありません．．．") {
                     let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
@@ -105,6 +108,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 if (arrivalFlag) {
                     arrivalToSlack()
                 }
+                //スレッド処理を停止する
+                if(navigationTimer.isValid){
+                    navigationTimer.invalidate()
+                }
                 goalAlert()
             default: break //その他
             }
@@ -149,6 +156,14 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         SlackService.postArrival(name: "A", destination: routeDestination)
     }
     
+    //左上のRouteButtonが押されたときの処理
+    @IBAction func didTouchRouteButton(_ sender: Any) {
+        //スレッド処理を停止する
+        if(navigationTimer.isValid){
+            navigationTimer.invalidate()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -158,7 +173,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         magneticSensorSerivce?.stopMagineticSensorService()
     }
+
 }
+
 
 extension UIViewController {
     func toast(message: String, callback: @escaping () -> Void) {
