@@ -156,6 +156,14 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         SlackService.postArrival(name: "A", destination: routeDestination)
     }
     
+    //左上のRouteButtonが押されたときの処理
+    @IBAction func didTouchRouteButton(_ sender: Any) {
+        //スレッド処理を停止する
+        if(navigationTimer.isValid){
+            navigationTimer.invalidate()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -165,7 +173,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         
         magneticSensorSerivce?.stopMagineticSensorService()
     }
+
 }
+
 
 extension UIViewController {
     func toast(message: String, callback: @escaping () -> Void) {
