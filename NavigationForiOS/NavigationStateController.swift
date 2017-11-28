@@ -200,7 +200,18 @@ class Start: NavigationState{
         if(true){
             //地磁気情報を取得する
             let magneticOrientation = navigationService.getMagneticOrientation()
-            if(magneticOrientation < expectedDegree + allowableDegree && magneticOrientation > expectedDegree - allowableDegree){
+            var overDegree:Double = expectedDegree + allowableDegree
+            var underDegree:Double = expectedDegree - allowableDegree
+            //境界値(0度付近の処理)
+            if(overDegree > 359) {
+                overDegree = underDegree
+                underDegree = (expectedDegree + allowableDegree) - 360
+            }
+            if(underDegree < 0) {
+                underDegree = overDegree
+                overDegree = 360 + (expectedDegree - allowableDegree)
+            }
+            if(magneticOrientation < overDegree && magneticOrientation > underDegree){
                 //指定方向の場合は次の状態に遷移
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             }else{
