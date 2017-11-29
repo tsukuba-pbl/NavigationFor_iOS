@@ -44,8 +44,9 @@ class EventService {
     ///
     /// - Parameter responseEvents: イベント情報
     func searchEvents(eventIdInputFormText: String, responseEvents: @escaping (EventEntity?, ResponseStatus) -> Void){
-        Alamofire.request("\(Const().URL_API)/events/\(eventIdInputFormText)")
-        .responseJSON { response in
+//        Alamofire.request("\(Const().URL_API)/events/\(eventIdInputFormText)")
+        Alamofire.request("\(Const().URL_API)/events/0kzrV")
+            .responseJSON { response in
             var events: EventEntity? = nil
             var responseStatus: ResponseStatus = ResponseStatus.Success
             switch response.result {
@@ -57,7 +58,7 @@ class EventService {
                     break;
                 }
                 let data = eventJson["data"]
-                if data["id"].string != eventIdInputFormText {
+                if data["name"].string != eventIdInputFormText {
                     responseStatus = ResponseStatus.DontMatchEventId
                 } else {
                     let formatter = DateFormatter()

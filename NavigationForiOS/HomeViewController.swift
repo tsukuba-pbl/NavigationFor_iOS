@@ -47,12 +47,10 @@ class HomeViewController: FormViewController {
                 $0.title = "イベントの表示"
                 $0.onCellSelection{ [unowned self] cell, row in
                     if self.isSuccessLocationInput(event: self.event) {
-                        debugPrint(self.event)
                         self.eventService?.searchEvents(eventIdInputFormText: self.event, responseEvents: { (searchedEvent, responseStatus) in
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             self.searchedEvent = searchedEvent
                             appDelegate.eventInfo = self.searchedEvent
-                            debugPrint(self.searchedEvent)
                         })
                         let next = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
                         self.present(next,animated: true, completion: nil)
