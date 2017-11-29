@@ -32,7 +32,7 @@ class RouteViewController: FormViewController {
         }
             
         form
-        +++ Section("Source")
+        +++ Section("ルートの選択")
             <<< PushRow<String>("SourceLocations"){
                 $0.title = "現在地の選択"
                 $0.selectorTitle = "現在地"
@@ -43,9 +43,6 @@ class RouteViewController: FormViewController {
             }.cellUpdate { cell, row in
                 row.options = self.point
             }
-            
-                    
-        +++ Section("Destination")
             <<< PushRow<String>("DestinationLocations"){
                 $0.title = "目的地の選択"
                 $0.selectorTitle = "目的地"
@@ -53,14 +50,14 @@ class RouteViewController: FormViewController {
                 $0.onChange{[unowned self] row in
                     self.destination = row.value ?? self.point[0]
                 }
-            }.cellUpdate { cell, row in
-                row.options = self.point
+                }.cellUpdate { cell, row in
+                    row.options = self.point
             }
-        
+
             // Button
         +++ Section()
             <<< ButtonRow(){
-                $0.title = "Start Navigation"
+                $0.title = "ナビゲーションの開始"
                 $0.onCellSelection{ [unowned self] cell, row in
                     if self.isSuccessLocationInput(source: self.departure, destination: self.destination) {
                         //次のビュー(NavigationViewController)用に目的地の値を保持する
