@@ -9,7 +9,7 @@
 import UIKit
 import Eureka
 
-class EventInfoViewController: FormViewController {
+class EventInfoViewController:  UIViewController {
     
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
@@ -27,7 +27,7 @@ class EventInfoViewController: FormViewController {
 //                }
 //        }
 //    }
-//    
+//
 //    @IBOutlet weak var eventName: UILabel!
 //
 //    @IBOutlet weak var eventInfo: UILabel!

@@ -13,6 +13,7 @@ class HomeViewController: FormViewController {
     
     var events: [String] = []
     var event: String = ""
+    var searchedEvent: EventEntity? = nil
     var eventService: EventService?
 
     override func viewDidLoad() {
@@ -46,9 +47,13 @@ class HomeViewController: FormViewController {
                 $0.title = "イベントの表示"
                 $0.onCellSelection{ [unowned self] cell, row in
                     if self.isSuccessLocationInput(event: self.event) {
-                        //次のビュー(EventInfoViewController)用に目的地の値を保持する
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.event = self.event
+                        debugPrint(self.event)
+                        self.eventService?.searchEvents(eventIdInputFormText: self.event, responseEvents: { (searchedEvent, responseStatus) in
+                            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                            self.searchedEvent = searchedEvent
+                            appDelegate.eventInfo = self.searchedEvent
+                            debugPrint(self.searchedEvent)
+                        })
                         let next = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
                         self.present(next,animated: true, completion: nil)
                     }
