@@ -42,9 +42,12 @@ extension SwinjectStoryboard {
         }
         
         // HomeViewControllerのDIの設定
-        container.storyboardInitCompleted(HomeViewController.self) { (r, vc) in
+//        container.storyboardInitCompleted(HomeViewController.self) { (r, vc) in
+//            vc.eventService = r.resolve(EventService.self)!
+//        }
+//        
+        defaultContainer.storyboardInitCompleted(HomeViewController.self) { (r, vc) in
             vc.eventService = r.resolve(EventService.self)!
         }
-
     }
 }

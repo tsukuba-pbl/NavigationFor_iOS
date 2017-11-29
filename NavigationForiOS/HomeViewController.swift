@@ -7,103 +7,87 @@
 //
 
 import UIKit
+import Eureka
 
-class HomeViewController: UIViewController, UITextFieldDelegate/*, UITableViewDelegate, UITableViewDataSource*/ {
-
-//    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var eventIdInputForm: UITextField!
-    
-    @IBOutlet weak var errorLabel: UILabel!
-    
+class HomeViewController: FormViewController {
     
     var events: [String] = []
-    var searchedEvent: EventEntity? = nil
-    
-    // DI
+    var event: String = ""
     var eventService: EventService?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.errorLabel.text = ""
-//        eventService?.getEvents{ response in
-//            self.events = response
-//            self.tableView.reloadData()
-//        }
-        self.eventIdInputForm.delegate = self
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    func textFieldShouldReturn(_ eventIdInputForm: UITextField) -> Bool {
-        // キーボードを閉じる
-        eventIdInputForm.resignFirstResponder()
-        return true
-    }
-
-    @IBAction func searchEvent(_ sender: Any) {
-        if !self.eventIdInputForm.hasText {
-            self.errorLabel.text = "イベントIDを入力してください"
-            return
+        
+        // API的に対象のイベントを取得し，Formの選択データにセット
+        eventService?.getEvents{ responseEvents in
+            self.events = responseEvents
+            
+            if let EventRow = self.form.rowBy(tag: "SourceEvents") {
+                EventRow.updateCell()
+            }
         }
         
-        // リクエストして，対象のイベントIDが存在するかのチェック
-        eventService?.searchEvents( eventIdInputFormText: self.eventIdInputForm.text!, responseEvents: { (searchedEvent, responseStatus) in
-            
-            if responseStatus == ResponseStatus.DontMatchEventId {
-                self.errorLabel.text = "内部的なエラー"
-            } else if responseStatus == ResponseStatus.NotFound {
-                self.errorLabel.text = "指定されたのイベントは存在しません"
-            } else if responseStatus == ResponseStatus.Success {
-                let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                self.searchedEvent = searchedEvent
-                if self.searchedEvent != nil {
-                    // おｋ
-                    self.errorLabel.text = ""
-                    
-                    let alert = UIAlertController(title:"イベント確認", message: (self.searchedEvent?.name)! + " でよろしいですか？", preferredStyle: UIAlertControllerStyle.actionSheet)
-                    
-                    let ok = UIAlertAction(title: "YES", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-                        
-                        appDelegate.eventInfo = self.searchedEvent
-                        
-                        let next = self.storyboard!.instantiateViewController(withIdentifier: "EventViewStoryboard")
-                        self.present(next,animated: true, completion: nil)
-                    })
-                    
-                    let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
-                        self.errorLabel.text = ""
-                    })
-                    
-                    alert.addAction(ok)
-                    alert.addAction(cancel)
-                    self.present(alert, animated: true, completion: nil)
+        form
+            +++ Section()
+            <<< PushRow<String>("SourceEvents"){
+                $0.title = "イベントを選択"
+                $0.selectorTitle = "イベント"
+                $0.options = self.events
+                $0.onChange{[unowned self] row in
+                    self.event = row.value ?? self.events[0]
                 }
+                }.cellUpdate { cell, row in
+                    row.options = self.events
             }
-        })
+
+            // Button
+            +++ Section()
+            <<< ButtonRow(){
+                $0.title = "イベントの表示"
+                $0.onCellSelection{ [unowned self] cell, row in
+                    if self.isSuccessLocationInput(event: self.event) {
+                        //次のビュー(EventInfoViewController)用に目的地の値を保持する
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.event = self.event
+                        let next = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
+                        self.present(next,animated: true, completion: nil)
+                    }
+                }
+        }
     }
     
-//    /// セルの個数を指定するデリゲートメソッド（必須）
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.events.count
-//    }
-//    
-//    // セクションヘッダーの高さ
-//    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 50
-//    }
-//    
-//    /// セルに値を設定するデータソースメソッド（必須）
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//        // セルを取得する
-//        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath as IndexPath)
-//        
-//        // セルに表示する値を設定する
-//        cell.textLabel!.text = self.events[indexPath.row]
-//        
-//        return cell
-//    }
+    /// 入力された場所が正しい入力かどうかの判定を行う関数
+    ///
+    /// - Parameters:
+    ///   - event: 選択したイベント
+    /// - Returns: 入力が正しければtrue，正しくなければfalse
+    func isSuccessLocationInput(event: String) -> Bool {
+        var success: Bool = true
+        if event == "" {
+            self.makeAlert(title: "エラー", message: "イベントを選択してください")
+            success = false
+        }
+        return success
+    }
+
+    /// アラートを作る関数
+    ///
+    /// - Parameters:
+    ///   - title: アラートのタイトル
+    ///   - message: アラートのメッセージ
+    func makeAlert(title: String, message: String) -> Void {
+        // アラートを作成
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        
+        // アラートにボタンをつける
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        // アラート表示
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
 

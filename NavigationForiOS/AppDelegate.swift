@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var eventInfo: EventEntity?
   
+    //EventInfoViewControllerでeventの値を保持するために利用する
+    var event: String?
+    
     //RouteViewControllerでdestinationの値を保持するために利用する
     var destination: String?
     var departure: String?

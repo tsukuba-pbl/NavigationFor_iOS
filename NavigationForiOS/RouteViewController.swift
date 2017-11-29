@@ -32,9 +32,9 @@ class RouteViewController: FormViewController {
         }
             
         form
-        +++ Section("ルートの選択")
+        +++ Section()
             <<< PushRow<String>("SourceLocations"){
-                $0.title = "現在地の選択"
+                $0.title = "現在地を選択"
                 $0.selectorTitle = "現在地"
                 $0.options = self.point
                 $0.onChange{[unowned self] row in
@@ -44,7 +44,7 @@ class RouteViewController: FormViewController {
                 row.options = self.point
             }
             <<< PushRow<String>("DestinationLocations"){
-                $0.title = "目的地の選択"
+                $0.title = "目的地を選択"
                 $0.selectorTitle = "目的地"
                 $0.options = self.point
                 $0.onChange{[unowned self] row in
