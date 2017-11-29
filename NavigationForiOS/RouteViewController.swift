@@ -84,10 +84,10 @@ class RouteViewController: FormViewController {
     func isSuccessLocationInput(source: String, destination: String) -> Bool {
         var success: Bool = true
         if source == "" || destination == "" {
-            self.makeAlert(title: "Error", message: "現在地または目的地に場所を入れてください")
+            self.makeAlert(title: "エラー", message: "現在地または目的地に場所を入れてください")
             success = false
         } else if source == destination {
-            self.makeAlert(title: "Error", message: "現在地と目的地は異なる場所を入れてください")
+            self.makeAlert(title: "エラー", message: "現在地と目的地は異なる場所を入れてください")
             success = false
         }
         return success
