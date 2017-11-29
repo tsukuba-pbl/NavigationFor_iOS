@@ -21,7 +21,7 @@ class EventService {
     ///
     /// - Returns: イベントを含む配列
     func getEvents(responseEvents: @escaping ([String]) -> Void){
-        Alamofire.request("https://gist.githubusercontent.com/ferretdayo/b5743089f2d5f5468cca58ed9cf96b81/raw/2a6b2ca3937a61ab5b3a01ee30ecddb28103e41b/eventList.json")
+        Alamofire.request("\(Const().URL_API)/events")
         .responseJSON { response in
             var events: [String] = []
             switch response.result {
