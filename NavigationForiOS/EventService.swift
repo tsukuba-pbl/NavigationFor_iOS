@@ -27,8 +27,8 @@ class EventService {
             switch response.result {
             case .success(let response):
                 let eventJson = JSON(response)
-                eventJson["events"].forEach{(_, data) in
-                    events.append(data.string!)
+                eventJson["data"].forEach{(_, data) in
+                    events.append(data["name"].string!)
                 }
                 break
             case .failure(let error):
