@@ -60,8 +60,9 @@ class EventInfoViewController:  FormViewController {
             <<< ButtonRow(){
                 $0.title = "ナビゲーションルートの選択"
                 $0.onCellSelection{ [unowned self] cell, row in
-                    let next = self.storyboard!.instantiateViewController(withIdentifier: "RouteStoryboard")
-                    self.present(next,animated: true, completion: nil)
+                    let vc = self.storyboard!.instantiateViewController(withIdentifier: "RouteStoryboard")
+                    let navigationController = UINavigationController(rootViewController: vc)
+                    self.present(navigationController, animated: true, completion: nil)
                 }
         }
 

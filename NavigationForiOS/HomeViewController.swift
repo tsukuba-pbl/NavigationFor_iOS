@@ -57,8 +57,9 @@ class HomeViewController: FormViewController {
                                 debugPrint(appDelegate.eventInfo!.description!)
                             }
                         })
-                        let next = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
-                        self.present(next,animated: true, completion: nil)
+                        let vc = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
+                        let navigationController = UINavigationController(rootViewController: vc)
+                        self.present(navigationController, animated: true, completion: nil)
                     }
                 }
             }
