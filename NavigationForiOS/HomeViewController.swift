@@ -50,13 +50,18 @@ class HomeViewController: FormViewController {
                         self.eventService?.searchEvents(eventIdInputFormText: self.event, responseEvents: { (searchedEvent, responseStatus) in
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             self.searchedEvent = searchedEvent
-                            appDelegate.eventInfo = self.searchedEvent
+                            if self.searchedEvent != nil {
+                                appDelegate.eventInfo = self.searchedEvent!
+                                debugPrint(appDelegate.eventInfo!.id!)
+                                debugPrint(appDelegate.eventInfo!.name!)
+                                debugPrint(appDelegate.eventInfo!.description!)
+                            }
                         })
                         let next = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
                         self.present(next,animated: true, completion: nil)
                     }
                 }
-        }
+            }
     }
     
     /// 入力された場所が正しい入力かどうかの判定を行う関数

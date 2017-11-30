@@ -39,7 +39,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAI-6d-eQB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4629" y="1416"/>
+            <point key="canvasLocation" x="4486" y="1376"/>
         </scene>
         <!--ホーム-->
         <scene sceneID="Eyv-2Z-leQ">
@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpH-PE-nRT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5380" y="1416"/>
+            <point key="canvasLocation" x="5262" y="1375"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4p5-SK-jYY">
@@ -74,11 +74,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duO-2Z-vWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3881" y="659"/>
+            <point key="canvasLocation" x="3733" y="659"/>
         </scene>
         <!--イベント情報-->
         <scene sceneID="TbY-s4-hGH">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oWT-42-RtO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="EventInfoStoryboard" id="p17-Mf-nzb" customClass="EventInfoViewController" customModule="NavigationForiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="902-fE-m4K"/>
@@ -97,9 +98,8 @@
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oWT-42-RtO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4630" y="659"/>
+            <point key="canvasLocation" x="4486" y="659"/>
         </scene>
         <!--Beacon Logger View Controller-->
         <scene sceneID="FZn-0J-Glw">
@@ -273,7 +273,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RpA-aj-qWp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3103" y="659"/>
+            <point key="canvasLocation" x="2996" y="659"/>
         </scene>
         <!--Navigation View Controller-->
         <scene sceneID="Z94-Xs-vg2">

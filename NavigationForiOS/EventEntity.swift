@@ -11,15 +11,15 @@ import Foundation
 class EventEntity {
     var id: String?
     var name: String?
-    var info: String?
+    var description: String?
     var startDate: String?
     var endDate: String?
     var location: String?
     
-    init(id: String, name: String, info: String, startDate: String, endDate: String, location: String) {
+    init(id: String, name: String, description: String, startDate: String, endDate: String, location: String) {
         self.id = id
         self.name = name
-        self.info = info
+        self.description = description
         self.startDate = startDate
         self.endDate = endDate
         self.location = location

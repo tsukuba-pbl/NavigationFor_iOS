@@ -17,7 +17,7 @@ enum ResponseStatus{
 }
 
 class EventService {
-    /// イベントの名前を取得
+    /// イベントの名前とidを取得
     ///
     /// - Returns: イベントを含む配列
     func getEvents(responseEvents: @escaping ([String]) -> Void){
@@ -64,7 +64,7 @@ class EventService {
                     let formatter = DateFormatter()
                     formatter.timeZone = NSTimeZone(name: "GMT")! as TimeZone!
                     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    events = EventEntity(id: data["id"].string!, name: data["name"].string!, info: data["description"].string!, startDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["startDate"].int!)/1000)), endDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["endDate"].int!)/1000)), location: data["location"].string!)
+                    events = EventEntity(id: data["id"].string!, name: data["name"].string!, description: data["description"].string!, startDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["startDate"].int!)/1000)), endDate: formatter.string(from: Date(timeIntervalSince1970: TimeInterval(data["endDate"].int!)/1000)), location: data["location"].string!)
                     responseStatus = ResponseStatus.Success
                 }
                 break
