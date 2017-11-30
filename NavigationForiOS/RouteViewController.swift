@@ -12,7 +12,7 @@ import Eureka
 class RouteViewController: FormViewController {
     
     var point: [String] = []
-    var source: String = ""
+    var departure: String = ""
     var destination: String = ""
     
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class RouteViewController: FormViewController {
                 $0.selectorTitle = "現在地の選択"
                 $0.options = self.point
                 $0.onChange{[unowned self] row in
-                    self.source = row.value ?? self.point[0]
+                    self.departure = row.value ?? self.point[0]
                 }
             }.cellUpdate { cell, row in
                 row.options = self.point
@@ -62,10 +62,11 @@ class RouteViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Start Navigation"
                 $0.onCellSelection{ [unowned self] cell, row in
-                    if self.isSuccessLocationInput(source: self.source, destination: self.destination) {
+                    if self.isSuccessLocationInput(source: self.departure, destination: self.destination) {
                         //次のビュー(NavigationViewController)用に目的地の値を保持する
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         appDelegate.destination = self.destination
+                        appDelegate.departure = self.departure
                         let next = self.storyboard!.instantiateViewController(withIdentifier: "NavigationStoryboard")
                         self.present(next,animated: true, completion: nil)
                     }

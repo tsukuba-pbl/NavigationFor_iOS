@@ -36,8 +36,12 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     var locationManager: CLLocationManager!
     
+    var routeDeparture: String! //出発地
     var routeDestination: String! //目的地
     var arrivalFlag = true
+    
+    //スレッド処理用
+    var navigationTimer : Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +49,25 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         //RouteViewControllerで設定した目的地をAppDelegateから取得
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         routeDestination = appDelegate.destination!
+        routeDeparture = appDelegate.departure!
+        let eventId = appDelegate.eventInfo!.id
         
-        navigationService?.getNavigationData{response in
-            self.navigations = response
-            self.navigationService?.initNavigation(navigations: self.navigations!)
-            self.updateNavigation()
-            // 1秒ごとにビーコンの情報を取得する
-            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
-        }
+        // ナビゲーションの情報の取得
+        navigationService?.getNavigationData(eventId: eventId!, departure: routeDeparture, destination: routeDestination, responseNavigations: {response in
+            if response.hasNavigation() {
+                self.navigations = response
+                self.navigationService?.initNavigation(navigations: self.navigations!)
+                self.updateNavigation()
+                // 1秒ごとにビーコンの情報を取得する
+                self.navigationTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
+            } else {
+                self.toast(message: "ルート情報がありません．．．") {
+                    let next = self.storyboard!.instantiateViewController(withIdentifier: "routes")
+                    self.present(next,animated: true, completion: nil)
+                }
+                
+            }
+        })
         
         //画像の読み込み
         imgFoward = UIImage(named: "foward.png")
@@ -92,6 +107,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
             case 4: //目的地に到達
                 if (arrivalFlag) {
                     arrivalToSlack()
+                }
+                //スレッド処理を停止する
+                if(navigationTimer.isValid){
+                    navigationTimer.invalidate()
                 }
                 goalAlert()
             default: break //その他
@@ -137,6 +156,14 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         SlackService.postArrival(name: "A", destination: routeDestination)
     }
     
+    //左上のRouteButtonが押されたときの処理
+    @IBAction func didTouchRouteButton(_ sender: Any) {
+        //スレッド処理を停止する
+        if(navigationTimer.isValid){
+            navigationTimer.invalidate()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -145,5 +172,20 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
         super.viewDidDisappear(animated)
         
         magneticSensorSerivce?.stopMagineticSensorService()
+    }
+
+}
+
+
+extension UIViewController {
+    func toast(message: String, callback: @escaping () -> Void) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: {
+            // アラートを閉じる
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                alert.dismiss(animated: true, completion: nil)
+                callback()
+            })
+        })
     }
 }
