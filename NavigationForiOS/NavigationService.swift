@@ -108,13 +108,28 @@ class NavigationService {
         //ナビゲーション情報の更新
         navigationState.updateNavigation(navigationService: self, navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, algorithm: algorithm)
         
-        //ナビゲーションテキストの取得
-        navigation_text = navigationState.getNavigation(navigations: navigations)
         //モードの取得
         mode = navigationState.getMode(navigations: navigations)
         
         //ステートマシンの状態を取得
         let navigationStateMachineProperty = navigationState.getNavigationState()
+        
+        //ナビゲーションテキストの設定
+        //交差点のときは，向く角度からテキストを生成する
+        if(navigationStateMachineProperty.state == "Crossroad"){
+            //モードの中に向く角度が入っている
+            //1: 直進 2: 左折 3: 右折
+            switch mode{
+            case 2:
+                navigation_text = "左折です"
+            case 3:
+                navigation_text = "右折です"
+            default:
+                navigation_text = "直進です"
+            }
+        }else{
+            navigation_text = navigationState.getNavigation(navigations: navigations)
+        }
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
