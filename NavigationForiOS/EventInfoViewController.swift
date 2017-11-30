@@ -21,8 +21,8 @@ class EventInfoViewController:  FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//        self.event = appDelegate.eventInfo!
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.event = appDelegate.eventInfo!
 
         self.eventName = self.event?.name
         self.eventDescription = self.event?.description

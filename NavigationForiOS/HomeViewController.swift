@@ -13,7 +13,6 @@ class HomeViewController: FormViewController {
     
     var events: [String] = []
     var event: String = ""
-    var searchedEvent: EventEntity? = nil
     var eventService: EventService?
 
     override func viewDidLoad() {
@@ -49,17 +48,16 @@ class HomeViewController: FormViewController {
                     if self.isSuccessLocationInput(event: self.event) {
                         self.eventService?.searchEvents(eventIdInputFormText: self.event, responseEvents: { (searchedEvent, responseStatus) in
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                            self.searchedEvent = searchedEvent
-                            if self.searchedEvent != nil {
-                                appDelegate.eventInfo = self.searchedEvent!
-                                debugPrint(appDelegate.eventInfo!.id!)
-                                debugPrint(appDelegate.eventInfo!.name!)
-                                debugPrint(appDelegate.eventInfo!.description!)
+                            if searchedEvent != nil {
+                                appDelegate.eventInfo = searchedEvent
+//                                debugPrint(appDelegate.eventInfo!.id!)
+//                                debugPrint(appDelegate.eventInfo!.name!)
+//                                debugPrint(appDelegate.eventInfo!)
+                                let vc = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
+                                let navigationController = UINavigationController(rootViewController: vc)
+                                self.present(navigationController, animated: true, completion: nil)
                             }
                         })
-                        let vc = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
-                        let navigationController = UINavigationController(rootViewController: vc)
-                        self.present(navigationController, animated: true, completion: nil)
                     }
                 }
             }
