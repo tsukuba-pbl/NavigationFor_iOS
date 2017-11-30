@@ -37,7 +37,7 @@ class EventInfoViewController:  FormViewController {
                 $0.value = self.eventName
             }
             
-//            +++ Section(self.eventDescription)
+            +++ Section(self.eventDescription)
             
             +++ Section()
             <<< LabelRow(){
