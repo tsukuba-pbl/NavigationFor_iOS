@@ -14,7 +14,7 @@ class Const : NSObject {
     #if DEBUG
     let URL_API = "http://localhost/api"
     #else
-    let URL_API = "http://210.140.71.132/api"
+    let URL_API = "https://210.140.71.132/api"
     #endif
     
 }
