@@ -17,4 +17,6 @@ class Const : NSObject {
     let URL_API = "https://mizugorou.site/api"
     #endif
     
+    
+    let stepLength = 0.78
 }
