@@ -28,4 +28,8 @@ class KotonaviEntity{
         kotonaviText += departure + "から" + destination + "までの案内を行います。"
         kotonaviText += ""
     }
+    
+    public func getKotonaviText() -> String{
+        return kotonaviText
+    }
 }
