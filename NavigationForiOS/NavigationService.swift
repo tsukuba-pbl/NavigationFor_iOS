@@ -101,7 +101,7 @@ class NavigationService {
     //ナビゲーションの更新
     // mode : (1)通常 (2)ゴールに到着 (-1)異常終了
     func updateNavigation(navigations: NavigationEntity) -> (mode : Int, navigation_text : String, navigation_state: String, expected_routeId: Int){
-        var navigation_text : String!
+        var navigation_text = ""
         var mode = 1
         let receivedBeaconsRssi = beaconManager.getReceivedBeaconsRssi()
         
@@ -127,13 +127,15 @@ class NavigationService {
             default:
                 navigation_text = "直進です"
             }
-        }else{
+        }else if(navigationStateMachineProperty.state != "Start"){
             navigation_text = navigationState.getNavigation(navigations: navigations)
         }
         
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
-            announceWithSE(announceText: navigation_text)
+            if(navigation_text != ""){
+                announceWithSE(announceText: navigation_text)
+            }
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
         }
 
@@ -156,6 +158,11 @@ class NavigationService {
     //効果音なしで読み上げをする
     func speech(speechText: String){
         speechService.textToSpeech(str: speechText)
+    }
+    
+    //発話中かどうかを取得する
+    func isSpeaking() -> Bool{
+        return speechService.isSpeaking()
     }
     
     /// 現在の最大RSSIのビーコン情報を取得

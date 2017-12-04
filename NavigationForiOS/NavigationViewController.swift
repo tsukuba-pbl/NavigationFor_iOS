@@ -43,6 +43,9 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     //スレッド処理用
     var navigationTimer : Timer!
     
+    //発話用
+    let kotonaviSpeech = SpeechService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +61,10 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
                 self.navigations = response
                 self.navigationService?.initNavigation(navigations: self.navigations!)
                 self.updateNavigation()
+                // ことナビを生成する
+                let kotonavi = KotonaviEntity(navigations: self.navigations!, departure: self.routeDeparture, destination: self.routeDestination)
+                let kotonaviText = kotonavi.getKotonaviText()
+                self.kotonaviSpeech.announce(str: kotonaviText) // 発話
                 // 1秒ごとにビーコンの情報を取得する
                 self.navigationTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(NavigationViewController.updateNavigation), userInfo: nil, repeats: true)
             } else {
@@ -89,6 +96,12 @@ class NavigationViewController: UIViewController, CLLocationManagerDelegate{
     
     //ナビゲーションの更新
     func updateNavigation(){
+  
+        //ことナビ中は，ナビゲーションのアップデートを行わずに終了する
+        if(kotonaviSpeech.isSpeaking()){
+            return
+        }
+        
         let navigation = navigationService?.updateNavigation(navigations: self.navigations!)
         
         if(navigation?.mode == -1){
