@@ -26,7 +26,34 @@ class KotonaviEntity{
     //ことナビを生成する
     private func generateKotonabiText(navigations: NavigationEntity){
         kotonaviText += departure + "から" + destination + "までの案内を行います。"
-        kotonaviText += ""
+        var kotonaviText2 = ""
+        var sumDistance = 0
+        //ルート情報を取得する
+        var count = 1
+        for (index, element) in navigations.routes.enumerated(){
+            //ゴールの時は強制終了
+            if(element.isGoal == 1){
+                break
+            }
+            if(element.isCrossroad == 1){
+                let distance = Int(Double(navigations.routes[index+1].expectedBeacons.count) * 0.78)
+                sumDistance += distance
+                if(navigations.routes[index+2].isGoal == 0){
+                    let turnText = navigations.routes[index+2].rotate_degree > 0 ? "左折" : "右折"
+                    kotonaviText2 += "\(count)番目の交差点まで，およそ\(distance)メートル進み，" + turnText + "します。"
+                }else{
+                    kotonaviText2 += "最後に" + self.destination + "まで，およそ\(distance)メートル進みます。"
+                }
+                count += 1
+            }
+        }
+        if(count == 1){
+            kotonaviText += "交差点は全部で\(count - 1)箇所あります。"
+        }else{
+            kotonaviText += "交差点はありません。"
+        }
+        kotonaviText += "目的地までおよそ\(sumDistance)メートルです。"
+        kotonaviText += kotonaviText2
     }
     
     public func getKotonaviText() -> String{
