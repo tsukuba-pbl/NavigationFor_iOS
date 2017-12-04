@@ -19,15 +19,16 @@ class KotonaviEntity{
         self.navigations = navigations
         self.departure = departure
         self.destination = destination
+        
         //ことなびを生成
-        generateKotonabiText(navigations: navigations)
+        generateKotonabiText(navigations: self.navigations)
     }
     
     //ことナビを生成する
     private func generateKotonabiText(navigations: NavigationEntity){
-        kotonaviText += departure + "から" + destination + "までの案内を行います。"
         var kotonaviText2 = ""
         var sumDistance = 0
+        let stepLength = 0.78
         //ルート情報を取得する
         var count = 1
         for (index, element) in navigations.routes.enumerated(){
@@ -36,7 +37,7 @@ class KotonaviEntity{
                 break
             }
             if(element.isCrossroad == 1){
-                let distance = Int(Double(navigations.routes[index+1].expectedBeacons.count) * 0.78)
+                let distance = Int(Double(navigations.routes[index+1].expectedBeacons.count) * stepLength)
                 sumDistance += distance
                 if(navigations.routes[index+2].isGoal == 0){
                     let turnText = navigations.routes[index+2].rotate_degree > 0 ? "左折" : "右折"
@@ -47,13 +48,14 @@ class KotonaviEntity{
                 count += 1
             }
         }
-        if(count == 1){
+        kotonaviText += departure + "から" + destination + "までの，およそ\(sumDistance)メートルの案内を行います。"
+        if(count != 1){
             kotonaviText += "交差点は全部で\(count - 1)箇所あります。"
         }else{
             kotonaviText += "交差点はありません。"
         }
-        kotonaviText += "目的地までおよそ\(sumDistance)メートルです。"
         kotonaviText += kotonaviText2
+        kotonaviText += "所要時間は，\(Int(Double(sumDistance) / stepLength))秒です。"
     }
     
     public func getKotonaviText() -> String{
