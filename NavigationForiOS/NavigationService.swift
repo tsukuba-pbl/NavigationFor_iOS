@@ -158,6 +158,11 @@ class NavigationService {
         speechService.textToSpeech(str: speechText)
     }
     
+    //発話中かどうかを取得する
+    func isSpeaking() -> Bool{
+        return speechService.isSpeaking()
+    }
+    
     /// 現在の最大RSSIのビーコン情報を取得
     ///
     /// - Returns: ビーコン情報
