@@ -410,7 +410,7 @@ class NavigationServiceTests: XCTestCase {
         //状態遷移を起こす
         let retval = navigationService.updateNavigation(navigations: navigations)
         //テスト
-        XCTAssertEqual(retval.navigation_text, "turn left")
+        XCTAssertEqual(retval.navigation_text, "右折です")
         XCTAssertEqual(retval.mode, 3)
     }
     
