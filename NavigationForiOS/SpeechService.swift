@@ -44,5 +44,9 @@ class SpeechService : NSObject, AVSpeechSynthesizerDelegate{
         talker.delegate = self
         talker.speak(utterance) //発話
     }
+    
+    func isSpeaking() -> Bool{
+        return talker.isSpeaking
+    }
 
 }
