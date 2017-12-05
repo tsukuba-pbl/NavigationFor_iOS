@@ -28,7 +28,8 @@ class KotonaviEntity{
     private func generateKotonabiText(navigations: NavigationEntity){
         var kotonaviText2 = ""
         var sumDistance = 0
-        let stepLength = 0.78
+        let stepLength = Const().stepLength
+        
         //ルート情報を取得する
         var count = 1
         for (index, element) in navigations.routes.enumerated(){
