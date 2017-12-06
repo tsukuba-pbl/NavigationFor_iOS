@@ -39,7 +39,7 @@ class FootStepsService: NSObject, AVSpeechSynthesizerDelegate{
             intervalTime = 2.0
         }
         
-        if(self.timer.isValid){
+        if(self.timer != nil && self.timer.isValid){
             self.timer.invalidate()
         }
         self.timer = Timer.scheduledTimer(timeInterval: intervalTime, target: self, selector: #selector(FootStepsService.play), userInfo: nil, repeats: true)

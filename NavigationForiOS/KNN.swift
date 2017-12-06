@@ -79,7 +79,7 @@ class KNN: AlgorithmBase{
         
         nextState = self.getNextState(navigations: navigations, currentRouteId: currentRouteId, knnRouteId: knnExpectedRouteId)
         
-        print(getKnnAccuracy2(navigations: navigations))
+        //print(getKnnAccuracy2(navigations: navigations))
         
         return nextState
     }
@@ -104,6 +104,8 @@ class KNN: AlgorithmBase{
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
+                    //足音の再生を始める
+                    footStepService.start()
                 } else {
                     nextState = POINT.OTHER
                 }
@@ -129,8 +131,6 @@ class KNN: AlgorithmBase{
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
-                    //足音の再生を始める
-                    footStepService.start()
                 } else {
                     nextState = POINT.OTHER
                 }
@@ -226,7 +226,7 @@ class KNN: AlgorithmBase{
         //上位10個のデータを取り出し，正解データの個数を取得する
         correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId)
         let message = "id : \(self.currentRouteId) num : \(correctDataNum)"
-        SlackService.postError(error: message, tag: "test")
+        print(message)
         
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
@@ -332,14 +332,14 @@ class KNN: AlgorithmBase{
                 if(answer == 0){
                     nCorrect += 1
                 }else{
-                    print(inputData)
+                    //print(inputData)
                 }
             }
         }
         
         let accuracy = Double(nCorrect) / Double(sum)
-        print("\(sum)中，\(nCorrect)")
-        print(accuracy)
+        //print("\(sum)中，\(nCorrect)")
+        //print(accuracy)
         
         return accuracy
     }
