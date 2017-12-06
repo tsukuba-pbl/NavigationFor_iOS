@@ -50,9 +50,6 @@ class HomeViewController: FormViewController {
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             if searchedEvent != nil {
                                 appDelegate.eventInfo = searchedEvent
-//                                debugPrint(appDelegate.eventInfo!.id!)
-//                                debugPrint(appDelegate.eventInfo!.name!)
-//                                debugPrint(appDelegate.eventInfo!)
                                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "EventInfoStoryboard")
                                 let navigationController = UINavigationController(rootViewController: vc)
                                 self.present(navigationController, animated: true, completion: nil)
