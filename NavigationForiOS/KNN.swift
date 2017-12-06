@@ -42,7 +42,7 @@ class KNN: AlgorithmBase{
         var nextState: POINT = POINT.OTHER
         
         //routeId
-        self.currentRouteId = currentRouteId
+        self.currentRouteId = currentRouteId + 1
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
@@ -224,7 +224,7 @@ class KNN: AlgorithmBase{
         }
         
         //上位10個のデータを取り出し，正解データの個数を取得する
-        correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId + 1)
+        correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId)
         let message = "id : \(self.currentRouteId) num : \(correctDataNum)"
         SlackService.postError(error: message, tag: "test")
         
@@ -237,8 +237,8 @@ class KNN: AlgorithmBase{
     func getCorrectDataNum(target: [EuclidData], correctId: Int) -> Int{
         var cnt = 0
         
-        target.forEach {data in
-            if(data.routeId == correctId){
+        for i in 0..<10{
+            if(target[i].routeId == correctId){
                 cnt += 1
             }
         }
