@@ -26,6 +26,10 @@ enum POINT {
 }
 
 class KNN: AlgorithmBase{
+    var currentRouteId = 0
+    var correctDataNum = 0
+    
+    let footStepService = FootStepsService()
     
     /// k近傍で指定目的地に到達したかどうかを判定し、その結果を返す
     ///
@@ -36,6 +40,9 @@ class KNN: AlgorithmBase{
     /// - Returns: return 現在の場所のENUM
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, currentRouteId: Int) -> POINT {
         var nextState: POINT = POINT.OTHER
+        
+        //routeId
+        self.currentRouteId = currentRouteId
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
@@ -122,6 +129,8 @@ class KNN: AlgorithmBase{
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
+                    //足音の再生を始める
+                    footStepService.start()
                 } else {
                     nextState = POINT.OTHER
                 }
@@ -134,11 +143,15 @@ class KNN: AlgorithmBase{
             // 同じ場所の場合
             if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.ROAD
+                //次の場所までの距離に応じて，音が鳴る感覚を変化させる
+                footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
                 // 次の場所の場合
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 // 次の場所がgoalの場合
                 if (navigations.isGoal(routeId: nextRouteId)) {
                     nextState = POINT.GOAL
+                    //足音を終了させる
+                    footStepService.stop()
                 } else if (navigations.isCrossroad(routeId: nextRouteId)){
                     nextState = POINT.CROSSROAD
                 } else {
@@ -210,11 +223,27 @@ class KNN: AlgorithmBase{
             }
         }
         
-        //精度を出す
-        //print(getKnnAccuracy(trainData: trainData))
+        //上位10個のデータを取り出し，正解データの個数を取得する
+        correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId + 1)
+        let message = "id : \(self.currentRouteId) num : \(correctDataNum)"
+        SlackService.postError(error: message, tag: "test")
+        
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!
+    }
+    
+    //正解データの数を返す
+    func getCorrectDataNum(target: [EuclidData], correctId: Int) -> Int{
+        var cnt = 0
+        
+        target.forEach {data in
+            if(data.routeId == correctId){
+                cnt += 1
+            }
+        }
+        
+        return cnt
     }
     
     /// ユークリッド距離を求める関数
