@@ -26,6 +26,8 @@ enum POINT {
 }
 
 class KNN: AlgorithmBase{
+    var currentRouteId = 0
+    var correctDataNum = 0
     
     /// k近傍で指定目的地に到達したかどうかを判定し、その結果を返す
     ///
@@ -36,6 +38,9 @@ class KNN: AlgorithmBase{
     /// - Returns: return 現在の場所のENUM
     override func getCurrentPoint(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, currentRouteId: Int) -> POINT {
         var nextState: POINT = POINT.OTHER
+        
+        //routeId
+        self.currentRouteId = currentRouteId + 1
         
         //交差点にいるかいないかをk近傍で判定する
         //トレーニングデータを作成
@@ -72,7 +77,7 @@ class KNN: AlgorithmBase{
         
         nextState = self.getNextState(navigations: navigations, currentRouteId: currentRouteId, knnRouteId: knnExpectedRouteId)
         
-        print(getKnnAccuracy2(navigations: navigations))
+        //print(getKnnAccuracy2(navigations: navigations))
         
         return nextState
     }
@@ -210,11 +215,27 @@ class KNN: AlgorithmBase{
             }
         }
         
-        //精度を出す
-        //print(getKnnAccuracy(trainData: trainData))
+        //上位10個のデータを取り出し，正解データの個数を取得する
+        correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId)
+        let message = "id : \(self.currentRouteId) num : \(correctDataNum)"
+        print(message)
+        
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!
+    }
+    
+    //正解データの数を返す
+    func getCorrectDataNum(target: [EuclidData], correctId: Int) -> Int{
+        var cnt = 0
+        
+        for i in 0..<10{
+            if(target[i].routeId == correctId){
+                cnt += 1
+            }
+        }
+        
+        return cnt
     }
     
     /// ユークリッド距離を求める関数
@@ -303,14 +324,14 @@ class KNN: AlgorithmBase{
                 if(answer == 0){
                     nCorrect += 1
                 }else{
-                    print(inputData)
+                    //print(inputData)
                 }
             }
         }
         
         let accuracy = Double(nCorrect) / Double(sum)
-        print("\(sum)中，\(nCorrect)")
-        print(accuracy)
+        //print("\(sum)中，\(nCorrect)")
+        //print(accuracy)
         
         return accuracy
     }

@@ -51,7 +51,7 @@ class KotonaviEntity{
         }
         kotonaviText += departure + "から" + destination + "までの，およそ\(sumDistance)メートルの案内を行います。"
         if(count != 1){
-            kotonaviText += "交差点は全部で\(count - 1)箇所あります。"
+            kotonaviText += "交差点は全部で\(count - 2)箇所あります。"
         }else{
             kotonaviText += "交差点はありません。"
         }
