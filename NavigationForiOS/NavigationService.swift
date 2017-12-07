@@ -200,10 +200,10 @@ class NavigationService {
         //反転してないデータは，後ろから10個分取得する
         let logLast10 : ArraySlice<[BeaconRssi]>
         if(navigations.isReverse == 0){
-            logLast10 = routeTrainData[routeTrainData.count-15...routeTrainData.count-6]
+            logLast10 = routeTrainData[routeTrainData.count-8...routeTrainData.count-4]
         }else{
             //反転してあるデータは，最初から10個分取得する
-            logLast10 = routeTrainData[6...15]
+            logLast10 = routeTrainData[3...7]
         }
         
         //10個分のデータの平均を計算する
