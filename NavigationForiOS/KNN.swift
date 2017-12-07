@@ -144,7 +144,7 @@ class KNN: AlgorithmBase{
             if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.ROAD
                 //次の場所までの距離に応じて，音が鳴る感覚を変化させる
-                footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
+                //footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
                 // 次の場所の場合
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 // 次の場所がgoalの場合
