@@ -32,6 +32,8 @@ class NavigationEntity{
     var goal_id : Int!
     private var receiveMinorIdList = [Int]() //minor idのリスト
     
+    var isReverse = 0 //反転したデータかどうか
+    
 //    let UUIDList = [
 //        "12345678-1234-1234-1234-123456789ABC"
 //    ]

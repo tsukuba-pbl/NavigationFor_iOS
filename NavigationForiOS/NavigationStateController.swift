@@ -71,7 +71,7 @@ class Road: NavigationState{
     /// - Parameter navigations: ナビゲーション情報
     /// - Returns: ナビゲーションテキスト
     func getNavigation(navigations: NavigationEntity) -> String {
-        let distance = Int(Double(navigations.routes[currentRouteId+1].expectedBeacons.count) * Const().stepLength)
+        let distance = Int(Double(navigations.routes[currentRouteId - 1].expectedBeacons.count) * Const().stepLength)
         return "\(distance)メートル，直進です。"
     }
     
@@ -209,7 +209,8 @@ class Start: NavigationState{
             //境界値用処理
             if (magneticOrientation > 180) { magneticOrientation = magneticOrientation - 360 }
             
-            if(magneticOrientation < topDegree && magneticOrientation > underDegree){
+            //if(magneticOrientation < topDegree && magneticOrientation > underDegree){
+            if(true){
                 //指定方向の場合は次の状態に遷移
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             }else{
