@@ -54,6 +54,8 @@ class NavigationService {
                 let navJson = JSON(value)
                 let route = navJson["data"]
                 let status = navJson["status"].int!
+                let isReverse = navJson["isReverse"].int!
+                navigation_entity.isReverse = isReverse //反転したデータかどうか
                 // ナビゲーション情報を取得できなかった場合．
                 if status != 200 {
                     SlackService.postError(error: navJson["message"].string!, tag: "Nagivation Service")
@@ -186,8 +188,16 @@ class NavigationService {
         if(routeTrainData.count <= 10){
             return false
         }
-        //計測データの後ろから10個分のデータを取得する
-        let logLast10 = routeTrainData[routeTrainData.count-10...routeTrainData.count-1]
+        //次に到達すべき交差点の直前の電波強度10セットを取得する
+        //反転してないデータは，後ろから10個分取得する
+        let logLast10 : ArraySlice<[BeaconRssi]>
+        if(navigations.isReverse == 0){
+            logLast10 = routeTrainData[routeTrainData.count-10...routeTrainData.count-1]
+        }else{
+            //反転してあるデータは，最初から10個分取得する
+            logLast10 = routeTrainData[0...9]
+        }
+        
         //10個分のデータの平均を計算する
         var heikinList = Dictionary<Int, Double>()
         //初期化
