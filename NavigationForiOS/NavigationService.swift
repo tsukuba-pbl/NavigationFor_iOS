@@ -133,14 +133,6 @@ class NavigationService {
             navigation_text = navigationState.getNavigation(navigations: navigations)
         }
         
-        //事前アナウンス機能
-        if(navigationStateMachineProperty.state == "Road"){
-            //事前アナウンスの条件が成立するか？
-            if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
-                announceWithSE(announceText: "まもなく，交差点です")
-            }
-        }
-        
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
             if(navigation_text != ""){
@@ -148,6 +140,15 @@ class NavigationService {
             }
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
             announceFlag = false
+        }
+        
+        //事前アナウンス機能
+        if(announceFlag == false && navigationStateMachineProperty.state == "Road"){
+            //事前アナウンスの条件が成立するか？
+            if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
+                announceFlag = true
+                announceWithSE(announceText: "まもなく，交差点です")
+            }
         }
 
         //ステートマシンの状態を更新
