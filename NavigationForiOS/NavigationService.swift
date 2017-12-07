@@ -148,8 +148,14 @@ class NavigationService {
         if(announceFlag == false && navigationStateMachineProperty.state == "Road"){
             //事前アナウンスの条件が成立するか？
             if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
+                var announceMessage = ""
                 announceFlag = true
-                announceWithSE(announceText: "まもなく，交差点です")
+                if(navigations.isGoal(routeId: currentRouteId + 1)){
+                    announceMessage = "まもなく，目的地です"
+                }else{
+                    announceMessage = "まもなく，交差点です"
+                }
+                announceWithSE(announceText: announceMessage)
             }
         }
 
