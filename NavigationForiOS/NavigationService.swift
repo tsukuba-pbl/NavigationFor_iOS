@@ -37,6 +37,8 @@ class NavigationService {
     
     //地磁気用
     let magneticSensorService = MagneticSensorSerivce()
+    
+    var announceFlag = false
         
     /// 指定されたイベントのdepartureからdestinationのナビゲーション情報を取得する．
     ///
@@ -131,12 +133,21 @@ class NavigationService {
             navigation_text = navigationState.getNavigation(navigations: navigations)
         }
         
+        //事前アナウンス機能
+        if(navigationStateMachineProperty.state == "Road"){
+            //事前アナウンスの条件が成立するか？
+            if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
+                announceWithSE(announceText: "まもなく，交差点です")
+            }
+        }
+        
         //音声案内(ステートマシンの状態が遷移したら)
         if(navigationStateMachineProperty.currentRouteId != self.currentRouteId || navigationStateMachineProperty.state != state){
             if(navigation_text != ""){
                 announceWithSE(announceText: navigation_text)
             }
             self.currentRouteId = navigationStateMachineProperty.currentRouteId
+            announceFlag = false
         }
 
         //ステートマシンの状態を更新
@@ -163,6 +174,43 @@ class NavigationService {
     //発話中かどうかを取得する
     func isSpeaking() -> Bool{
         return speechService.isSpeaking()
+    }
+    
+    func triggerBeforeAnnounce(navigations: NavigationEntity, receivedBeaconsRssi : Dictionary<Int, Int>, routeId: Int) -> Bool{
+        var flag = false
+        
+        // 現在の通路上の電波強度の計測データを取得する
+        let routeTrainData = navigations.getRouteExpectedBeacons(route_id: routeId)
+        //計測データの数が10個以内だったら，事前アナウンスは行わない
+        if(routeTrainData.count <= 10){
+            return false
+        }
+        //計測データの後ろから10個分のデータを取得する
+        let logLast10 = routeTrainData[routeTrainData.count-10...routeTrainData.count-1]
+        //10個分のデータの平均を計算する
+        var heikinList = Dictionary<Int, Double>()
+        //初期化
+        logLast10.first?.forEach({ (beaconRssi) in
+            heikinList[beaconRssi.minor_id] = 0.0
+        })
+        //平均を計算して格納
+        logLast10.forEach { (beaconRssiList) in
+            beaconRssiList.forEach({ (beacons) in
+                heikinList[beacons.minor_id] = heikinList[beacons.minor_id]! + Double(beacons.rssi)
+            })
+        }
+        heikinList.forEach { (key: Int, value: Double) in
+            heikinList[key] = value / 10.0
+        }
+        
+        //受信した値の中で，-90dB以上かつ平均以上のものがあれば，フラグを立てる
+        heikinList.forEach { (key: Int, value: Double) in
+            if(value > -90.0 && value < Double(receivedBeaconsRssi[key]!)){
+                flag = true
+            }
+        }
+        
+        return flag
     }
     
     /// 現在の最大RSSIのビーコン情報を取得

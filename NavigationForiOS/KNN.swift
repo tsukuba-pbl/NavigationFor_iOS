@@ -29,8 +29,6 @@ class KNN: AlgorithmBase{
     var currentRouteId = 0
     var correctDataNum = 0
     
-    let footStepService = FootStepsService()
-    
     /// k近傍で指定目的地に到達したかどうかを判定し、その結果を返す
     ///
     /// - Parameters:
@@ -141,19 +139,13 @@ class KNN: AlgorithmBase{
             // 同じ場所の場合
             if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.ROAD
-                //次の場所までの距離に応じて，音が鳴る感覚を変化させる
-                footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
                 // 次の場所の場合
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 // 次の場所がgoalの場合
                 if (navigations.isGoal(routeId: nextRouteId)) {
                     nextState = POINT.GOAL
-                    //足音を終了させる
-                    footStepService.stop()
                 } else if (navigations.isCrossroad(routeId: nextRouteId)){
                     nextState = POINT.CROSSROAD
-                    //足音を終了させる
-                    footStepService.stop()
                 } else {
                     nextState = POINT.OTHER
                 }
