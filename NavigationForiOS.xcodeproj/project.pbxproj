@@ -65,6 +65,7 @@
 		C2B26B921F471E3100E4B785 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B911F471E3100E4B785 /* BeaconManager.swift */; };
 		C2B26B941F490D3200E4B785 /* BeaconManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */; };
 		C2C22FD11F722133007FCD27 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C22FD01F722133007FCD27 /* SpeechService.swift */; };
+		C2CC0F551FD8E20000B0D5C8 /* se2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2CC0F541FD8E1FF00B0D5C8 /* se2.mp3 */; };
 		EB19270E1F73EF3F008C92FB /* MagneticSensorSerivice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB19270D1F73EF3F008C92FB /* MagneticSensorSerivice.swift */; };
 		EB1927101F74C82F008C92FB /* MagneticSensorServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB19270F1F74C82F008C92FB /* MagneticSensorServiceTests.swift */; };
 		EB432FDC1F4D603A00FAC0EB /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */; };
@@ -167,6 +168,7 @@
 		C2B26B911F471E3100E4B785 /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		C2B26B931F490D3200E4B785 /* BeaconManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManagerTests.swift; sourceTree = "<group>"; };
 		C2C22FD01F722133007FCD27 /* SpeechService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		C2CC0F541FD8E1FF00B0D5C8 /* se2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = se2.mp3; sourceTree = "<group>"; };
 		EB19270D1F73EF3F008C92FB /* MagneticSensorSerivice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagneticSensorSerivice.swift; sourceTree = "<group>"; };
 		EB19270F1F74C82F008C92FB /* MagneticSensorServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagneticSensorServiceTests.swift; sourceTree = "<group>"; };
 		EB432FDB1F4D603A00FAC0EB /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -235,6 +237,7 @@
 		B14883411F3C4D32007A9E2E /* NavigationForiOS */ = {
 			isa = PBXGroup;
 			children = (
+				C2CC0F541FD8E1FF00B0D5C8 /* se2.mp3 */,
 				C20B11901F74B3A8004915B4 /* se1.wav */,
 				B14883911F455CE0007A9E2E /* services */,
 				B14883901F455CB3007A9E2E /* models */,
@@ -489,6 +492,7 @@
 				B148834F1F3C4D32007A9E2E /* LaunchScreen.storyboard in Resources */,
 				B148834C1F3C4D32007A9E2E /* Assets.xcassets in Resources */,
 				B148834A1F3C4D32007A9E2E /* Main.storyboard in Resources */,
+				C2CC0F551FD8E20000B0D5C8 /* se2.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
