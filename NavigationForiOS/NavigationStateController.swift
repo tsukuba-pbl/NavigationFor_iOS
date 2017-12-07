@@ -71,7 +71,7 @@ class Road: NavigationState{
     /// - Parameter navigations: ナビゲーション情報
     /// - Returns: ナビゲーションテキスト
     func getNavigation(navigations: NavigationEntity) -> String {
-        let distance = Int(Double(navigations.routes[currentRouteId].expectedBeacons.count) * Const().stepLength)
+        let distance = Int(Double(navigations.routes[currentRouteId - 1].expectedBeacons.count) * Const().stepLength)
         return "\(distance)メートル，直進です。"
     }
     
