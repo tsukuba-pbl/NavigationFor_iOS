@@ -14,7 +14,7 @@ class FootStepsService: NSObject, AVSpeechSynthesizerDelegate{
     //スレッド処理用
     var timer : Timer!
     
-    var mode = 1
+    var mode = -1
     
     override init(){
         // サウンドファイルのパスを生成
@@ -34,10 +34,10 @@ class FootStepsService: NSObject, AVSpeechSynthesizerDelegate{
         var newMode = -1
         var intervalTime = 2.0
         
-        if(correctNum > 5){
+        if(correctNum > 2){
             newMode = 3
             intervalTime = 0.5
-        }else if(correctNum > 3){
+        }else if(correctNum > 1){
             newMode = 2
             intervalTime = 1.0
         }else{
@@ -64,6 +64,7 @@ class FootStepsService: NSObject, AVSpeechSynthesizerDelegate{
         if(self.timer.isValid){
             self.timer.invalidate()
         }
+        mode = -1
     }
     
     func play(){

@@ -104,8 +104,6 @@ class KNN: AlgorithmBase{
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 if (navigations.isRoad(routeId: nextRouteId)) {
                     nextState = POINT.ROAD
-                    //足音の再生を始める
-                    footStepService.start()
                 } else {
                     nextState = POINT.OTHER
                 }
@@ -144,7 +142,7 @@ class KNN: AlgorithmBase{
             if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: currentRouteId)) {
                 nextState = POINT.ROAD
                 //次の場所までの距離に応じて，音が鳴る感覚を変化させる
-                //footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
+                footStepService.changeIntervalAsCorrectNum(correctNum: correctDataNum)
                 // 次の場所の場合
             } else if (self.isSameRoute(actualRouteId: knnRouteId, expectedRouteId: nextRouteId)) {
                 // 次の場所がgoalの場合
@@ -154,6 +152,8 @@ class KNN: AlgorithmBase{
                     footStepService.stop()
                 } else if (navigations.isCrossroad(routeId: nextRouteId)){
                     nextState = POINT.CROSSROAD
+                    //足音を終了させる
+                    footStepService.stop()
                 } else {
                     nextState = POINT.OTHER
                 }
