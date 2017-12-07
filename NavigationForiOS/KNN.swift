@@ -215,27 +215,9 @@ class KNN: AlgorithmBase{
             }
         }
         
-        //上位10個のデータを取り出し，正解データの個数を取得する
-        correctDataNum = getCorrectDataNum(target: sortedDist, correctId: self.currentRouteId)
-        let message = "id : \(self.currentRouteId) num : \(correctDataNum)"
-        print(message)
-        
         //最も多いデータを返す
         let result = targetTop3.sorted { $0.1 > $1.1 }
         return (result.first?.key)!
-    }
-    
-    //正解データの数を返す
-    func getCorrectDataNum(target: [EuclidData], correctId: Int) -> Int{
-        var cnt = 0
-        
-        for i in 0..<10{
-            if(target[i].routeId == correctId){
-                cnt += 1
-            }
-        }
-        
-        return cnt
     }
     
     /// ユークリッド距離を求める関数

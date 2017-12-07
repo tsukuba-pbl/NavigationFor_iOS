@@ -209,8 +209,7 @@ class Start: NavigationState{
             //境界値用処理
             if (magneticOrientation > 180) { magneticOrientation = magneticOrientation - 360 }
             
-            //if(magneticOrientation < topDegree && magneticOrientation > underDegree){
-            if(true){
+            if(magneticOrientation < topDegree && magneticOrientation > underDegree){
                 //指定方向の場合は次の状態に遷移
                 navigationService.navigationState = Road(currentRouteId: self.currentRouteId+1)
             }else{
