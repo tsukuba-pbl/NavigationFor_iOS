@@ -54,8 +54,10 @@ class NavigationService {
                 let navJson = JSON(value)
                 let route = navJson["data"]
                 let status = navJson["status"].int!
-                let isReverse = navJson["isReverse"].int!
-                navigation_entity.isReverse = isReverse //反転したデータかどうか
+                route["details"].forEach{(_, data) in
+                    let isReverse = data["isReverse"].int!
+                    navigation_entity.isReverse = isReverse //反転したデータかどうか
+                }
                 // ナビゲーション情報を取得できなかった場合．
                 if status != 200 {
                     SlackService.postError(error: navJson["message"].string!, tag: "Nagivation Service")
