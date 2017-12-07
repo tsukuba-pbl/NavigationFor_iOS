@@ -192,18 +192,18 @@ class NavigationService {
         
         // 現在の通路上の電波強度の計測データを取得する
         let routeTrainData = navigations.getRouteExpectedBeacons(route_id: routeId)
-        //計測データの数が10個以内だったら，事前アナウンスは行わない
-        if(routeTrainData.count <= 10){
+        //計測データの数が15個以内(約10メートル)だったら，事前アナウンスは行わない
+        if(routeTrainData.count <= 15){
             return false
         }
-        //次に到達すべき交差点の直前の電波強度10セットを取得する
+        //次に到達すべき交差点の直前の少し前の電波強度10セットを取得する
         //反転してないデータは，後ろから10個分取得する
         let logLast10 : ArraySlice<[BeaconRssi]>
         if(navigations.isReverse == 0){
-            logLast10 = routeTrainData[routeTrainData.count-10...routeTrainData.count-1]
+            logLast10 = routeTrainData[routeTrainData.count-15...routeTrainData.count-6]
         }else{
             //反転してあるデータは，最初から10個分取得する
-            logLast10 = routeTrainData[0...9]
+            logLast10 = routeTrainData[6...15]
         }
         
         //10個分のデータの平均を計算する
