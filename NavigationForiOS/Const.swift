@@ -14,7 +14,9 @@ class Const : NSObject {
     #if DEBUG
     let URL_API = "http://localhost/api"
     #else
-    let URL_API = "http://210.140.71.132/api"
+    let URL_API = "https://mizugorou.site/api"
     #endif
     
+    //歩幅
+    let stepLength = 0.78
 }
