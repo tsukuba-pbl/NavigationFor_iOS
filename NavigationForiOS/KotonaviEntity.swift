@@ -57,6 +57,7 @@ class KotonaviEntity{
         }
         kotonaviText += kotonaviText2
         kotonaviText += "所要時間は，\(Int(Double(sumDistance) / stepLength))秒です。"
+        print(kotonaviText)
     }
     
     public func getKotonaviText() -> String{

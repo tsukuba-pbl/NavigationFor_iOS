@@ -146,20 +146,20 @@ class NavigationService {
             announceFlag = false
         }
         
-        //事前アナウンス機能
-        if(announceFlag == false && navigationStateMachineProperty.state == "Road"){
-            //事前アナウンスの条件が成立するか？
-            if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
-                var announceMessage = ""
-                announceFlag = true
-                if(navigations.isGoal(routeId: currentRouteId + 1)){
-                    announceMessage = "まもなく，目的地です"
-                }else{
-                    announceMessage = "まもなく，交差点です"
-                }
-                announceWithSE(announceText: announceMessage)
-            }
-        }
+//        //事前アナウンス機能
+//        if(announceFlag == false && navigationStateMachineProperty.state == "Road"){
+//            //事前アナウンスの条件が成立するか？
+//            if(triggerBeforeAnnounce(navigations: navigations, receivedBeaconsRssi: receivedBeaconsRssi, routeId: navigationStateMachineProperty.currentRouteId) == true){
+//                var announceMessage = ""
+//                announceFlag = true
+//                if(navigations.isGoal(routeId: currentRouteId + 1)){
+//                    announceMessage = "まもなく，目的地です"
+//                }else{
+//                    announceMessage = "まもなく，交差点です"
+//                }
+//                announceWithSE(announceText: announceMessage)
+//            }
+//        }
 
         //ステートマシンの状態を更新
         state = navigationStateMachineProperty.state
