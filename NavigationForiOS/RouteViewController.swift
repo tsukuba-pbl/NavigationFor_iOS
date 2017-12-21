@@ -34,8 +34,8 @@ class RouteViewController: FormViewController {
         form
         +++ Section("Source")
             <<< PushRow<String>("SourceLocations"){
-                $0.title = "現在地"
-                $0.selectorTitle = "現在地の選択"
+                $0.title = "出発地"
+                $0.selectorTitle = "出発地の選択"
                 $0.options = self.point
                 $0.onChange{[unowned self] row in
                     self.departure = row.value ?? self.point[0]
