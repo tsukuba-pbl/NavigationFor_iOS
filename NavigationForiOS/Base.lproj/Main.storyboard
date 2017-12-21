@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Cdy-wz-tpu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Cdy-wz-tpu">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -67,18 +67,6 @@
                                 <color key="textColor" red="1" green="0.36996094709999999" blue="0.25477345219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osw-c0-zDw">
-                                <rect key="frame" x="0.0" y="437" width="375" height="96"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.42784552799999997" green="0.90377141500000002" blue="0.62558309639999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <state key="normal" title="計測">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <segue destination="AMJ-mc-yY0" kind="show" id="Q3u-Xe-NjK"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="euH-wL-iT4">
                                 <rect key="frame" x="83" y="361" width="209" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -536,6 +524,5 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="2Nx-rf-kXk"/>
-        <segue reference="Q3u-Xe-NjK"/>
     </inferredMetricsTieBreakers>
 </document>
